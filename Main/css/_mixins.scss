@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Mixins
+   ========================================================================== */
+
+// Convert px to em
+// =====================================================================
+$browser-context: $base-font-size; // Default
+
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em
+}
+
+// Convert pixel values to rem values for whatever property is passed to it, e.g.:
+// =====================================================================
+/* Baseline, measured in pixels
+ * The value should be the same as the font-size value for the html element
+ * If the html element's font-size is set to 62.5% (of the browser's default font-size of 16px),
+ * then the variable below would be 10px.
+ */
+$baseline-px: $base-font-size;
+
+@mixin rem($property, $px-values) {
+  // Convert the baseline into rems
+  $baseline-rem: $baseline-px / 1rem;
+  // Print the first line in pixel values
+  #{$property}: $px-values;
+  // If there is only one (numeric) value, return the property/value line for it.
+  @if type-of($px-values) == "number" {
+    #{$property}: $px-values / $baseline-rem; }
+  @else {
+    // Create an empty list that we can dump values into
+    $rem-values: unquote("");
+    @each $value in $px-values {
+      // If the value is zero, return 0
+      @if $value == 0 {
+        $rem-values: append($rem-values, $value); }
+      @elseif $value == 'auto' {
+        $rem-values: append($rem-values,' auto'); }
+      @else {
+        $rem-values: append($rem-values, $value / $baseline-rem); } }
+    // Return the property and its list of converted values
+    #{$property}: $rem-values; }
+}
+
+@mixin retina-sprite($original, $retina) {
+  @include sprite($original);
+
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dppx) {
+    // keep most of the settings from the original
+    // just switch out the img and halve size & position
+    @include sprite-image($retina);
+    background-position: nth($retina, 3)/2 nth($retina, 4)/2;
+    background-size: nth($retina, 7)/2 nth($retina, 8)/2;
+  }
+}
+
+
+// Overwrite sprites - when re-sizing a sprite makes more sense than including a new retina sized image.
+// =====================================================================
+// Use Case
+// @include sprite($hla-logo-vert);
+// @include sprite-resize($hla-logo-vert, $hla-logo-vert-width, $hla-logo-vert-height, $hla-logo-vert-total-width, 240px);
+// =====================================================================
+@mixin sprite-resize($sprite, $sprite-width, $sprite-height, $sprite-total-width, $sprite-width-resize) {
+  // ratio of the original size to the new size
+  $sprite-ratio: $sprite-width/$sprite-width-resize;
+
+  // ratio of sprite to total generated sprite sheet width
+  $sprite-width-ratio: $sprite-width/$sprite-total-width;
+
+  width: $sprite-width-resize;
+  height: floor($sprite-height/$sprite-ratio);
+  background-size: floor($sprite-width-resize/$sprite-width-ratio);
+
+  $sprite-offset-x: #{floor(nth($sprite, 3)/$sprite-ratio)};
+  $sprite-offset-y: #{floor(nth($sprite, 4)/$sprite-ratio)};
+  background-position: $sprite-offset-x $sprite-offset-y;
+}
+
+// @font-face
+@mixin font-face($font-family, $font-filename, $font-weight:normal, $font-style:normal, $font-stretch:normal) {
+  @font-face {
+    font-family: '#{$font-family}';
+    src: url('#{$font-path}#{$font-filename}.eot');
+    src: url('#{$font-path}#{$font-filename}.eot?#iefix') format('embedded-opentype'),
+    url('#{$font-path}#{$font-filename}.woff') format('woff'),
+    url('#{$font-path}#{$font-filename}.ttf') format('truetype'),
+    url('#{$font-path}#{$font-filename}.svg##{$font-family}') format('svg');
+
+    font-weight: $font-weight;
+    font-style: $font-style;
+    font-stretch: $font-stretch;
+  }
+}
+
+// Font shorthand
+@mixin font($font-family, $font-style:'', $font-variant:'', $font-weight:'', $font-size:1em, $line-height:'') {
+  @if type-of($line-height) == "number" {
+    font: #{$font-style} #{$font-variant} #{$font-weight} #{$font-size}/#{$line-height} #{$font-family};
+  }
+
+  @else {
+    font: #{$font-style} #{$font-variant} #{$font-weight} #{$font-size} #{$font-family};
+  }
+}
