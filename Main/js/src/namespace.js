@@ -1,1 +1,1 @@
-var wd = wd || {};
+var pbtp = pbtp || {};

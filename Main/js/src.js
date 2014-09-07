@@ -10,25 +10,22 @@ var peopleBehindthePixels = (function () {
 
     // Global Variables
     var fps = 60;
-    var sequence = [];
-    var scene1;
+    var scenes= [];
 
     // Initialize Animations
     var init = function () {
         // Load audio
-        wd.audio.init('shared/audio/nightcall.mp3');
+        pbtp.audio.init('shared/audio/nightcall.mp3');
 
-        // Load sequences
-        scene1 = new wd.scenes.scene('Scene 1');
-        scene1.addSequence('00:01:00', function() {console.log('Scene 1 - Sequence 1');});
-        scene1.addSequence('00:06:02', function() {console.log('Scene 1 - Sequence 2');});
-        scene1.addSequence('00:11:23', function() {console.log('Scene 1 - Sequence 3');});
+        // Import Scenes
+        //= src/scene1.js
+        //= src/scene2.js
 
         // Draw onto the Canvas
         (function draw() {
             setTimeout(function() {
                 requestAnimationFrame(draw);
-                animateSequence(wd.audio.getCurrentTime());
+                animateSequence(pbtp.audio.getCurrentTime());
             }, 1000/fps);
         })();
     };
@@ -40,7 +37,14 @@ var peopleBehindthePixels = (function () {
         * @return {Callback}
         */
 
-        scene1.playSequence(currentTime);
+        /**
+        * Refactoring
+        * Only playSequence once a previos sequence is finished
+        */
+
+        for (var i=0; i<scenes.length; i++) {
+            scenes[i].playSequence(currentTime);
+        }
     };
 
     return {

@@ -1,4 +1,4 @@
-wd.utilities = (function() {
+pbtp.utilities = (function() {
 	'use strict';
 
     /**

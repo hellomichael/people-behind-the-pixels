@@ -1,4 +1,4 @@
-wd.audio = (function () {
+pbtp.audio = (function () {
 	'use strict';
 
     // Create audio context
