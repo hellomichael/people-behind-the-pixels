@@ -13,20 +13,24 @@ var peopleBehindthePixels = (function () {
     var scenes = [];
 
     // Three.js variables
-    var renderer, camera, scene;
+    var renderer, canvas, camera, scene, screenWidth, screenHeight;
 
     // Initialize Animations
     var init = function () {
         // Load audio
         pbtp.audio.init('shared/audio/nightcall.mp3');
 
+        // Screen 
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+
         // Three.js Objects
-        renderer = new THREE.WebGLRenderer({antialias: true, alpha: true});
-        renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        canvas = document.getElementById('canvas');
+        renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
+        renderer.setSize(screenWidth, screenHeight);
 
         scene = new THREE.Scene(); // New scene
-        camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 1000); // New camera
+        camera = new THREE.PerspectiveCamera(45, screenWidth/screenHeight, 1, 1000); // New camera
         camera.position.z = 500;
 
         // Import Scenes
@@ -58,6 +62,15 @@ var peopleBehindthePixels = (function () {
             scenes[i].playSequence(currentTimeAudio);
         }
 
+        // Always make sure canvas is full screen
+        screenWidth = window.innerWidth;
+        screenHeight = window.innerHeight;
+        
+        camera.aspect = screenWidth/screenHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(screenWidth, screenHeight);
+
+        // Three.js Objects
         renderer.render(scene, camera);
         TWEEN.update(currentTimeAnimation);
     };
