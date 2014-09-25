@@ -1,23 +1,32 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var Scene1 = function(args) {
+var Sequence1 = function() {
     this.sequence = [];
-    this.args = args;
     this.init();
 };
 
-Scene1.prototype = new Scene();
+Sequence1.prototype = new Sequence();
 
 /******************************
 * Add Objects
 ******************************/
-Scene1.prototype.initObjects = function() {
+Sequence1.prototype.init = function() {
+    // Three.js
+    this.scene = new THREE.Scene();
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 1500);
+    renderator = new Renderator(this.scene, this.camera);
+
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
 
     // Lights
     this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
+    this.directionalLight.position.set(100, 100, 100).normalize();
+
+    // Grid
+    this.grid = new THREE.Object3D();
+    this.grid.rotation.z = 45*Math.PI/180;
 
     // Cube
     this.cubeDimensions = 50;
@@ -27,23 +36,10 @@ Scene1.prototype.initObjects = function() {
     this.lines = [];
     this.numberOfLines = 8;
 
+    // Draw lines and then offset them
     for (var i=0; i<this.numberOfLines * 2; i++) {
         this.lines.push(new THREE.Line(new THREE.Geometry(), this.lineMaterial));
-    }
 
-    // Grid
-    this.grid = new THREE.Object3D();
-};
-
-Scene1.prototype.positionObjects = function() {
-    // Set light positions
-    this.directionalLight.position.set(100, 100, 100).normalize();
-
-    // Rotate grid by 45 degrees;
-    this.grid.rotation.z = 45*Math.PI/180;
-
-    // Draw lines and then offset them
-    for (var i=0; i<this.lines.length; i++) {
         // Vertical lines
         if (i < this.numberOfLines) {
             this.lines[i].geometry.vertices.push(new THREE.Vector3(-this.cubeDimensions/2, 0, this.cubeDimensions/2));
@@ -87,7 +83,7 @@ Back
 Bounce
 
 ******************************/
-Scene1.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
+Sequence1.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
     new TWEEN.Tween({vertice: line.geometry.vertices[0].y})
         .to({vertice: newLength}, duration)
         .easing(easing)
@@ -99,7 +95,7 @@ Scene1.prototype.drawHorizontalLine = function(line, newLength, duration, easing
     .start();
 };
 
-Scene1.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
+Sequence1.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
     new TWEEN.Tween({vertice: line.geometry.vertices[0].x})
         .to({vertice: newLength}, duration)
         .easing(easing)
@@ -111,7 +107,7 @@ Scene1.prototype.drawVerticalLine = function(line, newLength, duration, easing) 
     .start();
 };
 
-Scene1.prototype.cameraZoom = function(camera, z, duration, easing) {
+Sequence1.prototype.cameraZoom = function(camera, z, duration, easing) {
     if (this.cameraTween) {
         this.cameraTween.stop();
     }
@@ -136,53 +132,47 @@ Scene1.prototype.cameraZoom = function(camera, z, duration, easing) {
 /******************************
 * Initialize New Scene
 ******************************/
-var scene1 = new Scene1({
-    renderer:   new THREE.WebGLRenderer({canvas: document.getElementById('canvas'), antialias: true, alpha: true}),
-    scene:      new THREE.Scene(),
-    camera:     new THREE.PerspectiveCamera(45, screenWidth/screenHeight, 1, 1500)
-});
-
-scene1.positionObjects();
+var sequence1 = new Sequence1();
 
 /******************************
 * Add Sequences
 ******************************/
-for (var i=0; i<scene1.lines.length; i++) {
+for (var i=0; i<sequence1.lines.length; i++) {
     // Vertical lines
-    if (i < scene1.numberOfLines) {
-        scene1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 0.75), scene1.drawHorizontalLine, [scene1.lines[i], scene1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
+    if (i < sequence1.numberOfLines) {
+        sequence1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 0.75), sequence1.drawHorizontalLine, [sequence1.lines[i], sequence1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        scene1.addSequence(pbtp.utilities.convertToTimecode((i - scene1.numberOfLines) * 0.01 + 0.75), scene1.drawVerticalLine, [scene1.lines[i], scene1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addSequence(pbtp.utilities.convertToTimecode((i - sequence1.numberOfLines) * 0.01 + 0.75), sequence1.drawVerticalLine, [sequence1.lines[i], sequence1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
 
 // Camera sequence
-scene1.addSequence('00:01:00', scene1.cameraZoom, [scene1.camera, 1500 - 50, 2000, TWEEN.Easing.Linear.None]);
-scene1.addSequence('00:03:00', scene1.cameraZoom, [scene1.camera, 1125, 0, null]);
+sequence1.addSequence('00:01:00', sequence1.cameraZoom, [sequence1.camera, 1500 - 50, 2000, TWEEN.Easing.Linear.None]);
+sequence1.addSequence('00:03:00', sequence1.cameraZoom, [sequence1.camera, 1125, 0, null]);
 
-scene1.addSequence('00:03:00', scene1.cameraZoom, [scene1.camera, 1125 - 50, 2000, TWEEN.Easing.Linear.None]);
-scene1.addSequence('00:05:00', scene1.cameraZoom, [scene1.camera, 750, 0, null]);
+sequence1.addSequence('00:03:00', sequence1.cameraZoom, [sequence1.camera, 1125 - 50, 2000, TWEEN.Easing.Linear.None]);
+sequence1.addSequence('00:05:00', sequence1.cameraZoom, [sequence1.camera, 750, 0, null]);
 
-scene1.addSequence('00:05:00', scene1.cameraZoom, [scene1.camera, 750 - 50 - 50, 4000, TWEEN.Easing.Linear.None]);
-scene1.addSequence('00:07:00', scene1.cameraZoom, [scene1.camera, 1125, 500, TWEEN.Easing.Quintic.InOut]);
+sequence1.addSequence('00:05:00', sequence1.cameraZoom, [sequence1.camera, 750 - 50 - 50, 4000, TWEEN.Easing.Linear.None]);
+sequence1.addSequence('00:07:00', sequence1.cameraZoom, [sequence1.camera, 1125, 500, TWEEN.Easing.Quintic.InOut]);
 
 // Hide Lines
-for (var i=0; i<scene1.lines.length; i++) {
+for (var i=0; i<sequence1.lines.length; i++) {
     // Vertical lines
-    if (i < scene1.numberOfLines) {
-        scene1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 6.75), scene1.drawHorizontalLine, [scene1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+    if (i < sequence1.numberOfLines) {
+        sequence1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 6.5), sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        scene1.addSequence(pbtp.utilities.convertToTimecode((i - scene1.numberOfLines) * 0.01 + 6.75), scene1.drawVerticalLine, [scene1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addSequence(pbtp.utilities.convertToTimecode((i - sequence1.numberOfLines) * 0.01 + 6.75), sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
 
 /******************************
 * Add Sequences
 ******************************/
-scenes.push(scene1);
+sequences.push(sequence1);

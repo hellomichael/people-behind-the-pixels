@@ -1,45 +1,40 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var Scene2 = function(args) {
+var Sequence2 = function() {
     this.sequence = [];
-    this.args = args;
-
-    this.renderer;
-    this.scene;
-    this.camera;
-
     this.init();
 };
 
-Scene2.prototype = new Scene();
+Sequence2.prototype = new Sequence();
 
 /******************************
 * Add Objects
 ******************************/
-Scene2.prototype.initObjects = function() {
+Sequence2.prototype.init = function() {
+    // Previous scene objects being reused
+    this.scene = sequence1.scene;
+    this.camera = sequence1.camera;
+    this.cubeDimensions = sequence1.cubeDimensions;
+
     // Materials
     this.cubeMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 0, transparent: true});
 
     // Cube
-    this.cubeDimensions = scene1.cubeDimensions;
     this.cube = new THREE.Mesh(new THREE.CubeGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.cubeMaterial);
 
     // Grid
     this.grid = new THREE.Object3D();
     this.grid.add(this.cube);
-};
 
-Scene2.prototype.positionObjects = function() {
     this.grid.rotation.z = 45*Math.PI/180;
     this.scene.add(this.grid);
 };
 
-
 /******************************
 * Add Animations
 ******************************/
-Scene2.prototype.rotateCube = function(cube, rotation, duration, easing) {
+Sequence2.prototype.rotateCube = function(cube, rotation, duration, easing) {
     new TWEEN.Tween({rotation: cube.rotation.x})
         .to({rotation: rotation}, duration)
         .easing(easing)
@@ -51,7 +46,7 @@ Scene2.prototype.rotateCube = function(cube, rotation, duration, easing) {
         .start();
 };
 
-Scene2.prototype.showCube = function(cube, opacity, duration, easing) {
+Sequence2.prototype.showCube = function(cube, opacity, duration, easing) {
     if (this.cubeRotation) {
         this.cubeRotation.stop();
     }
@@ -68,21 +63,12 @@ Scene2.prototype.showCube = function(cube, opacity, duration, easing) {
 /******************************
 * Initialize New Scene
 ******************************/
-var scene2 = new Scene2({
-    renderer:   scene1.renderer,
-    scene:      scene1.scene,
-    camera:     scene1.camera
-});
-
-scene2.positionObjects();
+var sequence2 = new Sequence2();
 
 /******************************
 * Add Sequences
 ******************************/
-scene2.addSequence('00:06:25', scene2.showCube, [scene2.cube, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addSequence('00:06:25', sequence2.showCube, [sequence2.cube, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addSequence('00:07:10', sequence2.rotateCube, [sequence2.cube, (sequence2.cube.rotation.x + 45) * Math.PI/180, 1500, TWEEN.Easing.Elastic.Out]);
 
-scene2.addSequence('00:05:25', scene2.rotateCube, [scene2.cube, (scene2.cube.rotation.x + 45) * Math.PI/180, 1000, TWEEN.Easing.Quadratic.Out]);
-//scene2.addSequence('00:05:25', scene2.rotateCube, [scene2.cube, (scene2.cube.rotation.x + 45) * Math.PI/180, 2000, TWEEN.Easing.Linear.None]);
-
-
-scenes.push(scene2);
+sequences.push(sequence2);

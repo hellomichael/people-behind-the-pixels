@@ -2,36 +2,40 @@
 //= src/utilities.js
 //= src/audio.js
 
+//= src/shaders/CopyShader.js
+//= src/shaders/EffectComposer.js
+//= src/shaders/MaskPass.js
+//= src/shaders/ConvolutionShader.js
+//= src/shaders/BloomPass.js
+//= src/shaders/RenderPass.js
+//= src/shaders/ShaderPass.js
+//= src/shaders/FilmPass.js
+//= src/shaders/FilmShader.js
+//= src/shaders/FXAAShader.js
+//= src/shaders/BokehShader.js
+//= src/shaders/BokehPass.js
+
+//= src/shaders.js
+//= src/renderator.js
+
 // Global variables
 var peopleBehindthePixels = (function () {
     'use strict';
 
     // Global variables
-    var fps = 60;
-    var scenes = [];
-    var resize = true;
+    var sequences = [];
     var screenWidth, screenHeight;
+    var renderator, prevTimestamp, delta;
 
     // Initialize Animations
     var init = function () {
         // Load audio
         pbtp.audio.init('shared/audio/boop.mp3');
 
-        // Screen
-        screenWidth = window.innerWidth;
-        screenHeight = window.innerHeight;
-
         // Import Scenes
-
-        //= src/scene.js
-        //= src/scene1.js
-        //= src/scene2.js
-
-        window.onresize = function(event) {
-            screenWidth = window.innerWidth;
-            screenHeight = window.innerHeight;
-            resize = true;
-        };
+        //= src/sequence.js
+        //= src/sequence1.js
+        //= src/sequence2.js
 
         // Draw onto the Canvas
         (function draw(currentTimeAnimation) {
@@ -48,11 +52,18 @@ var peopleBehindthePixels = (function () {
         * @return {Callback}
         */
 
+        // Calculate delta for renderator
+        if (currentTimeAnimation == undefined)
+            prevTimestamp = currentTimeAnimation = 0;
+        delta = (currentTimeAnimation - prevTimestamp) / 1000.0;
+        prevTimestamp = currentTimeAnimation;
+        renderator.render(delta);
+
         // Refactor to only play one scene at a time
-        for (var i=0; i<scenes.length; i++) {
-            scenes[i].playSequence(currentTimeAudio);
-            scenes[i].renderScene();
+        for (var i=0; i<sequences.length; i++) {
+            sequences[i].playSequence(currentTimeAudio);
         }
+
         // Update global tweening object
         TWEEN.update(currentTimeAnimation);
     };

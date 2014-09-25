@@ -4,34 +4,15 @@
 * args for previous three.js scene
 * @return {scene}
 */
-var Scene = function(args) {
+var Sequence = function() {
     this.sequence = [];
-    this.args = args || false;
-
-    this.renderer;
-    this.scene;
-    this.camera;
-
     this.init();
 };
 
-Scene.prototype = {
-    constructor: Scene,
+Sequence.prototype = {
+    constructor: Sequence,
 
     init: function () {
-        // Check each argument to see if previous scene is passed along
-        // Otherwise create new three.js objects (haven't done this yet)
-        if (this.args) {
-            this.renderer = this.args.renderer;
-            this.scene =  this.args.scene;
-            this.camera = this.args.camera;
-        }
-
-        this.initObjects();
-    },
-
-    initObjects: function () {
-
     },
 
     addSequence: function(timeCode, callback, args) {
@@ -65,17 +46,5 @@ Scene.prototype = {
                 this.sequence.shift(); // Remove first scene
             }
         }
-    },
-
-    renderScene: function () {
-        // Always make sure canvas is full screen
-        if (resize) {
-            this.renderer.setSize(screenWidth, screenHeight, false);
-            this.camera.aspect = screenWidth/screenHeight;
-            this.camera.updateProjectionMatrix();
-            resize = false;
-        }
-
-        this.renderer.render(this.scene, this.camera);
     }
 };
