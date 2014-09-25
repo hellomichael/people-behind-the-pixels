@@ -1,4 +1,4 @@
-@include font-face('Prism', 'prism-regular-webfont', normal, normal);
+@include font-face('Futura', 'futura-condensed-med', normal, normal);
 
 html, body, canvas {
     position: relative;
@@ -9,6 +9,11 @@ html, body, canvas {
     margin: 0;
     padding: 0;
     overflow: hidden;
+
+    font-family: 'Futura', Arial, "Helvetica Neue", Helvetica, sans-serif;
+    text-rendering: optimizelegibility;
+
+    color: white;
 }
 
 canvas {
@@ -16,10 +21,6 @@ canvas {
     top: 0;
     left: 0;
     z-index: 0;
-
-    &.noise {
-        z-index: 1;
-    }
 }
 
 body {

@@ -1,8 +1,6 @@
 //= src/namespace.js
 //= src/utilities.js
 //= src/audio.js
-//= src/scene.js
-//= src/canvas.js
 
 // Global variables
 var peopleBehindthePixels = (function () {
@@ -11,38 +9,35 @@ var peopleBehindthePixels = (function () {
     // Global variables
     var fps = 60;
     var scenes = [];
-
-    // Three.js variables
-    var renderer, canvas, camera, scene, screenWidth, screenHeight;
+    var resize = true;
+    var screenWidth, screenHeight;
 
     // Initialize Animations
     var init = function () {
         // Load audio
-        pbtp.audio.init('shared/audio/nightcall.mp3');
+        pbtp.audio.init('shared/audio/boop.mp3');
 
-        // Screen 
+        // Screen
         screenWidth = window.innerWidth;
         screenHeight = window.innerHeight;
 
-        // Three.js Objects
-        canvas = document.getElementById('canvas');
-        renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true, alpha: true});
-        renderer.setSize(screenWidth, screenHeight);
-
-        scene = new THREE.Scene(); // New scene
-        camera = new THREE.PerspectiveCamera(45, screenWidth/screenHeight, 1, 1000); // New camera
-        camera.position.z = 500;
-
         // Import Scenes
+
+        //= src/scene.js
         //= src/scene1.js
+        //= src/scene2.js
+
+        window.onresize = function(event) {
+            screenWidth = window.innerWidth;
+            screenHeight = window.innerHeight;
+            resize = true;
+        };
 
         // Draw onto the Canvas
         (function draw(currentTimeAnimation) {
-            setTimeout(function() {
-                // Request new frame
-                requestAnimationFrame(draw);
-                animateSequence(pbtp.audio.getCurrentTime(), currentTimeAnimation);
-            }, 1000/fps);
+            // Request new frame
+            requestAnimationFrame(draw);
+            animateSequence(pbtp.audio.getCurrentTime(), currentTimeAnimation);
         })();
     };
 
@@ -53,25 +48,12 @@ var peopleBehindthePixels = (function () {
         * @return {Callback}
         */
 
-        /**
-        * Refactoring
-        * Only playSequence once a previos sequence is finished
-        */
-
+        // Refactor to only play one scene at a time
         for (var i=0; i<scenes.length; i++) {
             scenes[i].playSequence(currentTimeAudio);
+            scenes[i].renderScene();
         }
-
-        // Always make sure canvas is full screen
-        screenWidth = window.innerWidth;
-        screenHeight = window.innerHeight;
-        
-        camera.aspect = screenWidth/screenHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(screenWidth, screenHeight);
-
-        // Three.js Objects
-        renderer.render(scene, camera);
+        // Update global tweening object
         TWEEN.update(currentTimeAnimation);
     };
 
