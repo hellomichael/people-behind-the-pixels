@@ -14,7 +14,11 @@ Sequence1.prototype = new Sequence();
 Sequence1.prototype.init = function() {
     // Three.js
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 1500);
+    this.scene = new THREE.Scene();
+    this.scene.fog = new THREE.Fog(0x00000, 5, 30);
+
+    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
+
     renderator = new Renderator(this.scene, this.camera);
 
     // Materials
@@ -23,16 +27,17 @@ Sequence1.prototype.init = function() {
     // Lights
     this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
     this.directionalLight.position.set(100, 100, 100).normalize();
+    this.scene.add(this.directionalLight);
 
     // Grid
     this.grid = new THREE.Object3D();
     this.grid.rotation.z = 45*Math.PI/180;
 
     // Cube
-    this.cubeDimensions = 50;
+    this.cubeDimensions = 1;
 
     // Lines
-    this.lineLength = this.cubeDimensions * 6;
+    this.lineLength = this.cubeDimensions * 10;
     this.lines = [];
     this.numberOfLines = 8;
 
@@ -59,10 +64,9 @@ Sequence1.prototype.init = function() {
     }
 
     // Camera Positioning
-    this.camera.position.z = 1500;
+    this.camera.position.z = 10;
 
     // Add objects to scene
-    this.scene.add(this.directionalLight);
     this.scene.add(this.grid);
 };
 
@@ -84,7 +88,11 @@ Bounce
 
 ******************************/
 Sequence1.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
-    new TWEEN.Tween({vertice: line.geometry.vertices[0].y})
+    if (line.tween) {
+        line.tween.stop();
+    }
+
+    line.tween = new TWEEN.Tween({vertice: line.geometry.vertices[0].y})
         .to({vertice: newLength}, duration)
         .easing(easing)
         .onUpdate(function () {
@@ -96,7 +104,11 @@ Sequence1.prototype.drawHorizontalLine = function(line, newLength, duration, eas
 };
 
 Sequence1.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
-    new TWEEN.Tween({vertice: line.geometry.vertices[0].x})
+    if (line.tween) {
+        line.tween.stop();
+    }
+
+    line.tween = new TWEEN.Tween({vertice: line.geometry.vertices[0].x})
         .to({vertice: newLength}, duration)
         .easing(easing)
         .onUpdate(function () {
@@ -107,28 +119,6 @@ Sequence1.prototype.drawVerticalLine = function(line, newLength, duration, easin
     .start();
 };
 
-Sequence1.prototype.cameraZoom = function(camera, z, duration, easing) {
-    if (this.cameraTween) {
-        this.cameraTween.stop();
-    }
-
-    // Tween
-    if (duration) {
-        this.cameraTween = new TWEEN.Tween({zoom: camera.position.z})
-            .to({zoom: z}, duration)
-            .easing(easing)
-            .onUpdate(function () {
-                camera.position.z = this.zoom;
-            })
-        .start();
-    }
-
-    // Jump
-    else {
-        camera.position.z = z;
-    }
-};
-
 /******************************
 * Initialize New Scene
 ******************************/
@@ -137,38 +127,92 @@ var sequence1 = new Sequence1();
 /******************************
 * Add Sequences
 ******************************/
-for (var i=0; i<sequence1.lines.length; i++) {
-    // Vertical lines
-    if (i < sequence1.numberOfLines) {
-        sequence1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 0.75), sequence1.drawHorizontalLine, [sequence1.lines[i], sequence1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
-    }
+var speaker = new Glitch('TOBIAS REVELL', 200, 200);
 
-    // Horizontal lines
-    else {
-        sequence1.addSequence(pbtp.utilities.convertToTimecode((i - sequence1.numberOfLines) * 0.01 + 0.75), sequence1.drawVerticalLine, [sequence1.lines[i], sequence1.lineLength, 1000, TWEEN.Easing.Elastic.InOut]);
-    }
-}
+sequence1.addSequence('00:10:10', function() {speaker.frame1();});
+sequence1.addSequence('00:10:13', function() {speaker.frame2();});
+sequence1.addSequence('00:10:15', function() {speaker.frame3();});
+sequence1.addSequence('00:10:17', function() {speaker.frame4();});
+
+var speaker2 = new Glitch('MATT WEBB', -300, -150);
+
+sequence1.addSequence('00:18:10', function() {speaker2.frame1();});
+sequence1.addSequence('00:18:13', function() {speaker2.frame2();});
+sequence1.addSequence('00:18:15', function() {speaker2.frame3();});
+sequence1.addSequence('00:18:17', function() {speaker2.frame4();});
+
+var speaker3 = new Glitch('GENEVIEVE BELL', 100, 200);
+sequence1.addSequence('00:26:10', function() {speaker3.frame1();});
+sequence1.addSequence('00:26:13', function() {speaker3.frame2();});
+sequence1.addSequence('00:26:15', function() {speaker3.frame3();});
+sequence1.addSequence('00:26:17', function() {speaker3.frame4();});
+
+var speaker4 = new Glitch('DAN HON', -300, 100);
+sequence1.addSequence('00:34:10', function() {speaker4.frame1();});
+sequence1.addSequence('00:34:13', function() {speaker4.frame2();});
+sequence1.addSequence('00:34:15', function() {speaker4.frame3();});
+sequence1.addSequence('00:34:17', function() {speaker4.frame4();});
 
 // Camera sequence
-sequence1.addSequence('00:01:00', sequence1.cameraZoom, [sequence1.camera, 1500 - 50, 2000, TWEEN.Easing.Linear.None]);
-sequence1.addSequence('00:03:00', sequence1.cameraZoom, [sequence1.camera, 1125, 0, null]);
+sequence1.addSequence('00:02:00', sequence1.cameraZoom, [sequence1.camera, 15, 18000, TWEEN.Easing.Linear.None]);
 
-sequence1.addSequence('00:03:00', sequence1.cameraZoom, [sequence1.camera, 1125 - 50, 2000, TWEEN.Easing.Linear.None]);
-sequence1.addSequence('00:05:00', sequence1.cameraZoom, [sequence1.camera, 750, 0, null]);
+/*sequence1.addSequence('00:06:00', sequence1.cameraZoom, [sequence1.camera, 15, 0, null]);
 
-sequence1.addSequence('00:05:00', sequence1.cameraZoom, [sequence1.camera, 750 - 50 - 50, 4000, TWEEN.Easing.Linear.None]);
-sequence1.addSequence('00:07:00', sequence1.cameraZoom, [sequence1.camera, 1125, 500, TWEEN.Easing.Quintic.InOut]);
+sequence1.addSequence('00:06:00', sequence1.cameraZoom, [sequence1.camera, 15 - 2, 4000, TWEEN.Easing.Linear.None]);
+sequence1.addSequence('00:10:00', sequence1.cameraZoom, [sequence1.camera, 8, 0, null]);
+
+sequence1.addSequence('00:10:00', sequence1.cameraZoom, [sequence1.camera, 8 - 1.5, 4000, TWEEN.Easing.Linear.None]);
+sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 5, 0, null]);
+
+sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 5 - 1, 4000, TWEEN.Easing.Linear.None]);*/
+
+
+
+// sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 400 - 50, 4000, TWEEN.Easing.Linear.None]);
+// sequence1.addSequence('00:18:00', sequence1.cameraZoom, [sequence1.camera, 300, 0, null]);
+
+// sequence1.addSequence('00:17:00', sequence1.cameraZoom, [sequence1.camera, 1200 - 50, 500, TWEEN.Easing.Quadratic.InOut]);
+
+
+var lineSequence = [];
+var lineSequences = [];
+
+for (var i=0; i<sequence1.numberOfLines; i++) {
+    lineSequence.push([i, i + sequence1.numberOfLines]);
+}
+
+for (var i=0; i<sequence1.numberOfLines/2; i++) {
+    lineSequences.push([lineSequence.shift(), lineSequence.pop()]);
+}
+
+// lineSequences.reverse();
+
+for (var i=0; i<lineSequences.length; i++) {
+    for (var j=0; j<lineSequences[i].length; j++) {
+        for (var k=0; k<lineSequences[i][j].length; k++) {
+            if (k == 0) {
+                sequence1.addSequence(pbtp.utilities.convertToTimecode(i*4 + 2), sequence1.drawHorizontalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
+            }
+
+            else {
+                sequence1.addSequence(pbtp.utilities.convertToTimecode(i*4 + 2), sequence1.drawVerticalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
+            }
+
+            //console.log(lineSequences[i][j][k]);
+        }
+    }
+}
 
 // Hide Lines
 for (var i=0; i<sequence1.lines.length; i++) {
     // Vertical lines
     if (i < sequence1.numberOfLines) {
-        sequence1.addSequence(pbtp.utilities.convertToTimecode(i * 0.01 + 6.5), sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addSequence('00:17:00', sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequence1.addSequence(pbtp.utilities.convertToTimecode((i - sequence1.numberOfLines) * 0.01 + 6.75), sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addSequence('00:17:00', sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
 

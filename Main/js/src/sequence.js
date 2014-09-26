@@ -48,3 +48,25 @@ Sequence.prototype = {
         }
     }
 };
+
+Sequence.prototype.cameraZoom = function(camera, z, duration, easing) {
+    if (this.cameraTween) {
+        this.cameraTween.stop();
+    }
+
+    // Tween
+    if (duration) {
+        this.cameraTween = new TWEEN.Tween({zoom: camera.position.z})
+            .to({zoom: z}, duration)
+            .easing(easing)
+            .onUpdate(function () {
+                camera.position.z = this.zoom;
+            })
+        .start();
+    }
+
+    // Jump
+    else {
+        camera.position.z = z;
+    }
+};

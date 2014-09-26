@@ -11,8 +11,8 @@ var Renderator = function(scene, camera) {
 	window.addEventListener('resize', function() { context.onResize(); });
 
 	// Post-processing
-	this.noisePass = new THREE.FilmPass(0.7, 0.075, 600, true);
-	this.bloomPass = new THREE.BloomPass(0.7, 25, 16, 256);
+	this.noisePass = new THREE.FilmPass(0.5, 0.075, 600, true);
+	this.bloomPass = new THREE.BloomPass(0.3, 25, 16, 256);
 	this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
 
 	// Default post-processing settings

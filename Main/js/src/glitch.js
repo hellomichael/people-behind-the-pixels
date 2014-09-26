@@ -3,11 +3,15 @@
 * @param {name}
 * @return {scene}
 */
-var Glitch = function(speaker, canvas, context) {
+var Glitch = function(speaker, x, y) {
     this.speaker = speaker;
 
-    this.canvas = canvas;
-    this.context = context;
+    this.canvas = document.getElementById('speakers');
+
+    this.canvas.width = window.innerWidth;
+    this.canvas.height = window.innerHeight;
+
+    this.context = this.canvas.getContext('2d');
     this.context.fillStyle = 'white';
     this.context.font = 'bold 25px "Futura"';
     this.context.textBaseline = 'hanging';
@@ -16,8 +20,8 @@ var Glitch = function(speaker, canvas, context) {
 
     this.metrics = this.context.measureText(this.speaker);
 
-    this.x = this.canvas.width/2;
-    this.y = this.canvas.height/2;
+    this.x = this.canvas.width/2 + x;
+    this.y = this.canvas.height/2 + y;
 
     this.width = Math.round(this.metrics.width);
     this.height = 20; //Unfortunately hardcoded
@@ -44,10 +48,6 @@ Glitch.prototype = {
         // Remove artifact
         this.canvas.width = this.canvas.width;
 
-        var plusOrMinus = Math.random() < 0.5 ? -1 : 1;
-
-        this.x = Math.random() * 150 * plusOrMinus + this.canvas.width/2;
-        this.y = Math.random() * 150 * plusOrMinus + this.canvas.height/2;
         this.artifactHeight = 7;
         this.context.putImageData(this.clone, this.x, this.y);
         this.context.clearRect(this.x + this.width/2, this.y + this.height - this.artifactHeight, this.width/2, this.artifactHeight);

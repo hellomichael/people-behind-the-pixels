@@ -1,6 +1,7 @@
 //= src/namespace.js
 //= src/utilities.js
 //= src/audio.js
+//= src/glitch.js
 
 //= src/shaders/CopyShader.js
 //= src/shaders/EffectComposer.js
@@ -30,7 +31,7 @@ var peopleBehindthePixels = (function () {
     // Initialize Animations
     var init = function () {
         // Load audio
-        pbtp.audio.init('shared/audio/boop.mp3');
+        pbtp.audio.init('shared/audio/intro.mp3');
 
         // Import Scenes
         //= src/sequence.js

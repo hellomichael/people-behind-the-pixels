@@ -11,8 +11,9 @@ html, body, canvas {
     overflow: hidden;
 
     font-family: 'Futura', Arial, "Helvetica Neue", Helvetica, sans-serif;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     text-rendering: optimizelegibility;
-
     color: white;
 }
 
@@ -20,7 +21,11 @@ canvas {
     position: absolute;
     top: 0;
     left: 0;
-    z-index: 0;
+    z-index: 1;
+}
+
+#speakers {
+    z-index: 2;
 }
 
 body {
