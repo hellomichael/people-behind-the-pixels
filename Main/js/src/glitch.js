@@ -7,7 +7,6 @@ var Glitch = function(speaker, x, y) {
     this.speaker = speaker;
 
     this.canvas = document.getElementById('speakers');
-
     this.canvas.width = window.innerWidth;
     this.canvas.height = window.innerHeight;
 
@@ -17,6 +16,7 @@ var Glitch = function(speaker, x, y) {
     this.context.textBaseline = 'hanging';
     this.padding = 25;
     this.count = 0;
+    this.currentFrame;
 
     this.metrics = this.context.measureText(this.speaker);
 
@@ -44,56 +44,53 @@ var Glitch = function(speaker, x, y) {
 Glitch.prototype = {
     constructor: Glitch,
 
-    frame1: function() {
-        // Remove artifact
-        this.canvas.width = this.canvas.width;
+    play: function() {
+        var that = this;
 
-        this.artifactHeight = 7;
-        this.context.putImageData(this.clone, this.x, this.y);
-        this.context.clearRect(this.x + this.width/2, this.y + this.height - this.artifactHeight, this.width/2, this.artifactHeight);
+        new TWEEN.Tween({frame: 1})
+            .to({frame: 7}, 750)
+            .onUpdate(function (e) {
+                that.currentFrame = Math.round(this.frame);
 
-        //console.log('Frame 1');
+                that.nextFrame(that.currentFrame);
+            })
+        .start();
     },
 
-    frame2: function() {
-        // Move artifact
-        this.canvas.width = this.canvas.width;
-        this.artifactOffsetX = this.width/3;
-        this.artifactOffsetY = 3;
+    nextFrame: function(currentFrame) {
+        if (currentFrame === 1) {
+            // Remove artifact
+            this.canvas.width = this.canvas.width;
 
-        this.context.putImageData(this.clone, this.x, this.y);
-        this.context.clearRect(this.x + this.width/2, this.y + this.height - this.artifactHeight, this.width/2, this.artifactHeight);
-        this.context.putImageData(this.artifact, this.x + this.width/2 + this.artifactOffsetX, this.y + this.height-this.artifactHeight + this.artifactOffsetY);
+            this.artifactHeight = 7;
+            this.context.putImageData(this.clone, this.x, this.y);
+            this.context.clearRect(this.x + this.width/2, this.y + this.height - this.artifactHeight, this.width/2, this.artifactHeight);
+        }
 
-        //console.log('Frame 2');
-    },
+        else if (currentFrame === 2) {
+            // Move artifact
+            this.canvas.width = this.canvas.width;
+            this.artifactOffsetX = this.width/3;
+            this.artifactOffsetY = 3;
 
-    frame3: function() {
-        // Move artifact
-        this.canvas.width = this.canvas.width;
-        this.artifactOffsetX = 7;
+            this.context.putImageData(this.clone, this.x, this.y);
+            this.context.clearRect(this.x + this.width/2, this.y + this.height - this.artifactHeight, this.width/2, this.artifactHeight);
+            this.context.putImageData(this.artifact, this.x + this.width/2 + this.artifactOffsetX, this.y + this.height-this.artifactHeight + this.artifactOffsetY);
+        }
 
-        this.context.putImageData(this.clone, this.x, this.y);
-        this.context.clearRect(this.width/2, this.height - this.artifactHeight, this.width/2, this.artifactHeight);
-        this.context.putImageData(this.artifact, this.x + this.width/2 + this.artifactOffsetX, this.y + this.height-this.artifactHeight + this.artifactOffsetY);
+        else if (currentFrame === 3) {
+            // Move artifact
+            this.canvas.width = this.canvas.width;
+            this.artifactOffsetX = 7;
 
-        //console.log('Frame 3');
-    },
+            this.context.putImageData(this.clone, this.x, this.y);
+            this.context.clearRect(this.width/2, this.height - this.artifactHeight, this.width/2, this.artifactHeight);
+            this.context.putImageData(this.artifact, this.x + this.width/2 + this.artifactOffsetX, this.y + this.height-this.artifactHeight + this.artifactOffsetY);
+        }
 
-    frame4: function() {
-        this.canvas.width = this.canvas.width;
-        this.context.putImageData(this.clone, this.x, this.y);
-
-        /*console.log('Frame 4');
-        console.log('');*/
-    },
-
-    /*setPixel: function(imageData, x, y, rgba) {
-        var index = (x + y * imageData.width) * 4;
-
-        imageData.data[index+0] = rgba[0];
-        imageData.data[index+1] = rgba[1];
-        imageData.data[index+2] = rgba[2];
-        imageData.data[index+3] = rgba[3];
-    },*/
+        else if (currentFrame === 4) {
+            this.canvas.width = this.canvas.width;
+            this.context.putImageData(this.clone, this.x, this.y);
+        }
+    }
 };

@@ -127,14 +127,11 @@ var sequence1 = new Sequence1();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch('TOBIAS REVELL', 200, 200);
+var speaker = new Glitch('TOBIAS REVELL', 0, 0);
 
-sequence1.addSequence('00:10:10', function() {speaker.frame1();});
-sequence1.addSequence('00:10:13', function() {speaker.frame2();});
-sequence1.addSequence('00:10:15', function() {speaker.frame3();});
-sequence1.addSequence('00:10:17', function() {speaker.frame4();});
+sequence1.addSequence('00:01:00', function() {speaker.play();});
 
-var speaker2 = new Glitch('MATT WEBB', -300, -150);
+/*var speaker2 = new Glitch('MATT WEBB', -300, -150);
 
 sequence1.addSequence('00:18:10', function() {speaker2.frame1();});
 sequence1.addSequence('00:18:13', function() {speaker2.frame2();});
@@ -151,7 +148,7 @@ var speaker4 = new Glitch('DAN HON', -300, 100);
 sequence1.addSequence('00:34:10', function() {speaker4.frame1();});
 sequence1.addSequence('00:34:13', function() {speaker4.frame2();});
 sequence1.addSequence('00:34:15', function() {speaker4.frame3();});
-sequence1.addSequence('00:34:17', function() {speaker4.frame4();});
+sequence1.addSequence('00:34:17', function() {speaker4.frame4();});*/
 
 // Camera sequence
 sequence1.addSequence('00:02:00', sequence1.cameraZoom, [sequence1.camera, 15, 18000, TWEEN.Easing.Linear.None]);
@@ -174,7 +171,7 @@ sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 5 - 1
 // sequence1.addSequence('00:17:00', sequence1.cameraZoom, [sequence1.camera, 1200 - 50, 500, TWEEN.Easing.Quadratic.InOut]);
 
 
-var lineSequence = [];
+/*var lineSequence = [];
 var lineSequences = [];
 
 for (var i=0; i<sequence1.numberOfLines; i++) {
@@ -201,10 +198,10 @@ for (var i=0; i<lineSequences.length; i++) {
             //console.log(lineSequences[i][j][k]);
         }
     }
-}
+}*/
 
 // Hide Lines
-for (var i=0; i<sequence1.lines.length; i++) {
+/*for (var i=0; i<sequence1.lines.length; i++) {
     // Vertical lines
     if (i < sequence1.numberOfLines) {
         sequence1.addSequence('00:17:00', sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
@@ -215,7 +212,7 @@ for (var i=0; i<sequence1.lines.length; i++) {
         sequence1.addSequence('00:17:00', sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
-
+*/
 /******************************
 * Add Sequences
 ******************************/

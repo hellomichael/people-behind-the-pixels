@@ -165,4 +165,4 @@ sequence1.addSequence('00:17:15', sequence2.positionCube, [sequence2.cube, 200, 
 
 sequence1.addSequence('00:17:15', sequence2.cameraZoom, [sequence1.camera, 210, 16000, TWEEN.Easing.Quadratic.InOut]);
 
-sequences.push(sequence2);
+// sequences.push(sequence2);
