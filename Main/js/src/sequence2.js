@@ -157,12 +157,12 @@ var sequence2 = new Sequence2();
 * Add Sequences
 ******************************/
 
-sequence2.addSequence('00:14:15', sequence2.showCube, [sequence2.cube, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:14:15', sequence2.showCube, [sequence2.cube, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
 
 // Fly through
-sequence2.addSequence('00:17:15', sequence2.rotateCube, [sequence2.cube, (sequence2.cube.rotation.x + 1080) * Math.PI/180, 16000, TWEEN.Easing.Quadratic.InOut]);
-sequence1.addSequence('00:17:15', sequence2.positionCube, [sequence2.cube, 200, 16000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:17:15', sequence2.rotateCube, [sequence2.cube, (sequence2.cube.rotation.x + 1080) * Math.PI/180, 16000, TWEEN.Easing.Quadratic.InOut]);
+sequence1.addEvent('00:17:15', sequence2.positionCube, [sequence2.cube, 200, 16000, TWEEN.Easing.Quadratic.InOut]);
 
-sequence1.addSequence('00:17:15', sequence2.cameraZoom, [sequence1.camera, 210, 16000, TWEEN.Easing.Quadratic.InOut]);
+sequence1.addEvent('00:17:15', sequence2.cameraZoom, [sequence1.camera, 210, 16000, TWEEN.Easing.Quadratic.InOut]);
 
 // sequences.push(sequence2);

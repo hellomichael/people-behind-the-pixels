@@ -19,7 +19,7 @@ Sequence1.prototype.init = function() {
 
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
 
-    renderator = new Renderator(this.scene, this.camera);
+    renderator.reset(this.scene, this.camera);
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
@@ -129,7 +129,7 @@ var sequence1 = new Sequence1();
 ******************************/
 var speaker = new Glitch('TOBIAS REVELL', 0, 0);
 
-sequence1.addSequence('00:01:00', function() {speaker.play();});
+sequence1.addEvent('00:01:00', function() {speaker.play();});
 
 /*var speaker2 = new Glitch('MATT WEBB', -300, -150);
 
@@ -151,7 +151,7 @@ sequence1.addSequence('00:34:15', function() {speaker4.frame3();});
 sequence1.addSequence('00:34:17', function() {speaker4.frame4();});*/
 
 // Camera sequence
-sequence1.addSequence('00:02:00', sequence1.cameraZoom, [sequence1.camera, 15, 18000, TWEEN.Easing.Linear.None]);
+sequence1.addEvent('00:02:00', sequence1.cameraZoom, [sequence1.camera, 15, 18000, TWEEN.Easing.Linear.None]);
 
 /*sequence1.addSequence('00:06:00', sequence1.cameraZoom, [sequence1.camera, 15, 0, null]);
 

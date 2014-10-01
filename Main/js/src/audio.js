@@ -6,6 +6,7 @@ pbtp.audio = (function () {
     var context;
     var startTime;
 
+
 	var init = function (audioFile) {
         context = new AudioContext();
         startTime = 0;
@@ -30,6 +31,12 @@ pbtp.audio = (function () {
 
         request.send();
 	};
+
+
+    var play = function (playtime) {
+            
+    };
+
 
     var getCurrentTime = function () {
         /**

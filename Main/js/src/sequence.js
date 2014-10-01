@@ -1,53 +1,65 @@
-/**
-* Creates new scene
-* @param {name, args}
-* args for previous three.js scene
-* @return {scene}
-*/
+
+// Sequence base class
 var Sequence = function() {
-    this.sequence = [];
+    
+    this.events = [];
     this.init();
+
 };
 
+
 Sequence.prototype = {
+
     constructor: Sequence,
+
 
     init: function () {
     },
 
-    addSequence: function(timeCode, callback, args) {
-        /**
-        * Callback can be string for extended prototype function, or a function itself
-        */
 
+    addEvent: function(timeCode, callback, args) {
+        
+        // Callback can be string for extended prototype function, or a function itself        
         if (_.isFunction(callback)) {
-            this.sequence.push([timeCode, callback, args]);
-            this.sortSequence();
+
+            this.events.push([timeCode, callback, args]);
+            this.sortEvents();            
         }
     },
 
-    sortSequence: function() {
-        var sortedSequence = _(this.sequence).sortBy(function(sequence){
-            return pbtp.utilities.convertToSeconds(sequence[0]);
+
+    sortEvents: function() {
+        var sortedSequence = _(this.events).sortBy(function(events){
+            return pbtp.utilities.convertToSeconds(events[0]);
         });
 
-        this.sequence = sortedSequence;
+        this.events = sortedSequence;
     },
 
-    playSequence: function(currentTime) {
-        // If the sequence still unplayed animations
-        if (this.sequence.length) {
-            // First element in the sequence is the keyframe
-            var keyFrame = pbtp.utilities.convertToSeconds(this.sequence[0][0]);
-            // If the current time is the same time as the keyframe
 
-            if (currentTime >= keyFrame) {
-                this.sequence[0][1].apply(this, this.sequence[0][2]); // Play first scene
-                this.sequence.shift(); // Remove first scene
+    update: function(delta) {
+
+    },
+
+
+    play: function(currentTime) {
+
+        if (this.events.length) {
+        
+            // First element in the sequence is the keyframe
+            var timeCode = pbtp.utilities.convertToSeconds(this.events[0][0]);
+        
+            // If the current time is the same time as the keyframe
+            if (currentTime >= timeCode) {
+
+                // Play first event and remove from queue
+                this.events[0][1].apply(this, this.events[0][2]);                
+                this.events.shift(); 
             }
         }
     }
 };
+
 
 Sequence.prototype.cameraZoom = function(camera, z, duration, easing) {
     if (this.cameraTween) {

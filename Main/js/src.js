@@ -1,8 +1,12 @@
+// PBTB includes
 //= src/namespace.js
 //= src/utilities.js
 //= src/audio.js
 //= src/glitch.js
+//= src/renderator.js
+//= src/sequence.js
 
+// Shader stuff
 //= src/shaders/CopyShader.js
 //= src/shaders/EffectComposer.js
 //= src/shaders/MaskPass.js
@@ -16,59 +20,66 @@
 //= src/shaders/BokehShader.js
 //= src/shaders/BokehPass.js
 
-//= src/shaders.js
-//= src/renderator.js
 
-// Global variables
+// People Behind the Pixels
 var peopleBehindthePixels = (function () {
+
     'use strict';
 
-    // Global variables
     var sequences = [];
     var screenWidth, screenHeight;
-    var renderator, prevTimestamp, delta;
+    var renderator = new Renderator();
+    var prevTimestamp;
 
-    // Initialize Animations
-    var init = function () {
+
+    // Initialisation
+    var init = function (playtime) {
+
+        if (playtime === undefined) playtime = 0.0;
+
+        // Import sequences
+        //= src/animatic.js
+        // = src/sequence1.js
+        // = src/sequence2.js
+
         // Load audio
         pbtp.audio.init('shared/audio/intro.mp3');
 
-        // Import Scenes
-        //= src/sequence.js
-        //= src/sequence1.js
-        //= src/sequence2.js
+        mainLoop(0);
+    };    
 
-        // Draw onto the Canvas
-        (function draw(currentTimeAnimation) {
-            // Request new frame
-            requestAnimationFrame(draw);
-            animateSequence(pbtp.audio.getCurrentTime(), currentTimeAnimation);
-        })();
-    };
 
-    var animateSequence = function (currentTimeAudio, currentTimeAnimation) {
-        /**
-        * Calls function when audio reaches timecode
-        * @param {Seconds}
-        * @return {Callback}
-        */
+    var mainLoop = function(timestamp) {
 
-        // Calculate delta for renderator
-        if (currentTimeAnimation == undefined)
-            prevTimestamp = currentTimeAnimation = 0;
-        delta = (currentTimeAnimation - prevTimestamp) / 1000.0;
-        prevTimestamp = currentTimeAnimation;
+        // Determine delta
+        if (timestamp == undefined)
+            prevTimestamp = timestamp = 0;      
+        var delta = (timestamp - prevTimestamp) / 1000.0;
+        prevTimestamp = timestamp;
+
+        // Updates
+        updateSequence(pbtp.audio.getCurrentTime(), delta);        
+        TWEEN.update(timestamp);
+
+        // Render
         renderator.render(delta);
 
-        // Refactor to only play one scene at a time
-        for (var i=0; i<sequences.length; i++) {
-            sequences[i].playSequence(currentTimeAudio);
-        }
-
-        // Update global tweening object
-        TWEEN.update(currentTimeAnimation);
+        // Set callback
+        requestAnimationFrame(mainLoop);
     };
 
+
+    var updateSequence = function (currentTimeAudio, delta) {
+
+        // Refactor to only play one scene at a time
+        for (var i = 0; i < sequences.length; i++) {
+            
+            sequences[i].update(delta);
+            sequences[i].play(currentTimeAudio);        
+        }
+    };
+
+    
     return {
         init: init
     };
