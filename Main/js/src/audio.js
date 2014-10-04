@@ -3,12 +3,12 @@ pbtp.audio = (function () {
 
     // Create audio context
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var context;
-    var startTime;
+    var context, source, gainNode, startTime, muted;
 
 	var init = function (audioFile) {
         context = new AudioContext();
         startTime = 0;
+        muted = false;
 
         // Create audio request
         var request = new XMLHttpRequest();
@@ -21,10 +21,16 @@ pbtp.audio = (function () {
                 console.log("Audio Loaded");
                 startTime = context.currentTime;
 
-                var source = context.createBufferSource();      // Creates a sound source
+                source = context.createBufferSource();      // Creates a sound source
                 source.buffer = buffer;                         // Tell the source which sound to play
                 source.connect(context.destination);            // Connect the source to the context's destination (the speakers)
                 source.start(0);
+
+                gainNode = context.createGain();
+
+                if (muted) {
+                    mute();
+                }
             });
         };
 
@@ -46,8 +52,21 @@ pbtp.audio = (function () {
         return currentTime;
     };
 
+    var mute = function () {
+        if (startTime) {
+            gainNode.gain.value = -1;
+            source.connect(gainNode);
+            gainNode.connect(context.destination);
+        }
+
+        else {
+            muted = true;
+        }
+    };
+
 	return {
 		init: init,
-        getCurrentTime: getCurrentTime
+        getCurrentTime: getCurrentTime,
+        mute: mute
 	};
 }());
