@@ -21,15 +21,15 @@ var Renderator = function(scene, camera) {
 	this.aaEnabled = true;
 
 	// Set initial scene/camera
-	this.composer = null;
+	this.composer = new THREE.EffectComposer(this.renderer);
 	if (scene != undefined && camera != undefined)
 		this.reset(scene, camera);
 }
 
 Renderator.prototype.reset = function(scene, camera) {
 	// Update camera/scene (if provided)
-	if (scene != undefined) this.scene = scene;
-	if (camera != undefined) this.camera = camera;
+	if (scene !== undefined) this.scene = scene;
+	if (camera !== undefined) this.camera = camera;
 
 	// Setup effect composer and render pass
 	this.composer = new THREE.EffectComposer(this.renderer);
@@ -56,7 +56,9 @@ Renderator.prototype.reset = function(scene, camera) {
 
 Renderator.prototype.render = function(delta) {
 	this.renderer.clear();
-	this.composer.render(delta);
+
+	if (this.composer)
+		this.composer.render(delta);
 }
 
 Renderator.prototype.onResize = function() {
