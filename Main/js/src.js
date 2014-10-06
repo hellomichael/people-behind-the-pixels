@@ -5,6 +5,13 @@
 //= src/glitch.js
 //= src/renderator.js
 //= src/sequence.js
+//= src/polyflower.js
+//= src/emitter.js
+//= src/particulator.js
+
+// Tools
+//= src/tools/OBJLoader.js
+//= src/Tools/OrbitControls.js
 
 // Shader stuff
 //= src/shaders/CopyShader.js
@@ -29,7 +36,7 @@ var peopleBehindthePixels = (function () {
     var sequences = [];
     var screenWidth, screenHeight;
     var renderator = new Renderator();
-    var prevTimestamp;
+    var prevTimestamp = 0;
 
 
     // Initialisation
@@ -38,7 +45,9 @@ var peopleBehindthePixels = (function () {
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
-        //= src/animatic.js
+        //= src/01-08-younghee-jung.js
+        //= src/01-09-scott-thomas.js
+        // = src/animatic.js
         // = src/sequence1.js
         // = src/sequence2.js
 
@@ -51,9 +60,7 @@ var peopleBehindthePixels = (function () {
 
     var mainLoop = function(timestamp) {
 
-        // Determine delta
-        if (timestamp == undefined)
-            prevTimestamp = timestamp = 0;      
+        // Determine delta 
         var delta = (timestamp - prevTimestamp) / 1000.0;
         prevTimestamp = timestamp;
 
