@@ -66,6 +66,15 @@ module.exports = function (grunt) {
                     spawn: false
                 }
             },
+            audio: {
+                files: [
+                    '<%= settings.src %>/audio/**/*.{mp3,wav}',
+                ],
+                tasks: ['copy:audio'],
+                options: {
+                    spawn: false
+                }
+            },
             images: {
                 files: [
                     '<%= settings.src %>/img/**/*.{png,jpg,gif}',
@@ -276,6 +285,17 @@ module.exports = function (grunt) {
                     ]
                 }]
             },
+            objects: {
+                files: [{
+                    expand: true,
+                    dot: true,
+                    cwd: '<%= settings.src %>/js/src/objs',
+                    dest: '<%= settings.dist %>/shared/js/objs',
+                    src: [
+                        '**/*' // copy all font types within font directory
+                    ]
+                }]
+            },
             images: {
                 files: [{
                     expand: true,
@@ -380,6 +400,7 @@ module.exports = function (grunt) {
         'styles',
         'fonts',
         'audio',
+        'objects',
         'html'
     ]);
 
@@ -399,6 +420,7 @@ module.exports = function (grunt) {
     grunt.registerTask('styles', ['search:noExtend', 'sass', 'autoprefixer']);
     grunt.registerTask('fonts', ['copy:fonts']);
     grunt.registerTask('audio', ['copy:audio']);
+    grunt.registerTask('objects', ['copy:objects']);
     grunt.registerTask('images', ['sprite', 'search:evenSizedRetinaSprites', 'copy:images']);
     grunt.registerTask('html', ['assemble', 'copy:html', 'clean:tempHtml']);
     grunt.registerTask('test', ['clean:scripts', 'scripts', 'jasmine']);

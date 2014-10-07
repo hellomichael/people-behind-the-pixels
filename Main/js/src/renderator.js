@@ -1,74 +1,96 @@
 var Renderator = function(scene, camera) {
-	this.scene = scene;
-	this.camera = camera;
 
-	// Initialise renderer/DOM element
-	this.renderer = new THREE.WebGLRenderer({canvas: document.getElementById('canvas'), antialias: true, alpha: true});
-	this.renderer.setSize(window.innerWidth, window.innerHeight);
-	this.renderer.autoClear = false;
+    this.scene = scene;
+    this.camera = camera;
 
-	var context = this;
-	window.addEventListener('resize', function() { context.onResize(); });
+    // Initialise renderer/DOM element
+    this.renderer = new THREE.WebGLRenderer({
+        canvas: document.getElementById('canvas'),
+        alpha: true,
+        sortObjects: true,
+    });
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.renderer.autoClear = false;
+    this.renderer.autoClearColour = false;
 
-	// Post-processing
-	this.noisePass = new THREE.FilmPass(0.5, 0.075, 600, true);
-	this.bloomPass = new THREE.BloomPass(0.3, 25, 16, 256);
-	this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    var context = this;
+    window.addEventListener('resize', function() { context.onResize(); });
 
-	// Default post-processing settings
-	this.noiseEnabled = true;
-	this.bloomEnabled = true;
-	this.aaEnabled = true;
+    // Post-processing
+    this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
+    this.bloomPass = new THREE.BloomPass(0.5, 25, 16, 256);
+    this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
 
-	// Set initial scene/camera
-	this.composer = new THREE.EffectComposer(this.renderer);
-	if (scene != undefined && camera != undefined)
-		this.reset(scene, camera);
+    // Default post-processing settings
+    this.postRenderEnabled = true;
+    this.noiseEnabled = false; // Causes firefox/mac error
+    this.bloomEnabled = true;
+    this.aaEnabled = true;
+
+    // Set initial scene/camera
+    this.composer = new THREE.EffectComposer(this.renderer);
+    if (scene !== undefined && camera !== undefined)
+        this.reset(scene, camera);
 }
 
-Renderator.prototype.reset = function(scene, camera) {
-	// Update camera/scene (if provided)
-	if (scene !== undefined) this.scene = scene;
-	if (camera !== undefined) this.camera = camera;
 
-	// Setup effect composer and render pass
-	this.composer = new THREE.EffectComposer(this.renderer);
-	this.renderPass = new THREE.RenderPass(this.scene, this.camera);
-	this.composer.addPass(this.renderPass);
+Renderator.prototype.reset = function(scene, camera, postScene, postCamera) {
 
-	// Post-processing
-	if (this.noiseEnabled)
-		this.composer.addPass(this.noisePass);
+    // Update camera/scene (if provided)
+    if (scene !== undefined) this.scene = scene;
+    if (camera !== undefined) this.camera = camera;
+    if (postScene !== undefined) this.postScene = postScene;
+    if (postCamera !== undefined) this.postCamera = postCamera;
 
-	if (this.bloomEnabled)
-		this.composer.addPass(this.bloomPass);
+    this.composer = new THREE.EffectComposer(this.renderer, new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,format: THREE.RGBAFormat})); // Fix compositor noise
+    this.renderPass = new THREE.RenderPass(this.scene, this.camera);
+    this.composer.addPass(this.renderPass);
 
-	if (this.aaEnabled) {
-		this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
-		this.composer.addPass(this.aaPass);
-	}
+    // post render scene
 
-	// Copy pass (renders to screen)
-	var copyShader = new THREE.ShaderPass(THREE.CopyShader);
-	copyShader.renderToScreen = true;
-	this.composer.addPass(copyShader);
+    if (this.postRenderEnabled && postScene && postCamera) {
+        this.postRenderPass = new THREE.RenderPass(this.postScene, this.postCamera);
+        // this.composer.addPass(this.postRenderPass);
+    }
+
+    // Post-processing
+    if (this.noiseEnabled) {
+        this.composer.addPass(this.noisePass);
+    }
+
+    if (this.bloomEnabled)
+        this.composer.addPass(this.bloomPass);
+
+    if (this.aaEnabled) {
+        this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+        this.composer.addPass(this.aaPass);
+    }
+
+    // Copy pass (renders to screen)
+    var copyShader = new THREE.ShaderPass(THREE.CopyShader);
+    copyShader.renderToScreen = true;
+    this.composer.addPass(copyShader);
 }
+
 
 Renderator.prototype.render = function(delta) {
-	this.renderer.clear();
 
-	if (this.composer)
-		this.composer.render(delta);
+    this.renderer.clear();
+
+    if (this.composer)
+        this.composer.render(delta);
 }
 
+
 Renderator.prototype.onResize = function() {
-	if (this.camera) {
-		this.camera.aspect = window.innerWidth / window.innerHeight;
-		this.camera.updateProjectionMatrix();
-	}
 
-	this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+    if (this.camera) {
+        this.camera.aspect = window.innerWidth / window.innerHeight;
+        this.camera.updateProjectionMatrix();
+    }
 
-	this.renderer.setSize(window.innerWidth, window.innerHeight);
-	this.composer.setSize(window.innerWidth, window.innerHeight);
+    this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.composer.setSize(window.innerWidth, window.innerHeight);
 }

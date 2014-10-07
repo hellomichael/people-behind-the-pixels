@@ -61,7 +61,7 @@ Sequence.prototype = {
 };
 
 
-Sequence.prototype.cameraZoom = function(camera, z, duration, easing) {
+Sequence.prototype.cameraZoom = function(camera, z, duration, easing, lookat) {
     if (this.cameraTween) {
         this.cameraTween.stop();
     }
@@ -73,6 +73,8 @@ Sequence.prototype.cameraZoom = function(camera, z, duration, easing) {
             .easing(easing)
             .onUpdate(function () {
                 camera.position.z = this.zoom;
+
+                //camera.lookAt(lookat.position);
             })
         .start();
     }

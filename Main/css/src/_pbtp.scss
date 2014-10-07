@@ -17,7 +17,7 @@ html, body, canvas {
     color: white;
 }
 
-canvas {
+canvas, #noise {
     position: absolute;
     top: 0;
     left: 0;
@@ -28,7 +28,27 @@ canvas {
     z-index: 2;
 }
 
+#noise {
+    width: 100%;
+    height: auto;
+    z-index: 0;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+
+#stats {
+    position: absolute;
+    top: 0;
+    right: 30px;
+    z-index: 3;
+}
+
 body {
     //background: #FFFDC7 url(../img/bg.png);
     background-color: #000;
+}
+
+#__bs_notify__ {
+    display: none !important;
 }

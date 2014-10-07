@@ -8,3 +8,4 @@
 //= plugins/three.js
 //= plugins/tween.js
 //= plugins/tween.easing.js
+//= plugins/objLoader.js

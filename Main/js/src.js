@@ -5,6 +5,7 @@
 //= src/glitch.js
 //= src/renderator.js
 //= src/sequence.js
+//= src/ring.js
 
 // Shader stuff
 //= src/shaders/CopyShader.js
@@ -30,35 +31,36 @@ var peopleBehindthePixels = (function () {
     var screenWidth, screenHeight;
     var renderator = new Renderator();
     var prevTimestamp;
+    var $stats;
 
 
     // Initialisation
     var init = function (playtime) {
+        $stats = $('#stats');
 
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
-        //= src/animatic.js
-        // = src/sequence1.js
-        // = src/sequence2.js
+
+        //= src/sequence10.js
 
         // Load audio
-        pbtp.audio.init('shared/audio/intro.mp3');
+        pbtp.audio.init('shared/audio/music.mp3');
+        pbtp.audio.seek('00:10:00');
 
         mainLoop(0);
-    };    
+    };
 
 
     var mainLoop = function(timestamp) {
-
         // Determine delta
         if (timestamp == undefined)
-            prevTimestamp = timestamp = 0;      
+            prevTimestamp = timestamp = 0;
         var delta = (timestamp - prevTimestamp) / 1000.0;
         prevTimestamp = timestamp;
 
         // Updates
-        updateSequence(pbtp.audio.getCurrentTime(), delta);        
+        updateSequence(pbtp.audio.getCurrentTime(), delta);
         TWEEN.update(timestamp);
 
         // Render
@@ -70,19 +72,21 @@ var peopleBehindthePixels = (function () {
 
 
     var updateSequence = function (currentTimeAudio, delta) {
-
         // Refactor to only play one scene at a time
         for (var i = 0; i < sequences.length; i++) {
-            
             sequences[i].update(delta);
-            sequences[i].play(currentTimeAudio);        
+            sequences[i].play(currentTimeAudio);
         }
+
+        $stats.html(pbtp.utilities.convertToTimecode(currentTimeAudio));
     };
 
-    
+
     return {
         init: init
     };
 }());
 
-peopleBehindthePixels.init();
+$(window).load(function() {
+    peopleBehindthePixels.init();
+});

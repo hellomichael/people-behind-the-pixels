@@ -3,12 +3,12 @@ pbtp.audio = (function () {
 
     // Create audio context
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var context, source, gainNode, startTime, muted;
-
+    var context, source, gainNode, startTime, muted, seekTime;
 
 	var init = function (audioFile) {
         context = new AudioContext();
         startTime = 0;
+        seekTime = 0;
         muted = false;
 
         // Create audio request
@@ -19,13 +19,14 @@ pbtp.audio = (function () {
         // Decode asynchronously
         request.onload = function() {
             context.decodeAudioData(request.response, function(buffer) { // Play audio on callback
-                console.log("Audio Loaded");
                 startTime = context.currentTime;
 
                 source = context.createBufferSource();      // Creates a sound source
                 source.buffer = buffer;                         // Tell the source which sound to play
+                source.loop = false;
                 source.connect(context.destination);            // Connect the source to the context's destination (the speakers)
-                source.start(0);
+
+                source.start(0, seekTime);
 
                 gainNode = context.createGain();
 
@@ -38,11 +39,14 @@ pbtp.audio = (function () {
         request.send();
 	};
 
+    var seek = function (currentTime) {
+        seekTime = pbtp.utilities.convertToSeconds(currentTime);
 
-    var play = function (playtime) {
-            
+        if (startTime) {
+            source.stop();
+            source.start(0, seekTime);
+        }
     };
-
 
     var getCurrentTime = function () {
         /**
@@ -53,7 +57,7 @@ pbtp.audio = (function () {
         var currentTime = startTime;
 
         if (startTime) {
-            currentTime = context.currentTime - startTime;
+            currentTime = context.currentTime - startTime + seekTime;
         }
 
         return currentTime;
@@ -73,7 +77,8 @@ pbtp.audio = (function () {
 
 	return {
 		init: init,
-        getCurrentTime: getCurrentTime,
-        mute: mute
+        mute: mute,
+        seek: seek,
+        getCurrentTime: getCurrentTime
 	};
 }());

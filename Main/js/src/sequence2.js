@@ -18,25 +18,40 @@ Sequence2.prototype.init = function() {
     // Materials
     this.cubeMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 0, transparent: true});
 
+    // Group
+    this.cubeGroup = new THREE.Object3D();
+
     // Cube
     this.cubeDimensions = sequence1.cubeDimensions;
-
-    this.cubeData = {
-        mesh: this.cube,
-        acceleration: new THREE.Vector3(),
-        rotation: new THREE.Vector3(0.4, 0.2, 0.1),
-        velocity: new THREE.Vector3(0, 0, -0.056),
-        preventDecay: true,
-    }
-
     this.cube = new THREE.Mesh(new THREE.CubeGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.cubeMaterial);
+    this.cubeGroup.add(this.cube);
+
+    // Fragments
+    var loader = new THREE.objLoader();
+    var that = this; //cache
+
+    loader.load("shared/js/objs/fragments.obj", function (obj) {
+        that.fragments = obj;
+        that.fragments.scale.set(0.5, 0.5, 0.5);
+
+        for (var i=0; i<that.fragments.children.length; i++) {
+            that.fragments.children[i].material = new THREE.MeshLambertMaterial({color: 'white', opacity: 0, transparent: true});
+            that.fragments.children[i].material.opacity = 0;
+        }
+
+        that.cubeGroup.add(that.fragments);
+
+        // Sphere
+        that.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 0, 0), new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true}));
+        that.cubeGroup.add(that.sphere);
+    });
 
     // Triangles
     this.triangles = new THREE.Object3D();
 
-    for (var i = 0; i < 50; i++) {
-        var triMesh = this.CreatePolyOutline(3, 7, 0.1);
-        triMesh.position.z = (i) * 20 + 20;
+    for (var i = 0; i < 18; i++) {
+        var triMesh = this.CreatePolyOutline(3, 7, 0.15);
+        triMesh.position.z = (i) * 4 + 10;
         this.triangles.children.push(triMesh);
     }
 
@@ -44,66 +59,101 @@ Sequence2.prototype.init = function() {
 
     // Grid
     this.grid = new THREE.Object3D();
-    this.grid.add(this.cube);
-
     this.grid.rotation.z = 45*Math.PI/180;
+    this.grid.add(this.cubeGroup);
 
     // Camera
     this.camera = sequence1.camera;
-    this.camera.lookAt(new THREE.Vector3());
-
-    this.cameraData = {
-        camera: this.camera,
-        acceleration: new THREE.Vector3(),
-        rotation: new THREE.Vector3(),
-        velocity: new THREE.Vector3(0, 0, -0.05),
-        preventDecay: true,
-    }
-
-    this.playBack = false;
-    this.friction = 0.1;
-    this.timescale = 1.0
-
     this.scene.add(this.grid);
 };
 
 /******************************
 * Add Animations
 ******************************/
-Sequence2.prototype.positionCube = function(cube, position, duration, easing) {
-    new TWEEN.Tween({position: cube.position.z})
-        .to({position: position}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            cube.position.z = this.position;
-        })
-        .start();
-};
+Sequence2.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
+    var cube = cubeGroup.children[0];
 
-Sequence2.prototype.rotateCube = function(cube, rotation, duration, easing) {
-    new TWEEN.Tween({rotation: cube.rotation.x})
-        .to({rotation: rotation}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            cube.rotation.x = this.rotation;
-            cube.rotation.y = this.rotation;
-            cube.rotation.z = this.rotation;
-        })
-        .start();
-};
-
-Sequence2.prototype.showCube = function(cube, opacity, duration, easing) {
-    if (this.cubeRotation) {
-        this.cubeRotation.stop();
-    }
-
-    this.cubeRotation = new TWEEN.Tween({opacity: 0})
+    new TWEEN.Tween({opacity: 0})
         .to({opacity: opacity}, duration)
         .easing(easing)
         .onUpdate(function () {
             cube.material.opacity = this.opacity;
         })
     .start();
+};
+
+Sequence2.prototype.positionCubeGroup = function(cubeGroup, position, duration, easing) {
+    this.spaceAudio = new Audio('shared/audio/space.mp3');
+    this.spaceAudio.play();
+
+    new TWEEN.Tween({position: cubeGroup.position.z})
+        .to({position: position}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            cubeGroup.position.z = this.position;
+        })
+        .start();
+};
+
+Sequence2.prototype.rotateCubeGroup = function(cubeGroup, rotation, duration, easing) {
+    var cube = cubeGroup.children[0];
+    var fragments = cubeGroup.children[1];
+
+    new TWEEN.Tween({index: i, rotation: 0})
+            .to({rotation: rotation}, duration)
+            .easing(easing)
+            .onUpdate(function () {
+                cube.rotation.x = this.rotation;
+                cube.rotation.y = this.rotation;
+                cube.rotation.z = this.rotation;
+            })
+        .start();
+
+    for (var i=0; i<cubeGroup.children[1].children.length; i++) {
+        new TWEEN.Tween({index: i, rotation: 0})
+            .to({rotation: rotation}, duration)
+            .easing(easing)
+            .onUpdate(function () {
+                fragments.children[this.index].rotation.x = this.rotation;
+                fragments.children[this.index].rotation.y = this.rotation;
+                fragments.children[this.index].rotation.z = this.rotation;
+            })
+        .start();
+    }
+};
+
+Sequence2.prototype.explodeCube = function(fragments, duration, easing) {
+    this.rocksAudioIn = new Audio('shared/audio/rocks.mp3');
+    this.rocksAudioIn.play();
+
+    for (var i=0; i<fragments.children[1].children.length; i++) {
+        fragments.children[1].children[i].material.opacity = 1;
+
+        new TWEEN.Tween({
+            index: i,
+            x: fragments.children[1].children[i].position.x,
+            y: fragments.children[1].children[i].position.y,
+            z: fragments.children[1].children[i].position.z})
+
+            .to({
+                x: fragments.children[1].children[i].position.x + -60 + Math.random()*120,
+                y: fragments.children[1].children[i].position.y + -60 + Math.random()*120,
+                z: -600
+
+            }, duration)
+            .easing(easing)
+            .delay(i * Math.random() * 20)
+            .onUpdate(function () {
+                fragments.children[1].children[this.index].position.x = this.x;
+                fragments.children[1].children[this.index].position.y = this.y;
+                fragments.children[1].children[this.index].position.z = this.z;
+            })
+        .start();
+    }
+
+    // Hide cube
+    fragments.children[0].material.opacity = 0;
+    fragments.children[0].scale.set(0, 0, 0);
 };
 
 Sequence2.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
@@ -156,13 +206,20 @@ var sequence2 = new Sequence2();
 /******************************
 * Add Sequences
 ******************************/
-
-sequence2.addEvent('00:14:15', sequence2.showCube, [sequence2.cube, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:14:00', sequence2.showCube, [sequence2.cubeGroup, 1, 1000, TWEEN.Easing.Quadratic.InOut]);
 
 // Fly through
-sequence2.addEvent('00:17:15', sequence2.rotateCube, [sequence2.cube, (sequence2.cube.rotation.x + 1080) * Math.PI/180, 16000, TWEEN.Easing.Quadratic.InOut]);
-sequence1.addEvent('00:17:15', sequence2.positionCube, [sequence2.cube, 200, 16000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:16:20', sequence2.cameraZoom, [sequence2.camera, 88, 5200, TWEEN.Easing.Quadratic.InOut, sequence2.cubeGroup]);
 
-sequence1.addEvent('00:17:15', sequence2.cameraZoom, [sequence1.camera, 210, 16000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:16:15', sequence2.positionCubeGroup, [sequence2.cubeGroup, 75, 5000, TWEEN.Easing.Quadratic.InOut]);
+sequence2.addEvent('00:16:17', sequence2.rotateCubeGroup, [sequence2.cubeGroup, 720 * Math.PI/180, 5500, TWEEN.Easing.Quadratic.InOut]);
 
-// sequences.push(sequence2);
+sequence2.addEvent('00:18:18', sequence2.explodeCube, [sequence2.cubeGroup, 3500, TWEEN.Easing.Quadratic.InOut]);
+
+
+var speaker = new Glitch ('GENEVIEVE BELL', -300, -50);
+
+sequence1.addEvent('00:18:00', function() {speaker.animateIn()});
+sequence1.addEvent('00:22:15', function() {speaker.animateOut()})
+
+sequences.push(sequence2);

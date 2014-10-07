@@ -14,8 +14,7 @@ Sequence1.prototype = new Sequence();
 Sequence1.prototype.init = function() {
     // Three.js
     this.scene = new THREE.Scene();
-    this.scene = new THREE.Scene();
-    this.scene.fog = new THREE.Fog(0x00000, 5, 30);
+    this.scene.fog = new THREE.Fog(0x00000, -10, 75);
 
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
 
@@ -127,51 +126,8 @@ var sequence1 = new Sequence1();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch('TOBIAS REVELL', 0, 0);
 
-sequence1.addEvent('00:01:00', function() {speaker.play();});
-
-/*var speaker2 = new Glitch('MATT WEBB', -300, -150);
-
-sequence1.addSequence('00:18:10', function() {speaker2.frame1();});
-sequence1.addSequence('00:18:13', function() {speaker2.frame2();});
-sequence1.addSequence('00:18:15', function() {speaker2.frame3();});
-sequence1.addSequence('00:18:17', function() {speaker2.frame4();});
-
-var speaker3 = new Glitch('GENEVIEVE BELL', 100, 200);
-sequence1.addSequence('00:26:10', function() {speaker3.frame1();});
-sequence1.addSequence('00:26:13', function() {speaker3.frame2();});
-sequence1.addSequence('00:26:15', function() {speaker3.frame3();});
-sequence1.addSequence('00:26:17', function() {speaker3.frame4();});
-
-var speaker4 = new Glitch('DAN HON', -300, 100);
-sequence1.addSequence('00:34:10', function() {speaker4.frame1();});
-sequence1.addSequence('00:34:13', function() {speaker4.frame2();});
-sequence1.addSequence('00:34:15', function() {speaker4.frame3();});
-sequence1.addSequence('00:34:17', function() {speaker4.frame4();});*/
-
-// Camera sequence
-sequence1.addEvent('00:02:00', sequence1.cameraZoom, [sequence1.camera, 15, 18000, TWEEN.Easing.Linear.None]);
-
-/*sequence1.addSequence('00:06:00', sequence1.cameraZoom, [sequence1.camera, 15, 0, null]);
-
-sequence1.addSequence('00:06:00', sequence1.cameraZoom, [sequence1.camera, 15 - 2, 4000, TWEEN.Easing.Linear.None]);
-sequence1.addSequence('00:10:00', sequence1.cameraZoom, [sequence1.camera, 8, 0, null]);
-
-sequence1.addSequence('00:10:00', sequence1.cameraZoom, [sequence1.camera, 8 - 1.5, 4000, TWEEN.Easing.Linear.None]);
-sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 5, 0, null]);
-
-sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 5 - 1, 4000, TWEEN.Easing.Linear.None]);*/
-
-
-
-// sequence1.addSequence('00:14:00', sequence1.cameraZoom, [sequence1.camera, 400 - 50, 4000, TWEEN.Easing.Linear.None]);
-// sequence1.addSequence('00:18:00', sequence1.cameraZoom, [sequence1.camera, 300, 0, null]);
-
-// sequence1.addSequence('00:17:00', sequence1.cameraZoom, [sequence1.camera, 1200 - 50, 500, TWEEN.Easing.Quadratic.InOut]);
-
-
-/*var lineSequence = [];
+var lineSequence = [];
 var lineSequences = [];
 
 for (var i=0; i<sequence1.numberOfLines; i++) {
@@ -188,31 +144,29 @@ for (var i=0; i<lineSequences.length; i++) {
     for (var j=0; j<lineSequences[i].length; j++) {
         for (var k=0; k<lineSequences[i][j].length; k++) {
             if (k == 0) {
-                sequence1.addSequence(pbtp.utilities.convertToTimecode(i*4 + 2), sequence1.drawHorizontalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
+                sequence1.addEvent(pbtp.utilities.convertToTimecode(i*2 + 2), sequence1.drawHorizontalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
             }
 
             else {
-                sequence1.addSequence(pbtp.utilities.convertToTimecode(i*4 + 2), sequence1.drawVerticalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
+                sequence1.addEvent(pbtp.utilities.convertToTimecode(i*2 + 2), sequence1.drawVerticalLine, [sequence1.lines[lineSequences[i][j][k]], sequence1.lineLength, 8000, TWEEN.Easing.Linear.None]);
             }
-
-            //console.log(lineSequences[i][j][k]);
         }
     }
-}*/
+}
 
 // Hide Lines
-/*for (var i=0; i<sequence1.lines.length; i++) {
+for (var i=0; i<sequence1.lines.length; i++) {
     // Vertical lines
     if (i < sequence1.numberOfLines) {
-        sequence1.addSequence('00:17:00', sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addEvent('00:16:00', sequence1.drawHorizontalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequence1.addSequence('00:17:00', sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequence1.addEvent('00:16:00', sequence1.drawVerticalLine, [sequence1.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
-*/
+
 /******************************
 * Add Sequences
 ******************************/

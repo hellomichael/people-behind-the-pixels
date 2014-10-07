@@ -75,6 +75,9 @@ var Glitch = function(speaker, x, y) {
     this.context.font = 'bold 25px "Futura"';
     this.context.textBaseline = 'middle';
 
+    this.glitchAudioIn = new Audio('shared/audio/glitch' + Math.round(Math.random() * 4 + 1) + '.mp3');
+    this.glitchAudioOut = new Audio('shared/audio/glitch' + Math.round(Math.random() * 4 + 1) + '.mp3');
+
     // Type dimensions
     this.metrics = this.context.measureText(this.speaker);
     this.width = Math.round(this.metrics.width);
@@ -108,6 +111,8 @@ Glitch.prototype = {
     },
 
     animateIn: function() {
+        this.glitchAudioIn.play();
+
         var that = this;
 
         new TWEEN.Tween({frame: 1})
@@ -125,6 +130,8 @@ Glitch.prototype = {
     },
 
     animateOut: function() {
+        this.glitchAudioOut.play();
+
         var that = this;
 
         new TWEEN.Tween({frame: 7})
