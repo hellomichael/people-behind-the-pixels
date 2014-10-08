@@ -2,6 +2,7 @@
     //= src/namespace.js
     //= src/utilities.js
     //= src/renderator.js
+    //= src/particulator.js
     //= src/audio.js
     //= src/glitch.js
 

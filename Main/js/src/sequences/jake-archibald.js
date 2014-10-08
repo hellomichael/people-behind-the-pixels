@@ -33,6 +33,9 @@ SequenceJakeArchibald.prototype.init = function() {
     this.directionalLight.position.set(0, -0.05, 0).normalize();
     this.scene.add(this.directionalLight);
 
+    this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
+    this.scene.add(this.particulator.pointCloud);
+
     // Camera Positioning
     this.camera.position.z = 10;
 
@@ -77,12 +80,12 @@ var sequenceJakeArchibald = new SequenceJakeArchibald();
 ******************************/
 var speaker = new Glitch ('JAKE ARCHIBALD', -50, 100);
 sequenceJakeArchibald.addEvent('00:02:00', function() {speaker.animateIn()});
-sequenceJakeArchibald.addEvent('00:06:00', function() {speaker.animateOut()})
+sequenceJakeArchibald.addEvent('00:07:00', function() {speaker.animateOut()})
 
 sequenceJakeArchibald.addEvent('00:00:00', sequenceJakeArchibald.rotateIcosahedron, [sequenceJakeArchibald.icosahedron, Util.toRadians(180), 30000, TWEEN.Easing.Exponential.Out]);
 sequenceJakeArchibald.addEvent('00:00:00', sequenceJakeArchibald.rotateIcosahedron, [sequenceJakeArchibald.icosahedron2, Util.toRadians(180), 30000, TWEEN.Easing.Exponential.Out]);
 
-sequenceJakeArchibald.addEvent('00:02:00', sequenceJakeArchibald.cameraMovement, [sequenceJakeArchibald.camera, false, 4, 2, -10, 3000, TWEEN.Easing.Exponential.InOut]);
+sequenceJakeArchibald.addEvent('00:02:00', sequenceJakeArchibald.cameraMovement, [sequenceJakeArchibald.camera, false, 5, 1.5, -9, 3000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add Sequences
