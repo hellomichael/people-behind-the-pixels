@@ -1,4 +1,4 @@
-pbtp.utilities = (function() {
+Util = (function() {
 	'use strict';
 
     /**
@@ -7,7 +7,7 @@ pbtp.utilities = (function() {
     * @param {Seconds}
     * @return {Timecode}
     */
-	var convertToTimecode = function(seconds) {
+	var toTimecode = function(seconds) {
         var min = Math.floor(seconds / 60);
         var sec =  Math.floor(seconds - min * 60);
         var milli = Math.floor((seconds - Math.floor(seconds)) * 30);
@@ -34,8 +34,8 @@ pbtp.utilities = (function() {
     * @param {Timecode}
     * @return {Seconds}
     */
-    var convertToSeconds = function(Timecode) {
-        var sec = Timecode.split(':');
+    var toSeconds = function(timecode) {
+        var sec = timecode.split(':');
 
         var minutes = parseInt(sec[0]);
         var seconds = parseInt(sec[1]);
@@ -44,8 +44,29 @@ pbtp.utilities = (function() {
         return (minutes * 60) + (seconds) + milliseconds/30;
     };
 
+    /**
+    * Converts Degrees to Radians
+    * @param {degree}
+    * @return {radians}
+    */
+    var toRadians = function(degree){
+        return degree * Math.PI/180;
+    };
+
+    /*
+        // Size of object in relation to screen width
+
+        /*var vFOV = camera.fov * Math.PI / 180; 
+        var ratio = 2 * Math.tan( vFOV / 2 );
+        var screen = ratio * (window.innerWidth / window.innerHeight) ; 
+        var size = getCompoundBoundingBox( object ).max.y;
+        var dist = (size/screen) / 4; 
+    */
+    
+
 	return {
-		convertToTimecode: convertToTimecode,
-        convertToSeconds: convertToSeconds
+		toTimecode: toTimecode,
+        toSeconds: toSeconds,
+        toRadians: toRadians
 	};
 }());

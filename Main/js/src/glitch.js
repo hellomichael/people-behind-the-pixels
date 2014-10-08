@@ -154,6 +154,8 @@ Glitch.prototype = {
 
         if (currentFrame === 1) {
             this.context.putImageData(this.clone, this.x, this.y);
+
+            $(this.canvas).css('-webkit-filter', 'blur(0px)');
         }
 
         else if (currentFrame === 2) {
@@ -178,6 +180,8 @@ Glitch.prototype = {
 
                 this.artifact6.move(0, 20);
                 this.artifact6.scale(1, 0.6);
+
+                $(this.canvas).css('-webkit-filter', 'blur(1px)');
             }
 
             else {
@@ -197,6 +201,8 @@ Glitch.prototype = {
 
                 this.artifact6.move(0, 20);
                 this.artifact6.scale(1, 0.6);
+
+                $(this.canvas).css('-webkit-filter', 'blur(2px)');
             }
 
             this.artifact1.draw();
@@ -213,6 +219,8 @@ Glitch.prototype = {
             this.artifact3.draw();
             this.artifact5.draw();
             this.artifact6.draw();
+
+            $(this.canvas).css('-webkit-filter', 'blur(0)');
         }
 
         else if (currentFrame === 4) {
@@ -241,6 +249,8 @@ Glitch.prototype = {
             this.artifact1.draw();
             this.artifact2.draw();
             this.artifact4.draw();
+
+            $(this.canvas).css('-webkit-filter', 'blur(2px)');
         }
 
         else if (currentFrame === 6) {
@@ -252,6 +262,8 @@ Glitch.prototype = {
 
         else if (currentFrame === 7) {
             this.context.putImageData(this.clone, this.x, this.y);
+
+            $(this.canvas).css('-webkit-filter', 'blur(0px)');
         }
 
         this.context.fill();

@@ -3,7 +3,7 @@ pbtp.audio = (function () {
 
     // Create audio context
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var context, source, gainNode, startTime, muted, seekTime;
+    var context, source, gainNode, startTime, muted, seekTime, effects;
 
 	var init = function (audioFile) {
         context = new AudioContext();
@@ -40,7 +40,7 @@ pbtp.audio = (function () {
 	};
 
     var seek = function (currentTime) {
-        seekTime = pbtp.utilities.convertToSeconds(currentTime);
+        seekTime = Util.toSeconds(currentTime);
 
         if (startTime) {
             source.stop();

@@ -1,38 +1,39 @@
-// PBTB includes
-//= src/namespace.js
-//= src/utilities.js
-//= src/audio.js
-//= src/glitch.js
-//= src/renderator.js
-//= src/sequence.js
-//= src/ring.js
-
-// Shader stuff
-//= src/shaders/CopyShader.js
-//= src/shaders/EffectComposer.js
-//= src/shaders/MaskPass.js
-//= src/shaders/ConvolutionShader.js
-//= src/shaders/BloomPass.js
-//= src/shaders/RenderPass.js
-//= src/shaders/ShaderPass.js
-//= src/shaders/FilmPass.js
-//= src/shaders/FilmShader.js
-//= src/shaders/FXAAShader.js
-//= src/shaders/BokehShader.js
-//= src/shaders/BokehPass.js
-
-
 // People Behind the Pixels
-var peopleBehindthePixels = (function () {
+    //= src/namespace.js
+    //= src/utilities.js
+    //= src/renderator.js
+    //= src/audio.js
+    //= src/glitch.js
 
+// Objects
+    //= src/objs/ring.js
+    //= src/objs/icosahedron.js
+
+// Shaders and Passes
+    //= src/shaders/CopyShader.js
+    //= src/shaders/EffectComposer.js
+    //= src/shaders/MaskPass.js
+    //= src/shaders/ConvolutionShader.js
+    //= src/shaders/BloomPass.js
+    //= src/shaders/RenderPass.js
+    //= src/shaders/ShaderPass.js
+    //= src/shaders/FilmPass.js
+    //= src/shaders/FilmShader.js
+    //= src/shaders/FXAAShader.js
+    //= src/shaders/BokehShader.js
+    //= src/shaders/BokehPass.js
+    //= src/shaders/HorizontalBlurShader.js
+    //= src/shaders/VerticalBlurShader.js
+    //= src/shaders/HorizontalTiltShiftShader.js
+    //= src/shaders/VerticalTiltShiftShader.js
+
+var peopleBehindthePixels = (function () {
     'use strict';
 
     var sequences = [];
-    var screenWidth, screenHeight;
     var renderator = new Renderator();
     var prevTimestamp;
     var $stats;
-
 
     // Initialisation
     var init = function (playtime) {
@@ -41,12 +42,19 @@ var peopleBehindthePixels = (function () {
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
+            //= src/sequences/sequence.js
 
-        //= src/sequence10.js
+            // src/sequences/tobias-rebell.js
+            // src/sequences/matt-webb.js
+            //= src/sequences/jake-archibald.js
+
+            // src/sequences/jeriamiah-lee.js
+            // src/sequences/bill-scott.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:10:00');
+        //pbtp.audio.seek('00:08:00');
+        //pbtp.audio.mute();
 
         mainLoop(0);
     };
@@ -78,7 +86,8 @@ var peopleBehindthePixels = (function () {
             sequences[i].play(currentTimeAudio);
         }
 
-        $stats.html(pbtp.utilities.convertToTimecode(currentTimeAudio));
+        // Add timecode to page
+        $stats.html(Util.toTimecode(currentTimeAudio));
     };
 
 
@@ -86,7 +95,3 @@ var peopleBehindthePixels = (function () {
         init: init
     };
 }());
-
-$(window).load(function() {
-    peopleBehindthePixels.init();
-});

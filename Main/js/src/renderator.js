@@ -18,14 +18,19 @@ var Renderator = function(scene, camera) {
 
     // Post-processing
     this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
-    this.bloomPass = new THREE.BloomPass(0.5, 25, 16, 256);
+    this.bloomPass = new THREE.BloomPass(0.6, 25, 16, 256);
     this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
+
+    this.hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
+    this.vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
+    this.bluriness = 5;
 
     // Default post-processing settings
     this.postRenderEnabled = true;
-    this.noiseEnabled = false; // Causes firefox/mac error
+    this.noiseEnabled = true;
     this.bloomEnabled = true;
     this.aaEnabled = true;
+    this.blurEnabled = true;
 
     // Set initial scene/camera
     this.composer = new THREE.EffectComposer(this.renderer);
@@ -42,7 +47,9 @@ Renderator.prototype.reset = function(scene, camera, postScene, postCamera) {
     if (postScene !== undefined) this.postScene = postScene;
     if (postCamera !== undefined) this.postCamera = postCamera;
 
+    // Setup effect composer and render pass
     this.composer = new THREE.EffectComposer(this.renderer, new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,format: THREE.RGBAFormat})); // Fix compositor noise
+
     this.renderPass = new THREE.RenderPass(this.scene, this.camera);
     this.composer.addPass(this.renderPass);
 
@@ -55,7 +62,7 @@ Renderator.prototype.reset = function(scene, camera, postScene, postCamera) {
 
     // Post-processing
     if (this.noiseEnabled) {
-        this.composer.addPass(this.noisePass);
+        this.composer.addPass(new THREE.FilmPass(0.7, 0.6, 1, true));
     }
 
     if (this.bloomEnabled)
@@ -70,6 +77,15 @@ Renderator.prototype.reset = function(scene, camera, postScene, postCamera) {
     var copyShader = new THREE.ShaderPass(THREE.CopyShader);
     copyShader.renderToScreen = true;
     this.composer.addPass(copyShader);
+
+    if (this.blurEnabled) {
+        this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
+        this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
+
+        this.composer.addPass( this.hblur );
+        this.vblur.renderToScreen = true;
+        this.composer.addPass( this.vblur );
+    }
 }
 
 
@@ -94,3 +110,11 @@ Renderator.prototype.onResize = function() {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.composer.setSize(window.innerWidth, window.innerHeight);
 }
+
+// Sequence base class
+var Sequence = function() {
+
+    this.events = [];
+    this.init();
+
+};

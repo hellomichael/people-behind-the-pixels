@@ -1,3 +1,5 @@
-$(function() {
+$(window).load(function() {
     'use strict';
+
+    peopleBehindthePixels.init();
 });
