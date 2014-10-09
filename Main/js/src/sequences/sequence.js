@@ -10,7 +10,7 @@ Sequence.prototype = {
     constructor: Sequence,
 
     init: function () {
-        
+
     },
 
     addEvent: function(timeCode, callback, args) {
@@ -56,7 +56,7 @@ Sequence.prototype = {
 
 Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing) {
     var pedestalTarget = camera.position.x + pedastal;
-    var dollyTarget = camera.position.y + dolly;
+    var dollyTarget = camera.position.y - dolly;
     var zoomTarget = camera.position.z + zoom;
 
     if (this.cameraTween) {
@@ -70,14 +70,12 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
             .easing(easing)
             .onUpdate(function () {
                 camera.position.x = this.pedestal;
-                camera.position.y = -this.dolly;
+                camera.position.y = this.dolly;
                 camera.position.z = this.zoom;
 
                 // Add look at object
                 if (object) {
-
-
-                    //camera.target.position.copy(object.position);
+                    camera.lookAt(object.position);
                 }
             })
         .start();
@@ -86,7 +84,9 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
     // Camera cut
     else {
         camera.position.x = pedestalTarget;
-        camera.position.y = -dollyTarget;
+        camera.position.y = dollyTarget;
         camera.position.z = zoomTarget;
+
+        camera.lookAt(object.position);
     }
 };

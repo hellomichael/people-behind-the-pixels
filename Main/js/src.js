@@ -9,6 +9,7 @@
 // Objects
     //= src/objs/ring.js
     //= src/objs/icosahedron.js
+    //= src/objs/asteroids.js
 
 // Shaders and Passes
     //= src/shaders/CopyShader.js
@@ -34,12 +35,11 @@ var peopleBehindthePixels = (function () {
     var sequences = [];
     var renderator = new Renderator();
     var prevTimestamp;
+    var delta;
     var $stats;
 
     // Initialisation
     var init = function (playtime) {
-        $stats = $('#stats');
-
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
@@ -47,15 +47,18 @@ var peopleBehindthePixels = (function () {
 
             // src/sequences/tobias-rebell.js
             // src/sequences/matt-webb.js
-            //= src/sequences/jake-archibald.js
+            // src/sequences/jake-archibald.js
 
             // src/sequences/jeriamiah-lee.js
-            // src/sequences/bill-scott.js
+            //= src/sequences/bill-scott.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
         //pbtp.audio.seek('00:08:00');
         //pbtp.audio.mute();
+
+        // Display Stats
+        $stats = $('#stats');
 
         mainLoop(0);
     };
@@ -63,9 +66,11 @@ var peopleBehindthePixels = (function () {
 
     var mainLoop = function(timestamp) {
         // Determine delta
-        if (timestamp == undefined)
+        if (timestamp == undefined) {
             prevTimestamp = timestamp = 0;
-        var delta = (timestamp - prevTimestamp) / 1000.0;
+        }
+
+        delta = (timestamp - prevTimestamp) / 1000.0;
         prevTimestamp = timestamp;
 
         // Updates

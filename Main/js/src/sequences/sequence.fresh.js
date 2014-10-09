@@ -18,7 +18,7 @@ SequenceSpeakerName.prototype.init = function() {
     renderator.reset(this.scene, this.camera);
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true}
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 

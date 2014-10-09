@@ -63,7 +63,7 @@ SequenceJeriamiahLee.prototype.rotateRing = function(ring, rotation, distance, d
 
     new TWEEN.Tween({opacity: 0, opacityHide: 1})
         .to({opacity: 0.25, opacityHide: 0}, 3000)
-        .delay(Math.random() * 3000 + 3000)
+        .delay(Math.random() * 3000 + 5000)
         .onUpdate(function (time) {
             ring.children[0].material.opacity = this.opacityHide;
             ring.children[1].material.opacity = this.opacityHide;
