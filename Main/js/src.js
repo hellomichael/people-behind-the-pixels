@@ -11,24 +11,6 @@
     //= src/objs/icosahedron.js
     //= src/objs/asteroids.js
 
-// Shaders and Passes
-    //= src/shaders/CopyShader.js
-    //= src/shaders/EffectComposer.js
-    //= src/shaders/MaskPass.js
-    //= src/shaders/ConvolutionShader.js
-    //= src/shaders/BloomPass.js
-    //= src/shaders/RenderPass.js
-    //= src/shaders/ShaderPass.js
-    //= src/shaders/FilmPass.js
-    //= src/shaders/FilmShader.js
-    //= src/shaders/FXAAShader.js
-    //= src/shaders/BokehShader.js
-    //= src/shaders/BokehPass.js
-    //= src/shaders/HorizontalBlurShader.js
-    //= src/shaders/VerticalBlurShader.js
-    //= src/shaders/HorizontalTiltShiftShader.js
-    //= src/shaders/VerticalTiltShiftShader.js
-
 var peopleBehindthePixels = (function () {
     'use strict';
 
@@ -43,19 +25,20 @@ var peopleBehindthePixels = (function () {
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
-            //= src/sequences/sequence.js
+            //= src/sequence.js
 
-            // src/sequences/tobias-rebell.js
-            // src/sequences/matt-webb.js
+            //= src/sequences/tobias-rebell.js
+            //= src/sequences/matt-webb.js
+
             // src/sequences/jake-archibald.js
 
             // src/sequences/jeriamiah-lee.js
-            //= src/sequences/bill-scott.js
+            // src/sequences/tom-armitage.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        //pbtp.audio.seek('00:08:00');
         //pbtp.audio.mute();
+        //pbtp.audio.seek('00:08:00');
 
         // Display Stats
         $stats = $('#stats');

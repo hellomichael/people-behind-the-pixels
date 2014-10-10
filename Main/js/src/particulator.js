@@ -1,10 +1,9 @@
-var Particulator = function(range, density, acceleration, texture, color, focusObject, size) {
+var Particulator = function(range, density, acceleration, texture, color, focusObject) {
 
     this.range = range;
     this.acceleration = acceleration;
     this.focusObject = focusObject;
     this.material = new THREE.PointCloudMaterial({
-        size: size,
         sizeAttenuation: true,
         map: texture,
         transparent: true,

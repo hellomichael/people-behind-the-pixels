@@ -1,96 +1,123 @@
-var Renderator = function(scene, camera) {
+// Shaders and Passes
+    //= shaders/EffectComposer.js
 
-    this.scene = scene;
-    this.camera = camera;
+    //= shaders/MaskPass.js
+    //= shaders/BloomPass.js
+    //= shaders/RenderPass.js
+    //= shaders/ShaderPass.js
+    //= shaders/FilmPass.js
+    //= shaders/BokehPass.js
 
+    //= shaders/CopyShader.js
+    //= shaders/FilmShader.js
+    //= shaders/FXAAShader.js
+    //= shaders/BokehShader.js
+    //= shaders/HorizontalBlurShader.js
+    //= shaders/VerticalBlurShader.js
+    //= shaders/HorizontalTiltShiftShader.js
+    //= shaders/VerticalTiltShiftShader.js
+    //= shaders/ConvolutionShader.js
+
+var Renderator = function(scene, camera, options) {
     // Initialise renderer/DOM element
     this.renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById('canvas'),
         alpha: true,
-        sortObjects: true,
+        antialias: false,
+        sortObjects: true
     });
+
+    this.scene = scene;
+    this.camera = camera;
+
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.autoClear = false;
     this.renderer.autoClearColour = false;
 
-    var context = this;
-    window.addEventListener('resize', function() { context.onResize(); });
+    // Set initial scene/camera
+    this.composer = new THREE.EffectComposer(this.renderer, new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,format: THREE.RGBAFormat}));
+
+    if (scene !== undefined && camera !== undefined) {
+        this.reset(scene, camera);
+    }
 
     // Post-processing
-    this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
-    this.bloomPass = new THREE.BloomPass(0.6, 25, 16, 256);
-    this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
-
+    this.bloomPass = new THREE.BloomPass(10, 10, 25, 256);
     this.hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
     this.vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
-    this.bluriness = 5;
+    this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
 
-    // Default post-processing settings
-    this.postRenderEnabled = true;
-    this.noiseEnabled = true;
-    this.bloomEnabled = true;
-    this.aaEnabled = true;
-    this.blurEnabled = true;
+    // Boolean options
+    this.postRenderEnabled = false;
+    this.bloomEnabled = false;
+    this.blurEnabled = false;
+    this.noiseEnabled = false; // Fucking noise don't work
 
-    // Set initial scene/camera
-    this.composer = new THREE.EffectComposer(this.renderer);
-    if (scene !== undefined && camera !== undefined)
-        this.reset(scene, camera);
+    // Resizing the window
+    var that = this;
+    window.addEventListener('resize', function() { that.onResize(); });
 }
 
 
-Renderator.prototype.reset = function(scene, camera, postScene, postCamera) {
-
+Renderator.prototype.reset = function(scene, camera, options) {
     // Update camera/scene (if provided)
     if (scene !== undefined) this.scene = scene;
     if (camera !== undefined) this.camera = camera;
-    if (postScene !== undefined) this.postScene = postScene;
-    if (postCamera !== undefined) this.postCamera = postCamera;
+
+    if (options) {
+        this.postRenderEnabled = options.postRenderEnabled || false;
+        this.bloomEnabled = options.bloomEnabled || false;
+        this.blurEnabled = options.blurEnabled || false;
+        this.noiseEnabled = options.noiseEnabled || false;
+    }
 
     // Setup effect composer and render pass
-    this.composer = new THREE.EffectComposer(this.renderer, new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,format: THREE.RGBAFormat})); // Fix compositor noise
+    this.composer = new THREE.EffectComposer(this.renderer, new THREE.WebGLRenderTarget(window.innerWidth, window.innerHeight, {minFilter: THREE.LinearFilter, magFilter: THREE.LinearFilter,format: THREE.RGBAFormat}));
 
-    this.renderPass = new THREE.RenderPass(this.scene, this.camera);
-    this.composer.addPass(this.renderPass);
-
-    // post render scene
-
-    if (this.postRenderEnabled && postScene && postCamera) {
-        this.postRenderPass = new THREE.RenderPass(this.postScene, this.postCamera);
-        // this.composer.addPass(this.postRenderPass);
-    }
+    this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
 
     // Post-processing
-    if (this.noiseEnabled) {
-        this.composer.addPass(new THREE.FilmPass(0.7, 0.6, 1, true));
+    if (this.postRenderEnabled) {
+        if (this.bloomEnabled) {
+            this.bloomPass.renderTargetX.format = THREE.RGBAFormat;
+            this.bloomPass.renderTargetY.format = THREE.RGBAFormat;
+
+            this.bloomPass.renderToScreen = false;
+            this.composer.addPass(this.bloomPass);
+        }
+
+        if (this.blurEnabled) {
+            this.bluriness = 3;
+            this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
+            this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
+
+            // Placement of shift
+            this.hblur.uniforms[ 'r' ].value = this.vblur.uniforms[ 'r' ].value = 0;
+
+            this.hblur.renderToScreen = false;
+            this.vblur.renderToScreen = false;
+
+            this.composer.addPass(this.hblur);
+            this.composer.addPass(this.vblur);
+        }
+
+        if (this.noiseEnabled) {
+            this.noisePass.renderToScreen = false;
+            this.composer.addPass(this.noisePass);
+        }
     }
 
-    if (this.bloomEnabled)
-        this.composer.addPass(this.bloomPass);
+    this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
+    this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+    this.composer.addPass(this.aaPass);
 
-    if (this.aaEnabled) {
-        this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
-        this.composer.addPass(this.aaPass);
-    }
-
-    // Copy pass (renders to screen)
-    var copyShader = new THREE.ShaderPass(THREE.CopyShader);
-    copyShader.renderToScreen = true;
-    this.composer.addPass(copyShader);
-
-    if (this.blurEnabled) {
-        this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
-        this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
-
-        this.composer.addPass( this.hblur );
-        this.vblur.renderToScreen = true;
-        this.composer.addPass( this.vblur );
-    }
+    this.copyShader = new THREE.ShaderPass(THREE.CopyShader);
+    this.copyShader.renderToScreen = true;
+    this.composer.addPass(this.copyShader);
 }
 
 
 Renderator.prototype.render = function(delta) {
-
     this.renderer.clear();
 
     if (this.composer)
@@ -99,22 +126,15 @@ Renderator.prototype.render = function(delta) {
 
 
 Renderator.prototype.onResize = function() {
-
     if (this.camera) {
         this.camera.aspect = window.innerWidth / window.innerHeight;
         this.camera.updateProjectionMatrix();
     }
 
+    this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
+    this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
     this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.composer.setSize(window.innerWidth, window.innerHeight);
 }
-
-// Sequence base class
-var Sequence = function() {
-
-    this.events = [];
-    this.init();
-
-};

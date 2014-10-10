@@ -17,7 +17,15 @@ SequenceTobiasRebell.prototype.init = function() {
     this.scene.fog = new THREE.Fog(0x00000, -10, 75);
 
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
-    renderator.reset(this.scene, this.camera);
+    renderator.reset(
+        this.scene,
+        this.camera,
+
+        { // Post-processing options
+            postRenderEnabled: true,
+            blurEnabled: true
+        }
+    );
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
@@ -180,6 +188,11 @@ for (var i=0; i<sequenceTobiasRebell.lines.length; i++) {
         sequenceTobiasRebell.addEvent('00:09:05', sequenceTobiasRebell.drawVerticalLine, [sequenceTobiasRebell.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
+
+
+sequenceTobiasRebell.addEvent('00:07:10', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 10, 100, TWEEN.Easing.Quadratic.InOut]);
+sequenceTobiasRebell.addEvent('00:18:00', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);
+
 
 var speaker = new Glitch ('TOBIAS REBELL', 300, 0);
 sequenceTobiasRebell.addEvent('00:04:00', function() {speaker.animateIn()});

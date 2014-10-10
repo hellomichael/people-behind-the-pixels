@@ -1,10 +1,7 @@
-
 // Sequence base class
 var Sequence = function() {
-
     this.events = [];
     this.init();
-
 };
 
 
@@ -12,10 +9,9 @@ Sequence.prototype = {
 
     constructor: Sequence,
 
-
     init: function () {
-    },
 
+    },
 
     addEvent: function(timeCode, callback, args) {
 
@@ -27,10 +23,9 @@ Sequence.prototype = {
         }
     },
 
-
     sortEvents: function() {
         var sortedSequence = _(this.events).sortBy(function(events){
-            return pbtp.utilities.convertToSeconds(events[0]);
+            return Util.toSeconds(events[0]);
         });
 
         this.events = sortedSequence;
@@ -41,13 +36,11 @@ Sequence.prototype = {
 
     },
 
-
     play: function(currentTime) {
-
         if (this.events.length) {
 
             // First element in the sequence is the keyframe
-            var timeCode = pbtp.utilities.convertToSeconds(this.events[0][0]);
+            var timeCode = Util.toSeconds(this.events[0][0]);
 
             // If the current time is the same time as the keyframe
             if (currentTime >= timeCode) {
@@ -60,46 +53,69 @@ Sequence.prototype = {
     }
 };
 
-Sequence.prototype.cameraMovement = function(camera, pedestal, dolly, zoom, duration, easing) {
+
+Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing) {
+    var pedestalTarget = camera.position.x + pedastal;
+    var dollyTarget = camera.position.y - dolly;
+    var zoomTarget = camera.position.z + zoom;
+
     if (this.cameraTween) {
         this.cameraTween.stop();
     }
 
-    // Tween
+    // Camera movement
     if (duration) {
         this.cameraTween = new TWEEN.Tween({pedestal: camera.position.x, dolly: camera.position.y, zoom: camera.position.z})
-            .to({pedestal: pedestal, dolly: dolly, zoom: zoom}, duration)
+            .to({pedestal: pedestalTarget, dolly: dollyTarget, zoom: zoomTarget}, duration)
             .easing(easing)
             .onUpdate(function () {
-                if (pedestal) {
-                    camera.position.x = this.pedestal;
-                }
+                camera.position.x = this.pedestal;
+                camera.position.y = this.dolly;
+                camera.position.z = this.zoom;
 
-                if (dolly) {
-                    camera.position.y = this.dolly;
-                }
-
-                if (zoom) {
-                    camera.position.z = this.zoom;
+                // Add look at object
+                if (object) {
+                    camera.lookAt(object.position);
                 }
             })
         .start();
     }
 
-    // Cut Scene
+    // Camera cut
     else {
-        if (pedestal) {
-            if (pedestal) {
-                camera.position.x = this.pedestal;
-            }
+        camera.position.x = pedestalTarget;
+        camera.position.y = dollyTarget;
+        camera.position.z = zoomTarget;
 
-            if (dolly) {
-                camera.position.y = this.dolly;
-            }
-
-            if (zoom) {
-                camera.position.z = this.zoom;
-            }
-        }
+        camera.lookAt(object.position);
     }
 };
+
+Sequence.prototype.pullFocus = function(renderator, position, blur, duration, easing) {
+    this.zoomAudio = new Audio('shared/audio/zoom.mp3');
+    this.zoomAudio.play();
+
+    if (renderator.blurEnabled) {
+        if (duration) {
+            this.cameraTween = new TWEEN.Tween({position: renderator.hblur.uniforms[ 'r' ].value, blur: renderator.bluriness})
+                .to({position: position, blur: blur}, duration)
+                .easing(easing)
+                .onUpdate(function () {
+                    renderator.hblur.uniforms[ 'r' ].value = renderator.vblur.uniforms[ 'r' ].value = this.position;
+
+                    renderator.bluriness = this.blur;
+                    renderator.hblur.uniforms['h'].value = renderator.bluriness/window.innerWidth;
+                    renderator.vblur.uniforms['v'].value = renderator.bluriness/window.innerHeight;
+                })
+            .start();
+        }
+
+        else {
+            renderator.hblur.uniforms[ 'r' ].value = renderator.vblur.uniforms[ 'r' ].value = this.position;
+
+            renderator.bluriness = this.blur;
+            renderator.hblur.uniforms['h'].value = renderator.bluriness/window.innerWidth;
+            renderator.vblur.uniforms['v'].value = renderator.bluriness/window.innerHeight;
+        }
+    }
+}

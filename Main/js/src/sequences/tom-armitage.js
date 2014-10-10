@@ -15,7 +15,15 @@ SequenceTomArmitage.prototype.init = function() {
     // Three.js
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 100);
-    renderator.reset(this.scene, this.camera);
+
+    renderator.reset(
+        this.scene,
+        this.camera,
+        { // Post-processing options
+            postRenderEnabled: true,
+            blurEnabled: true
+        }
+    );
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
@@ -102,24 +110,23 @@ var sequenceTomArmitage = new SequenceTomArmitage();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch ('TOM ARMITAGE', 0, -300);
+var speaker = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
 sequenceTomArmitage.addEvent('00:06:00', function() {speaker.animateIn()});
 sequenceTomArmitage.addEvent('00:12:00', function() {speaker.animateOut()})
 
 
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids1, Util.toRadians(0), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids2, Util.toRadians(180), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids3, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids4, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids5, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids1, Util.toRadians(0), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids2, Util.toRadians(180), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids3, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids4, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids5, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
 
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids6, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids7, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids8, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids6, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids7, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids8, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
 
 
-sequenceTomArmitage.addEvent('00:00:00', sequenceTomArmitage.cameraMovement, [sequenceTomArmitage.camera, sequenceTomArmitage.asteroids1, 15, -10, -75, 10000, TWEEN.Easing.Exponential.InOut]);
-/*sequenceTomArmitage.addEvent('00:10:00', sequenceTomArmitage.cameraMovement, [sequenceTomArmitage.camera, sequenceTomArmitage.asteroids1, 0, 0, 0, 0, TWEEN.Easing.Exponential.InOut]);*/
+sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.cameraMovement, [sequenceTomArmitage.camera, sequenceTomArmitage.asteroids1, 15, -10, -75, 10000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add Sequences
