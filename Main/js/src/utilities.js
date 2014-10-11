@@ -53,20 +53,34 @@ Util = (function() {
         return degree * Math.PI/180;
     };
 
-    /*
-        // Size of object in relation to screen width
-
-        /*var vFOV = camera.fov * Math.PI / 180; 
-        var ratio = 2 * Math.tan( vFOV / 2 );
-        var screen = ratio * (window.innerWidth / window.innerHeight) ; 
-        var size = getCompoundBoundingBox( object ).max.y;
-        var dist = (size/screen) / 4; 
+    /**
+    * Deep clone array w/ objects
+    * @param {degree}
+    * @return {radians}
     */
-    
+    var cloneArray = function(array){
+        return JSON.parse(JSON.stringify(array));
+    };
+
+    /**
+    * Converts Screen/Width into a Three.js unit, based on 1 unit squares
+    * @param {screen, width}
+    * (http://stackoverflow.com/questions/13350875/three-js-width-of-view/13351534#13351534)
+    */
+    var getScreenDimensions = function(camera){
+        var vFOV = Util.toRadians(camera.fov);
+        var aspect = window.innerWidth/window.innerHeight;
+        var screenHeight = 2 * Math.tan(vFOV/2) * (camera.position.z * 1.2); //1.1 is arbitrary
+        var screenWidth = screenHeight * aspect;
+
+        return [screenWidth, screenHeight];
+    };
 
 	return {
 		toTimecode: toTimecode,
         toSeconds: toSeconds,
-        toRadians: toRadians
+        toRadians: toRadians,
+        getScreenDimensions: getScreenDimensions,
+        cloneArray: cloneArray
 	};
 }());

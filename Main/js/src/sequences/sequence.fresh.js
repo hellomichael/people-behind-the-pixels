@@ -18,7 +18,7 @@ SequenceSpeakerName.prototype.init = function() {
     renderator.reset(this.scene, this.camera);
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true}
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true};
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 
@@ -38,14 +38,12 @@ SequenceSpeakerName.prototype.init = function() {
 /******************************
 * Add Animations
 ******************************/
-/*SequenceSpeakerName.prototype.rotateRing = function(ring, rotation, distance, duration, easing) {
-    new TWEEN.Tween({opacity: 0, opacityHide: 1})
-        .to({opacity: 0.5, opacityHide: 0}, duration/5)
-        .delay(duration/8)
+/*SequenceSpeakerName.prototype.animateSomething = function(object, opacity, duration, easing) {
+    new TWEEN.Tween({opacity: 0})
+        .to({opacity: opacity}, duration)
+        .delay(duration)
         .onUpdate(function (time) {
-            ring.children[0].material.opacity = this.opacityHide;
-            ring.children[1].material.opacity = this.opacityHide;
-            ring.children[2].material.opacity = this.opacity;
+            object.material.opacity = this.opacity;
         })
     .start();
 };*/
@@ -59,8 +57,8 @@ var sequenceSpeakerName = new SequenceSpeakerName();
 * Add Sequences
 ******************************/
 var speaker = new Glitch ('SPEAKER NAME', 0, 0);
-sequenceSpeakerName.addEvent('00:16:00', function() {speaker.animateIn()});
-sequenceSpeakerName.addEvent('00:22:00', function() {speaker.animateOut()})
+sequenceSpeakerName.addEvent('00:06:00', function() {speaker.animateIn()});
+sequenceSpeakerName.addEvent('00:12:00', function() {speaker.animateOut()})
 
 //sequenceSpeakerName.addEvent('00:10:00', sequenceSpeakerName.cameraMovement, [sequenceSpeakerName.camera, 13, 20000, TWEEN.Easing.Quadratic.InOut]);
 

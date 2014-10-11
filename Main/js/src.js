@@ -10,6 +10,7 @@
     //= src/objs/ring.js
     //= src/objs/icosahedron.js
     //= src/objs/asteroids.js
+    //= src/objs/dacrocyte.js
 
 var peopleBehindthePixels = (function () {
     'use strict';
@@ -27,17 +28,19 @@ var peopleBehindthePixels = (function () {
         // Import sequences
             //= src/sequence.js
 
-            //= src/sequences/tobias-rebell.js
-            //= src/sequences/matt-webb.js
+            // src/sequences/tobias-rebell.js
+            // src/sequences/matt-webb.js
 
             // src/sequences/jake-archibald.js
 
             // src/sequences/jeriamiah-lee.js
             // src/sequences/tom-armitage.js
 
+            //= src/sequences/jessica-hische.js
+
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        //pbtp.audio.mute();
+        pbtp.audio.mute();
         //pbtp.audio.seek('00:08:00');
 
         // Display Stats

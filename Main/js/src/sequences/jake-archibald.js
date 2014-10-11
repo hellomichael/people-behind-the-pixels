@@ -15,7 +15,11 @@ SequenceJakeArchibald.prototype.init = function() {
     // Three.js
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 50);
-    renderator.reset(this.scene, this.camera);
+    renderator.reset(this.scene, this.camera, { // Post-processing options
+            postRenderEnabled: true,
+            blurEnabled: true
+        }
+    );
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
@@ -39,17 +43,12 @@ SequenceJakeArchibald.prototype.init = function() {
     // Camera Positioning
     this.camera.position.z = 10;
 
-    // Calculate width/height of screen
-    // (http://stackoverflow.com/questions/13350875/three-js-width-of-view/13351534#13351534)
-    var vFOV = Util.toRadians(this.camera.fov);
-    var aspect = window.innerWidth/window.innerHeight;
+    this.dimensions = Util.getScreenDimensions(this.camera);
 
-    // Calculate edges of the screen
-    this.screenHeight = 2 * Math.tan(vFOV/2) * (this.camera.position.z - 0);
-    this.screenWidth = this.screenHeight * aspect;
+    console.log(this.dimensions);
 
     // Objects
-    this.icosahedron = new Icosahedron(this.screenWidth*0.4, this.screenHeight*0.5, 0, this.screenHeight/2);
+    this.icosahedron = new Icosahedron(this.dimensions[0]*0.4, this.dimensions[1]*0.5, 0, this.dimensions[1]/2);
     this.icosahedron2 = new Icosahedron(-10, -0.5, -15, 0.6);
 
     this.scene.add(this.icosahedron);
@@ -85,7 +84,7 @@ sequenceJakeArchibald.addEvent('00:07:00', function() {speaker.animateOut()})
 sequenceJakeArchibald.addEvent('00:00:00', sequenceJakeArchibald.rotateIcosahedron, [sequenceJakeArchibald.icosahedron, Util.toRadians(180), 30000, TWEEN.Easing.Exponential.Out]);
 sequenceJakeArchibald.addEvent('00:00:00', sequenceJakeArchibald.rotateIcosahedron, [sequenceJakeArchibald.icosahedron2, Util.toRadians(180), 30000, TWEEN.Easing.Exponential.Out]);
 
-sequenceJakeArchibald.addEvent('00:02:00', sequenceJakeArchibald.cameraMovement, [sequenceJakeArchibald.camera, false, 5, 1.5, -9, 3000, TWEEN.Easing.Exponential.InOut]);
+//sequenceJakeArchibald.addEvent('00:02:00', sequenceJakeArchibald.cameraMovement, [sequenceJakeArchibald.camera, false, 5, 1.5, -9, 3000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add Sequences

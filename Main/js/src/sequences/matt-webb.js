@@ -147,7 +147,7 @@ SequenceMattWebb.prototype.explodeCubeGroup = function(cubeGroup, duration, easi
     cube.visible = false;
     sphere.visible = true;
 
-    for (var i=0; i<fragments.children.length - 1; i++) {
+    for (var i=0; i<fragments.children.length; i++) {
         fragments.children[i].visible = true;
 
         new TWEEN.Tween({

@@ -189,9 +189,8 @@ for (var i=0; i<sequenceTobiasRebell.lines.length; i++) {
     }
 }
 
-
 sequenceTobiasRebell.addEvent('00:07:10', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 10, 100, TWEEN.Easing.Quadratic.InOut]);
-sequenceTobiasRebell.addEvent('00:18:00', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);
+sequenceTobiasRebell.addEvent('00:18:15', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);
 
 
 var speaker = new Glitch ('TOBIAS REBELL', 300, 0);
