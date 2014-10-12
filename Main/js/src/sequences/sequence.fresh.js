@@ -18,7 +18,7 @@ SequenceSpeakerName.prototype.init = function() {
     renderator.reset(this.scene, this.camera);
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true};
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 
@@ -41,7 +41,6 @@ SequenceSpeakerName.prototype.init = function() {
 /*SequenceSpeakerName.prototype.animateSomething = function(object, opacity, duration, easing) {
     new TWEEN.Tween({opacity: 0})
         .to({opacity: opacity}, duration)
-        .delay(duration)
         .onUpdate(function (time) {
             object.material.opacity = this.opacity;
         })
@@ -60,8 +59,7 @@ var speaker = new Glitch ('SPEAKER NAME', 0, 0);
 sequenceSpeakerName.addEvent('00:06:00', function() {speaker.animateIn()});
 sequenceSpeakerName.addEvent('00:12:00', function() {speaker.animateOut()})
 
-//sequenceSpeakerName.addEvent('00:10:00', sequenceSpeakerName.cameraMovement, [sequenceSpeakerName.camera, 13, 20000, TWEEN.Easing.Quadratic.InOut]);
-
+//sequenceJessicaHische.addEvent('00:02:15', sequenceJessicaHische.cameraMovement, [sequenceJessicaHische.camera, false, 110, 0, 0, 7700, TWEEN.Easing.Quadratic.InOut]);
 
 /******************************
 * Add Sequences

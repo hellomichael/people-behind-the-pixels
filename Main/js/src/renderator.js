@@ -92,7 +92,7 @@ Renderator.prototype.reset = function(scene, camera, options) {
             this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
 
             // Placement of shift
-            this.hblur.uniforms[ 'r' ].value = this.vblur.uniforms[ 'r' ].value = 0;
+            this.hblur.uniforms[ 'r' ].value = this.vblur.uniforms[ 'r' ].value = 0.5;
 
             this.hblur.renderToScreen = false;
             this.vblur.renderToScreen = false;

@@ -37,6 +37,7 @@ var peopleBehindthePixels = (function () {
             // src/sequences/tom-armitage.js
 
             //= src/sequences/jessica-hische.js
+            // src/sequences/erin-moore.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
