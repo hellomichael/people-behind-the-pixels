@@ -71,8 +71,8 @@ Renderator.prototype.reset = function(scene, camera, options) {
         this.blurEnabled = options.blurEnabled || false;
         this.aaEnabled = options.aaEnabled || false;
 
-        this.blurAmount = options.blueAmount || 0;
-        this.blurPosition = options.blurPosition || 0;
+        this.blurAmount = options.blurAmount || 0;
+        this.blurPosition = options.blurPosition || 0.5;
 
         this.noiseEnabled = options.noiseEnabled || false;
     }
@@ -93,7 +93,6 @@ Renderator.prototype.reset = function(scene, camera, options) {
         }
 
         if (this.blurEnabled) {
-            this.blurAmount = 3;
             this.hblur.uniforms['h'].value = this.blurAmount/window.innerWidth;
             this.vblur.uniforms['v'].value = this.blurAmount/window.innerHeight;
 

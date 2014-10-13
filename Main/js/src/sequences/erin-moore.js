@@ -18,7 +18,8 @@ SequenceErinMoore.prototype.init = function() {
     renderator.reset(this.scene, this.camera,
         {
             postRenderEnabled: true,
-            blurEnabled: true
+            blurEnabled: true,
+            blurAmount: 5
         }
     );
 
@@ -32,12 +33,18 @@ SequenceErinMoore.prototype.init = function() {
     this.directionalLight.position.set(100, 100, 100).normalize();
     this.scene.add(this.directionalLight);
 
+    this.ambientLight = new THREE.AmbientLight(0xAAAAAA);
+    this.scene.add(this.ambientLight);
+
+    this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
+    this.scene.add(this.particulator.pointCloud);
+
     // Camera Positioning
     this.camera.position.y = 10;
     this.camera.position.z = 0;
 
     // Objects
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 1), this.lightMaterial);
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), this.lightMaterial);
     this.cube.position.y = 0;
 
     this.cube.rotation.z = Util.toRadians(0);
@@ -75,12 +82,12 @@ var sequenceErinMoore = new SequenceErinMoore();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch ('SPEAKER NAME', 0, 0);
-/*sequenceErinMoore.addEvent('00:06:00', function() {speaker.animateIn()});
-sequenceErinMoore.addEvent('00:12:00', function() {speaker.animateOut()})*/
+var speaker = new Glitch ('ERIN MOORE', -115, -25);
+sequenceErinMoore.addEvent('00:04:00', function() {speaker.animateIn()});
+sequenceErinMoore.addEvent('00:08:00', function() {speaker.animateOut()})
 
-sequenceErinMoore.addEvent('00:01:00', sequenceErinMoore.pew, [sequenceErinMoore.cube, 100, 1000, TWEEN.Easing.Exponential.In]);
-//sequenceErinMoore.addEvent('00:01:00', sequenceErinMoore.pewRotate, [sequenceErinMoore.cube, 180, 20000, TWEEN.Easing.Linear.None]);
+sequenceErinMoore.addEvent('00:00:15', sequenceErinMoore.pew, [sequenceErinMoore.cube, 250, 1000, TWEEN.Easing.Exponential.In]);
+sequenceErinMoore.addEvent('00:01:00', sequenceErinMoore.pewRotate, [sequenceErinMoore.cube, 360, 20000, TWEEN.Easing.Linear.None]);
 sequenceErinMoore.addEvent('00:02:00', sequenceErinMoore.cameraMovement, [sequenceErinMoore.camera, false, -10, 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
