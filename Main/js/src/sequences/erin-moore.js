@@ -44,10 +44,11 @@ SequenceErinMoore.prototype.init = function() {
     this.camera.position.z = 0;
 
     // Objects
-    this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), this.lightMaterial);
-    this.cube.position.y = 0;
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 1), this.lightMaterial);
 
-    this.cube.rotation.z = Util.toRadians(0);
+
+    this.cube.rotation.y = Util.toRadians(0);
+    this.cube.position.y = 0;
 
     this.scene.add(this.cube);
 };
@@ -65,11 +66,12 @@ SequenceErinMoore.prototype.pew = function(cube, length, duration, easing) {
     .start();
 };
 
-SequenceErinMoore.prototype.pewRotate = function(cube, rotation, duration, easing) {
-    new TWEEN.Tween({rotation: cube.rotation.z})
-        .to({rotation: rotation}, duration)
-        .onUpdate(function () {
-            cube.rotation.z = Util.toRadians(this.rotation);
+SequenceErinMoore.prototype.pewRotate = function(cube, duration, easing) {
+    new TWEEN.Tween({rotateX: 0, rotateY: 0})
+        .to({rotateX: 15, rotateY: 45}, duration)
+        .onUpdate(function() {
+            cube.rotation.x = Util.toRadians(this.rotateX);
+            cube.rotation.y = Util.toRadians(this.rotateY);
         })
     .start();
 };
@@ -82,13 +84,14 @@ var sequenceErinMoore = new SequenceErinMoore();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch ('ERIN MOORE', -115, -25);
+var speaker = new Glitch ('ERIN MOORE', -300, -100);
 sequenceErinMoore.addEvent('00:04:00', function() {speaker.animateIn()});
-sequenceErinMoore.addEvent('00:08:00', function() {speaker.animateOut()})
+sequenceErinMoore.addEvent('00:09:00', function() {speaker.animateOut()})
 
 sequenceErinMoore.addEvent('00:00:15', sequenceErinMoore.pew, [sequenceErinMoore.cube, 250, 1000, TWEEN.Easing.Exponential.In]);
-sequenceErinMoore.addEvent('00:01:00', sequenceErinMoore.pewRotate, [sequenceErinMoore.cube, 360, 20000, TWEEN.Easing.Linear.None]);
-sequenceErinMoore.addEvent('00:02:00', sequenceErinMoore.cameraMovement, [sequenceErinMoore.camera, false, -10, 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+
+sequenceErinMoore.addEvent('00:00:20', sequenceErinMoore.pewRotate, [sequenceErinMoore.cube, 15000, TWEEN.Easing.Exponential.InOut]);
+sequenceErinMoore.addEvent('00:00:20', sequenceErinMoore.cameraMovement, [sequenceErinMoore.camera, false, -5, 5, 0, 15000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add Sequences
