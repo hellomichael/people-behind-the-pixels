@@ -41,6 +41,7 @@ SequenceSpeakerName.prototype.init = function() {
 /*SequenceSpeakerName.prototype.animateSomething = function(object, opacity, duration, easing) {
     new TWEEN.Tween({opacity: 0})
         .to({opacity: opacity}, duration)
+        .easing(easing)
         .onUpdate(function (time) {
             object.material.opacity = this.opacity;
         })

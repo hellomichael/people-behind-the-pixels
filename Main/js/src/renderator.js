@@ -52,6 +52,7 @@ var Renderator = function(scene, camera, options) {
     this.bloomEnabled = false;
     this.blurEnabled = false;
     this.noiseEnabled = false; // Fucking noise don't work
+    this.aaEnabled = false;
 
     // Resizing the window
     var that = this;
@@ -68,6 +69,11 @@ Renderator.prototype.reset = function(scene, camera, options) {
         this.postRenderEnabled = options.postRenderEnabled || false;
         this.bloomEnabled = options.bloomEnabled || false;
         this.blurEnabled = options.blurEnabled || false;
+        this.aaEnabled = options.aaEnabled || false;
+
+        this.blurAmount = options.blueAmount || 0;
+        this.blurPosition = options.blurPosition || 0;
+
         this.noiseEnabled = options.noiseEnabled || false;
     }
 
@@ -87,12 +93,12 @@ Renderator.prototype.reset = function(scene, camera, options) {
         }
 
         if (this.blurEnabled) {
-            this.bluriness = 3;
-            this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
-            this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
+            this.blurAmount = 3;
+            this.hblur.uniforms['h'].value = this.blurAmount/window.innerWidth;
+            this.vblur.uniforms['v'].value = this.blurAmount/window.innerHeight;
 
             // Placement of shift
-            this.hblur.uniforms[ 'r' ].value = this.vblur.uniforms[ 'r' ].value = 0.5;
+            this.hblur.uniforms[ 'r' ].value = this.vblur.uniforms[ 'r' ].value = this.blurPosition;
 
             this.hblur.renderToScreen = false;
             this.vblur.renderToScreen = false;
@@ -105,11 +111,13 @@ Renderator.prototype.reset = function(scene, camera, options) {
             this.noisePass.renderToScreen = false;
             this.composer.addPass(this.noisePass);
         }
-    }
 
-    this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
-    this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
-    this.composer.addPass(this.aaPass);
+        if (this.aaEnabled) {
+            this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
+            this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+            this.composer.addPass(this.aaPass);
+        }
+    }
 
     this.copyShader = new THREE.ShaderPass(THREE.CopyShader);
     this.copyShader.renderToScreen = true;
@@ -131,9 +139,14 @@ Renderator.prototype.onResize = function() {
         this.camera.updateProjectionMatrix();
     }
 
-    this.hblur.uniforms['h'].value = this.bluriness/window.innerWidth;
-    this.vblur.uniforms['v'].value = this.bluriness/window.innerHeight;
-    this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+    if (this.aaEnabled) {
+        this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+    }
+
+    if (this.blurEnabled) {
+        this.hblur.uniforms['h'].value = this.blurAmount/window.innerWidth;
+        this.vblur.uniforms['v'].value = this.blurAmount/window.innerHeight;
+    }
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.composer.setSize(window.innerWidth, window.innerHeight);

@@ -93,8 +93,8 @@ var Glitch = function(speaker, x, y) {
     this.clone = this.context.getImageData(0, 0, this.width, this.height);
     this.canvas.width = this.canvas.width;
 
-    var context = this;
-    window.addEventListener('resize', function() {context.onResize(x, y);});
+    var that = this;
+    window.addEventListener('resize', function() {that.onResize(x, y);});
 };
 
 Glitch.prototype = {
