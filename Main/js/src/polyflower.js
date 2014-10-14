@@ -130,6 +130,9 @@ Prism.prototype.open = function() {
 /*----------------------------------------------------------------------------*/
 
 
+// var alphaFadeTexture = THREE.ImageUtils.loadTexture("shared/img/alpha-fade.png");
+
+
 var Volume = function(upper, lower, height, backface, opacity) {
 	
 	this.upperTarget = upper || 1;
@@ -156,17 +159,9 @@ var Volume = function(upper, lower, height, backface, opacity) {
 	this.geometry.vertices.push(new THREE.Vector3(Math.cos(slice * 2) * this.lowerRadius, -this.hOffset, Math.sin(slice * 2) * this.lowerRadius));
 	this.geometry.vertices.push(new THREE.Vector3(Math.cos(slice * 3) * this.lowerRadius, -this.hOffset, Math.sin(slice * 3) * this.lowerRadius));
 
-	this.geometry.colors.push(new THREE.Color(0xffffff));
-	this.geometry.colors.push(new THREE.Color(0xffffff));
-	this.geometry.colors.push(new THREE.Color(0xffffff));
-
 	this.geometry.vertices.push(new THREE.Vector3(Math.cos(slice) * this.upperRadius, this.height, Math.sin(slice) * this.upperRadius));
 	this.geometry.vertices.push(new THREE.Vector3(Math.cos(slice * 2) * this.upperRadius, this.height, Math.sin(slice * 2) * this.upperRadius));
 	this.geometry.vertices.push(new THREE.Vector3(Math.cos(slice * 3) * this.upperRadius, this.height, Math.sin(slice * 3) * this.upperRadius));
-
-	this.geometry.colors.push(new THREE.Color(0x333333));
-	this.geometry.colors.push(new THREE.Color(0x333333));
-	this.geometry.colors.push(new THREE.Color(0x333333));
 
 	if (backface) {
 

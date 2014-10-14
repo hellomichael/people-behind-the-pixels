@@ -8,6 +8,7 @@
 //= src/polyflower.js
 //= src/emitter.js
 //= src/particulator.js
+//= src/hexgrid.js
 
 // Tools
 //= src/tools/OBJLoader.js
@@ -47,6 +48,12 @@ var peopleBehindthePixels = (function () {
         // Import sequences
         //= src/01-08-younghee-jung.js
         //= src/01-09-scott-thomas.js
+        // = src/01-15-sarah-mei.js
+        // = src/01-16-julio-cesar-ody.js
+        // = src/01-23-mark-dalgesh.js
+        // = src/01-26-paul-theriault.js
+
+
         // = src/animatic.js
         // = src/sequence1.js
         // = src/sequence2.js

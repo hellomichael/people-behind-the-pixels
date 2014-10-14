@@ -1,4 +1,6 @@
 
+var alphaFadeTexture = THREE.ImageUtils.loadTexture("shared/img/alpha-fade.png");
+
 
 var Speaker09 = function() {
 
@@ -27,7 +29,7 @@ var Speaker09 = function() {
 			if (rnd < 0.25) {
 				mesh = new THREE.Mesh(
 					new THREE.BoxGeometry(0.25, 0.25, 0.25), 
-					new THREE.MeshPhongMaterial({ color: color }));
+					new THREE.MeshPhongMaterial({ color: color, transparent: false, alphaMap: alphaFadeTexture }));
 			} else if (rnd < 0.5) {
 				mesh = new THREE.Mesh(
 					new THREE.CylinderGeometry(0.12, 0.12, 0.25, 16, 1), 
@@ -51,12 +53,12 @@ var Speaker09 = function() {
 		this.scene.add(this.group);
 
 		this.polyflower.group.remove(this.polyflower.volglow.group);
-		this.polyflower.volmain.material.transparent = true;
-		this.polyflower.volmain.material.opacity = 0.1;
-		this.polyflower.volmain.material.fog = true;		
+		// this.polyflower.volmain.material.transparent = true;
+		// this.polyflower.volmain.material.opacity = 0.1;
+		// this.polyflower.volmain.material.fog = true;		
 	});
 
-	// this.addEvent('00:04:15', function() { this.panUp(); });
+	this.addEvent('00:04:15', function() { this.panUp(); });
 };
 
 

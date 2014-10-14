@@ -46,10 +46,10 @@ Speaker08.prototype.init = function() {
 	var disc1 = THREE.ImageUtils.loadTexture("shared/img/disc.png");
 	var disc2 = THREE.ImageUtils.loadTexture("shared/img/disc2.png");
 
-	this.particulatorA = new Particulator(16, 500, new THREE.Vector3(0.05, 0.2, 0.08), disc1, new THREE.Color(0x662230), camera);
+	this.particulatorA = new Particulator(16, 500, new THREE.Vector3(0.05, 0.2, 0.08), disc1, new THREE.Color(0x662230), camera, 0.2);
 	scene.add(this.particulatorA.pointCloud);
 
-	this.particulatorB = new Particulator(16, 500, new THREE.Vector3(0.02, 0.2, -0.05), disc2, new THREE.Color(0x323240), camera);
+	this.particulatorB = new Particulator(16, 500, new THREE.Vector3(0.02, 0.2, -0.05), disc2, new THREE.Color(0x323240), camera, 0.2);
 	scene.add(this.particulatorB.pointCloud);
 
 	// members
