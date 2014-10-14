@@ -6,7 +6,6 @@ var Sequence = function() {
 
 
 Sequence.prototype = {
-
     constructor: Sequence,
 
     init: function () {
@@ -53,6 +52,16 @@ Sequence.prototype = {
     }
 };
 
+Sequence.prototype.nextScene = function(scene, camera, postRenderEnabled, blurEnabled, blurAmount, blurPosition) {
+    renderator.reset(scene, camera,
+        {
+            postRenderEnabled: postRenderEnabled,
+            blurEnabled: blurEnabled,
+            blurAmount: blurAmount,
+            blurPosition: blurPosition
+        }
+    );
+}
 
 Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing) {
     var pedestalTarget = camera.position.x + pedastal;

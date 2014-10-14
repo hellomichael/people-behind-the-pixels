@@ -15,14 +15,6 @@ SequenceJessicaHische.prototype.init = function() {
     // Three.js
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
-    renderator.reset(this.scene, this.camera,
-        {
-            postRenderEnabled: true,
-            blurEnabled: true,
-            blurAmount: 3,
-            blurPosition: 0.75
-        }
-    );
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true});
@@ -31,8 +23,8 @@ SequenceJessicaHische.prototype.init = function() {
     this.camera.position.z = 10;
     this.screenDimensions = Util.getScreenDimensions(this.camera);
 
-    this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
-    this.scene.add(this.particulator.pointCloud);
+    /*this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
+    this.scene.add(this.particulator.pointCloud);*/
 
     var offsetX = -5;
 
@@ -91,15 +83,17 @@ var sequenceJessicaHische = new SequenceJessicaHische();
 /******************************
 * Add Sequences
 ******************************/
-var speaker = new Glitch ('JESSICA HISCHE', 150, -10);
-sequenceJessicaHische.addEvent('00:00:15', function() {speaker.animateIn()});
-sequenceJessicaHische.addEvent('00:06:00', function() {speaker.animateOut()})
+sequenceJessicaHische.addEvent('00:29:15', sequenceJessicaHische.nextScene, [sequenceJessicaHische.scene, sequenceJessicaHische.camera, true, true, 2, 0.75]);
 
-sequenceJessicaHische.addEvent('00:00:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte1, 8600, TWEEN.Easing.Quadratic.InOut]);
-sequenceJessicaHische.addEvent('00:00:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte2, 7000, TWEEN.Easing.Quadratic.InOut]);
-sequenceJessicaHische.addEvent('00:00:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte3, 5000, TWEEN.Easing.Quadratic.InOut]);
+sequenceJessicaHische.addEvent('00:29:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte1, 7500, TWEEN.Easing.Quadratic.InOut]);
+sequenceJessicaHische.addEvent('00:29:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte2, 5900, TWEEN.Easing.Quadratic.InOut]);
+sequenceJessicaHische.addEvent('00:29:15', sequenceJessicaHische.drawLine, [sequenceJessicaHische.dacrocyte3, 4000, TWEEN.Easing.Quadratic.InOut]);
 
-sequenceJessicaHische.addEvent('00:02:15', sequenceJessicaHische.cameraMovement, [sequenceJessicaHische.camera, false, 110, 0, 0, 7700, TWEEN.Easing.Quadratic.InOut]);
+sequenceJessicaHische.addEvent('00:31:15', sequenceJessicaHische.cameraMovement, [sequenceJessicaHische.camera, false, 110, 0, 0, 5900, TWEEN.Easing.Quadratic.InOut]);
+
+var jessicaHische = new Glitch ('JESSICA HISCHE', 150, -10);
+sequenceJessicaHische.addEvent('00:31:15', function() {jessicaHische.animateIn()});
+sequenceJessicaHische.addEvent('00:35:15', function() {jessicaHische.animateOut()})
 
 /******************************
 * Add Sequences

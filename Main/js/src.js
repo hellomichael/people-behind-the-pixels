@@ -37,15 +37,15 @@ var peopleBehindthePixels = (function () {
             // src/sequences/tom-armitage.js
 
             //= src/sequences/jessica-hische.js
-            // src/sequences/erin-moore.js
+            //= src/sequences/erin-moore.js
 
             // src/sequences/sarah-mei.js
 
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.mute();
-        //pbtp.audio.seek('00:08:00');
+        //pbtp.audio.mute();
+        pbtp.audio.seek('00:28:00');
 
         // Display Stats
         $stats = $('#stats');
