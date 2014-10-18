@@ -139,6 +139,7 @@ Renderator.prototype.onResize = function() {
     }
 
     if (this.aaEnabled) {
+        this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
         this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
     }
 

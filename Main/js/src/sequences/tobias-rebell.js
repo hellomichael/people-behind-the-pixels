@@ -27,7 +27,6 @@ SequenceTR.prototype.init = function() {
             blurPosition            : 0.75,
 
             bloomEnabled            : false,
-            noiseEnabled            : false,
             aaEnabled               : false
         }
     );

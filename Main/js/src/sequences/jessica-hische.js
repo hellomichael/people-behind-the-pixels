@@ -27,7 +27,6 @@ SequenceJH.prototype.init = function() {
             blurPosition            : false,
 
             bloomEnabled            : false,
-            noiseEnabled            : false,
             aaEnabled               : false
         }
     );

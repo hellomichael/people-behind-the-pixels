@@ -9,6 +9,7 @@
 // Objects
     //= src/objs/TriangleGeometry.js
     //= src/objs/TetrahedronMesh.js
+    //= src/objs/TetrahedronEdge.js
     //= src/objs/RingMesh.js
     //= src/objs/AsteroidsMesh.js
     //= src/objs/IcosahedronMesh.js
@@ -38,15 +39,17 @@ var peopleBehindthePixels = (function () {
             // src/sequences/jeriamiah-lee.js
             // src/sequences/tom-armitage.js
 
-            //= src/sequences/jessica-hische.js
-            //= src/sequences/erin-moore.js
+            // src/sequences/jessica-hische.js
+            // src/sequences/erin-moore.js
 
             // src/sequences/sarah-mei.js
-            // src/sequences/younghee-jung.js
+
+            //= src/sequences/jonny-mack.js
+            //= src/sequences/younghee-jung.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:28:00');
+        pbtp.audio.seek('00:00:00');
         pbtp.audio.mute();
 
         // Speakers
