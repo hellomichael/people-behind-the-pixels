@@ -1,17 +1,14 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var sequenceSarahMei = function() {
+var sequenceSM = function() {
     this.sequence = [];
     this.init();
 };
 
-sequenceSarahMei.prototype = new Sequence();
+sequenceSM.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-sequenceSarahMei.prototype.init = function() {
+sequenceSM.prototype.init = function() {
     // Screen size
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
@@ -39,9 +36,9 @@ sequenceSarahMei.prototype.init = function() {
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-sequenceSarahMei.prototype.vennDiagramIn = function(duration, easing) {
+sequenceSM.prototype.vennDiagramIn = function(duration, easing) {
     var that = this;
 
     if (this.tween) {
@@ -65,7 +62,7 @@ sequenceSarahMei.prototype.vennDiagramIn = function(duration, easing) {
     .start();
 };
 
-sequenceSarahMei.prototype.vennDiagramOut = function(duration, easing) {
+sequenceSM.prototype.vennDiagramOut = function(duration, easing) {
     var that = this;
 
     if (this.tween) {
@@ -82,7 +79,7 @@ sequenceSarahMei.prototype.vennDiagramOut = function(duration, easing) {
     .start();
 };
 
-sequenceSarahMei.prototype.draw = function(distance, position, opacity) {
+sequenceSM.prototype.draw = function(distance, position, opacity) {
     this.context.globalAlpha = opacity;
 
     // Clear canvas
@@ -104,21 +101,24 @@ sequenceSarahMei.prototype.draw = function(distance, position, opacity) {
 }
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceSarahMei = new sequenceSarahMei();
+var sequenceSM = new sequenceSM();
+
+var glitchSM = new Glitch ('SARAH MEI', -375, 0);
+sequenceSM.addEvent('00:02:00', function() {glitchSM.animateIn()});
+sequenceSM.addEvent('00:06:15', function() {glitchSM.animateOut()});
+
+sequenceSM.addEvent('00:01:15', function () {
+    sequenceSM.vennDiagramIn(20000, TWEEN.Easing.Deceleration.InOut);
+});
+
+sequenceSM.addEvent('00:05:15', function () {
+    sequenceSM.vennDiagramOut(20000, TWEEN.Easing.Deceleration.InOut);
+});
+
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-var speaker = new Glitch ('SARAH MEI', -375, 0);
-sequenceSarahMei.addEvent('00:02:00', function() {speaker.animateIn()});
-sequenceSarahMei.addEvent('00:06:15', function() {speaker.animateOut()});
-
-sequenceSarahMei.addEvent('00:01:15', sequenceSarahMei.vennDiagramIn, [20000, TWEEN.Easing.Deceleration.InOut]);
-sequenceSarahMei.addEvent('00:05:15', sequenceSarahMei.vennDiagramOut, [20000, TWEEN.Easing.Deceleration.InOut]);
-
-/******************************
-* Add Sequences
-******************************/
-sequences.push(sequenceSarahMei);
+timeline.push(sequenceSM);

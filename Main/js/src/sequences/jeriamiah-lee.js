@@ -1,24 +1,38 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceJeriamiahLee = function() {
+var SequenceJL = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceJeriamiahLee.prototype = new Sequence();
+SequenceJL.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-SequenceJeriamiahLee.prototype.init = function() {
-    // Three.js
+SequenceJL.prototype.init = function() {
+    // Scene
     this.scene = new THREE.Scene();
+
+    // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
-    renderator.reset(this.scene, this.camera);
+    this.camera.position.z = 10;
+
+    // Renderator
+    renderator.reset(this.scene, this.camera,
+        {
+            postProcessEnabled      : true,
+
+            blurEnabled             : true,
+            blurAmount              : false,
+            blurPosition            : false,
+
+            bloomEnabled            : false,
+            noiseEnabled            : false,
+            aaEnabled               : false
+        }
+    );
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
+    this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 
@@ -27,14 +41,14 @@ SequenceJeriamiahLee.prototype.init = function() {
     this.directionalLight.position.set(100, 100, 100).normalize();
     this.scene.add(this.directionalLight);
 
-    // Camera Positioning
-    this.camera.position.z = 10;
-
-    this.ring1 = new Ring(0, 0, 5, 3);
-    this.ring2 = new Ring(0, 0, 5, 3);
-    this.ring3 = new Ring(0, 0, 5, 3);
-    this.ring4 = new Ring(0, 0, 5, 3);
-    this.ring5 = new Ring(0, 0, 5, 3);
+    /******************************
+    * Add Objects
+    ******************************/
+    this.ring1 = new RingMesh(0, 0, 5, 3);
+    this.ring2 = new RingMesh(0, 0, 5, 3);
+    this.ring3 = new RingMesh(0, 0, 5, 3);
+    this.ring4 = new RingMesh(0, 0, 5, 3);
+    this.ring5 = new RingMesh(0, 0, 5, 3);
 
     this.scene.add(this.ring1);
     this.scene.add(this.ring2);
@@ -44,9 +58,9 @@ SequenceJeriamiahLee.prototype.init = function() {
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-SequenceJeriamiahLee.prototype.rotateRing = function(ring, rotation, distance, duration, easing) {
+SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, easing) {
     new TWEEN.Tween({rotation: 0})
         .to({rotation: rotation}, duration)
         .easing(easing)
@@ -73,26 +87,40 @@ SequenceJeriamiahLee.prototype.rotateRing = function(ring, rotation, distance, d
 };
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceJeriamiahLee = new SequenceJeriamiahLee();
+var sequenceJL = new SequenceJL();
+
+var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
+sequenceJL.addEvent('00:06:00', function() {glitchJL.animateIn()});
+sequenceJL.addEvent('00:11:00', function() {glitchJL.animateOut()});
+
+sequenceJL.addEvent('00:00:01', function() {
+    sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 2048), 0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceJL.addEvent('00:00:05', function() {
+    sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceJL.addEvent('00:00:10', function() {
+    sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 2048), 0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceJL.addEvent('00:00:15', function() {
+    sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -2048), -0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceJL.addEvent('00:00:05', function() {
+    sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+});
+
+
+sequenceJL.addEvent('00:00:01', function() {
+    sequenceJL.cameraMovement(sequenceJL.camera, false, 0, 0, -1.5, 15000, TWEEN.Easing.Quadratic.InOut);
+});
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-var speaker = new Glitch ('JERIAMIAH LEE', 0, 0);
-sequenceJeriamiahLee.addEvent('00:06:00', function() {speaker.animateIn()});
-sequenceJeriamiahLee.addEvent('00:11:00', function() {speaker.animateOut()})
-
-sequenceJeriamiahLee.addEvent('00:00:01', sequenceJeriamiahLee.rotateRing, [sequenceJeriamiahLee.ring1, Util.toRadians(Math.random() * 2048), 0.2, 10000, TWEEN.Easing.Quadratic.InOut]);
-sequenceJeriamiahLee.addEvent('00:00:05', sequenceJeriamiahLee.rotateRing, [sequenceJeriamiahLee.ring2, Util.toRadians(Math.random() * -2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut]);
-sequenceJeriamiahLee.addEvent('00:00:10', sequenceJeriamiahLee.rotateRing, [sequenceJeriamiahLee.ring3, Util.toRadians(Math.random() * 2048), 0.25, 10000, TWEEN.Easing.Quadratic.InOut]);
-sequenceJeriamiahLee.addEvent('00:00:15', sequenceJeriamiahLee.rotateRing, [sequenceJeriamiahLee.ring4, Util.toRadians(Math.random() * -2048), -0.25, 10000, TWEEN.Easing.Quadratic.InOut]);
-sequenceJeriamiahLee.addEvent('00:00:05', sequenceJeriamiahLee.rotateRing, [sequenceJeriamiahLee.ring5, Util.toRadians(Math.random() * 2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut]);
-
-sequenceJeriamiahLee.addEvent('00:00:01', sequenceJeriamiahLee.cameraMovement, [sequenceJeriamiahLee.camera, false, 0, 0, -1.5, 15000, TWEEN.Easing.Quadratic.InOut]);
-
-/******************************
-* Add Sequences
-******************************/
-sequences.push(sequenceJeriamiahLee);
+timeline.push(sequenceJL);

@@ -66,15 +66,6 @@ module.exports = function (grunt) {
                     spawn: false
                 }
             },
-            audio: {
-                files: [
-                    '<%= settings.src %>/audio/**/*.{mp3,wav}',
-                ],
-                tasks: ['copy:audio'],
-                options: {
-                    spawn: false
-                }
-            },
             images: {
                 files: [
                     '<%= settings.src %>/img/**/*.{png,jpg,gif}',
@@ -281,7 +272,7 @@ module.exports = function (grunt) {
                     cwd: '<%= settings.src %>/audio',
                     dest: '<%= settings.dist %>/shared/audio/',
                     src: [
-                        '**/*' // copy all font types within font directory
+                        '**/*' // copy all audio
                     ]
                 }]
             },
@@ -290,9 +281,9 @@ module.exports = function (grunt) {
                     expand: true,
                     dot: true,
                     cwd: '<%= settings.src %>/js/src/objs',
-                    dest: '<%= settings.dist %>/shared/js/objs',
+                    dest: '<%= settings.dist %>/shared/js/objs/',
                     src: [
-                        '**/*' // copy all font types within font directory
+                        '**/*' // copy all objects
                     ]
                 }]
             },

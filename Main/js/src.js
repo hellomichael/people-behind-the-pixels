@@ -7,18 +7,21 @@
     //= src/glitch.js
 
 // Objects
-    //= src/objs/ring.js
-    //= src/objs/icosahedron.js
-    //= src/objs/asteroids.js
-    //= src/objs/dacrocyte.js
+    //= src/objs/TriangleGeometry.js
+    //= src/objs/TetrahedronMesh.js
+    //= src/objs/RingMesh.js
+    //= src/objs/AsteroidsMesh.js
+    //= src/objs/IcosahedronMesh.js
+    //= src/objs/DacrocyteLine.js
 
 var peopleBehindthePixels = (function () {
     'use strict';
 
-    var sequences = [];
+    var timeline = [];
     var renderator = new Renderator();
     var prevTimestamp;
     var delta;
+    var speakers;
     var $stats;
 
     // Initialisation
@@ -32,7 +35,6 @@ var peopleBehindthePixels = (function () {
             // src/sequences/matt-webb.js
 
             // src/sequences/jake-archibald.js
-
             // src/sequences/jeriamiah-lee.js
             // src/sequences/tom-armitage.js
 
@@ -40,12 +42,40 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/erin-moore.js
 
             // src/sequences/sarah-mei.js
-
+            // src/sequences/younghee-jung.js
 
         // Load audio
         pbtp.audio.init('shared/audio/music.mp3');
-        //pbtp.audio.mute();
         pbtp.audio.seek('00:28:00');
+        pbtp.audio.mute();
+
+        // Speakers
+        speakers = [
+            'TOBIAS REVELL',
+            'MATT WEBB',
+            'GENEVIEVE BELL',
+            'DAN HON',
+            'JONATHON COLMAN',
+            'JONNY MACK',
+            'YOUNGHEE JUNG',
+            'SCOTT THOMAS',
+            'DOUGLAS BOWMAN',
+            'TOM ARMITAGE',
+            'JESSICA HISCHE',
+            'ERIN MOORE',
+            'JAKE ARCHIBALD',
+            'JEREMIAH LEE',
+            'SARAH MEI',
+            'JULIO CESAR ODY',
+            'GUY PODJARNY',
+            'KATIE MILLER',
+            'BILL SCOTT',
+            'EMILY NAKASHIMA',
+            'SARAH MADDOX',
+            'MARK DALGLEISH',
+            'HADI MICHAEL',
+            'PAUL THERIAULT'
+        ];
 
         // Display Stats
         $stats = $('#stats');
@@ -77,9 +107,9 @@ var peopleBehindthePixels = (function () {
 
     var updateSequence = function (currentTimeAudio, delta) {
         // Refactor to only play one scene at a time
-        for (var i = 0; i < sequences.length; i++) {
-            sequences[i].update(delta);
-            sequences[i].play(currentTimeAudio);
+        for (var i = 0; i < timeline.length; i++) {
+            timeline[i].update(delta);
+            timeline[i].play(currentTimeAudio);
         }
 
         // Add timecode to page

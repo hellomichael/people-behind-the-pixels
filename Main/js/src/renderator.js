@@ -48,7 +48,7 @@ var Renderator = function(scene, camera, options) {
     this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
 
     // Boolean options
-    this.postRenderEnabled = false;
+    this.postProcessEnabled = false;
     this.bloomEnabled = false;
     this.blurEnabled = false;
     this.noiseEnabled = false; // Fucking noise don't work
@@ -66,7 +66,7 @@ Renderator.prototype.reset = function(scene, camera, options) {
     if (camera !== undefined) this.camera = camera;
 
     if (options) {
-        this.postRenderEnabled = options.postRenderEnabled || false;
+        this.postProcessEnabled = options.postProcessEnabled || false;
         this.bloomEnabled = options.bloomEnabled || false;
         this.blurEnabled = options.blurEnabled || false;
         this.aaEnabled = options.aaEnabled || false;
@@ -83,7 +83,7 @@ Renderator.prototype.reset = function(scene, camera, options) {
     this.composer.addPass(new THREE.RenderPass(this.scene, this.camera));
 
     // Post-processing
-    if (this.postRenderEnabled) {
+    if (this.postProcessEnabled) {
         if (this.bloomEnabled) {
             this.bloomPass.renderTargetX.format = THREE.RGBAFormat;
             this.bloomPass.renderTargetY.format = THREE.RGBAFormat;

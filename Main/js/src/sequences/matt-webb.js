@@ -1,41 +1,38 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceMattWebb = function() {
+var SequenceMW = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceMattWebb.prototype = new Sequence();
+SequenceMW.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-SequenceMattWebb.prototype.init = function() {
+SequenceMW.prototype.init = function() {
     // Previous scene objects being reused
-    this.scene = sequenceTobiasRebell.scene;
+    this.scene = sequenceTR.scene;
 
     // Audio
     this.spaceAudio = new Audio('shared/audio/space.mp3');
     this.rocksAudio = new Audio('shared/audio/rocks.mp3');
 
     // Materials
-    //this.cubeMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 0, transparent: true});
+    this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x999999, opacity: 1, transparent: true, side: THREE.DoubleSide});
+    this.lightMaterial = new THREE.MeshLambertMaterial({color: 0x999999, opacity: 0, transparent: true, side: THREE.DoubleSide});
 
-    this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
-    this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
-    this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 0, transparent: true});
-
-    // Group
+    /******************************
+    * Add Objects
+    ******************************/
+    // Cube Group
     this.cubeGroup = new THREE.Object3D();
 
     // Cube
-    this.cubeDimensions = sequenceTobiasRebell.cubeDimensions;
+    this.cubeDimensions = sequenceTR.cubeDimensions;
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.lightMaterial);
     this.cubeGroup.add(this.cube);
 
     // Sphere
-    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 10, 10), this.lightMaterial);
+    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 300, 300), this.lightMaterial);
     this.sphere.visible = false;
     this.cubeGroup.add(this.sphere);
 
@@ -43,7 +40,7 @@ SequenceMattWebb.prototype.init = function() {
     var loader = new THREE.objLoader();
     var that = this; //cache
 
-    loader.load("shared/js/objs/fragments.obj", function (obj) {
+    loader.load("shared/js/objs/Fragments.obj", function (obj) {
         that.fragments = obj;
         that.fragments.scale.set(0.5, 0.5, 0.5);
 
@@ -72,14 +69,14 @@ SequenceMattWebb.prototype.init = function() {
     this.grid.add(this.cubeGroup);
 
     // Camera
-    this.camera = sequenceTobiasRebell.camera;
+    this.camera = sequenceTR.camera;
     this.scene.add(this.grid);
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-SequenceMattWebb.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
+SequenceMW.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
     var cube = cubeGroup.children[0];
     var sphere = cubeGroup.children[1];
 
@@ -93,7 +90,7 @@ SequenceMattWebb.prototype.showCube = function(cubeGroup, opacity, duration, eas
     .start();
 };
 
-SequenceMattWebb.prototype.positionCubeGroup = function(cubeGroup, position, duration, easing) {
+SequenceMW.prototype.positionCubeGroup = function(cubeGroup, position, duration, easing) {
     this.spaceAudio.play();
 
     var cubeGroupTarget = cubeGroup.position.z + position;
@@ -107,7 +104,7 @@ SequenceMattWebb.prototype.positionCubeGroup = function(cubeGroup, position, dur
         .start();
 };
 
-SequenceMattWebb.prototype.rotateCubeGroup = function(cubeGroup, rotation, duration, easing) {
+SequenceMW.prototype.rotateCubeGroup = function(cubeGroup, rotation, duration, easing) {
     var cube = cubeGroup.children[0];
     var fragments = cubeGroup.children[2];
 
@@ -136,7 +133,7 @@ SequenceMattWebb.prototype.rotateCubeGroup = function(cubeGroup, rotation, durat
     }
 };
 
-SequenceMattWebb.prototype.explodeCubeGroup = function(cubeGroup, duration, easing) {
+SequenceMW.prototype.explodeCubeGroup = function(cubeGroup, duration, easing) {
     this.rocksAudio.play();
 
     var cube = cubeGroup.children[0];
@@ -173,7 +170,7 @@ SequenceMattWebb.prototype.explodeCubeGroup = function(cubeGroup, duration, easi
     }
 };
 
-SequenceMattWebb.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
+SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
     if (sides === undefined || sides < 2) sides = 2;
     if (radius === undefined) radius = 1;
     if (linewidth === undefined) linewidth = radius * 0.1;
@@ -216,26 +213,39 @@ SequenceMattWebb.prototype.CreatePolyOutline = function(sides, radius, linewidth
 
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceMattWebb = new SequenceMattWebb();
+var sequenceMW = new SequenceMW();
+
+var glitchMW = new Glitch ('MATT WEBB', -350, -50);
+/*sequenceMW.addEvent('00:04:00', function() {glitchMW.animateIn()});
+sequenceMW.addEvent('00:10:00', function() {glitchMW.animateOut()})*/
+
+sequenceMW.addEvent('00:05:20', function () {
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 2000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceMW.addEvent('00:07:10', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 8000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceMW.addEvent('00:07:10', function () {
+    sequenceMW.positionCubeGroup(sequenceMW.cubeGroup, 76, 8000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceMW.addEvent('00:07:15', function () {
+    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(720), 8000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceMW.addEvent('00:10:15', function () {
+    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 6000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceMW.addEvent('00:16:10', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, -8, 2000, TWEEN.Easing.Exponential.InOut);
+});
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-sequenceMattWebb.addEvent('00:05:20', sequenceMattWebb.showCube, [sequenceMattWebb.cubeGroup, 1, 2000, TWEEN.Easing.Exponential.InOut]);
-sequenceMattWebb.addEvent('00:07:10', sequenceMattWebb.cameraMovement, [sequenceMattWebb.camera, false, -2, 0, 78, 8000, TWEEN.Easing.Exponential.InOut]);
-
-// Fly through
-sequenceMattWebb.addEvent('00:07:10', sequenceMattWebb.positionCubeGroup, [sequenceMattWebb.cubeGroup, 76, 8000, TWEEN.Easing.Exponential.InOut]);
-sequenceMattWebb.addEvent('00:07:15', sequenceMattWebb.rotateCubeGroup, [sequenceMattWebb.cubeGroup, Util.toRadians(720), 8000, TWEEN.Easing.Exponential.InOut]);
-
-sequenceMattWebb.addEvent('00:10:15', sequenceMattWebb.explodeCubeGroup, [sequenceMattWebb.cubeGroup, 6000, TWEEN.Easing.Quadratic.InOut]);
-
-var speaker3 = new Glitch ('GENEVIEVE BELL', -350, -50);
-sequenceTobiasRebell.addEvent('00:14:00', function() {speaker3.animateIn()});
-sequenceTobiasRebell.addEvent('00:20:00', function() {speaker3.animateOut()})
-
-sequenceMattWebb.addEvent('00:16:10', sequenceMattWebb.cameraMovement, [sequenceMattWebb.camera, false, 2, 0, -8, 2000, TWEEN.Easing.Exponential.InOut]);
-
-sequences.push(sequenceMattWebb);
+timeline.push(sequenceMW);

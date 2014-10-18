@@ -1,20 +1,24 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceErinMoore = function() {
+var SequenceEM = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceErinMoore.prototype = new Sequence();
+SequenceEM.prototype = new Sequence();
 
 /******************************
-* Add Objects
+* Create Objects
 ******************************/
-SequenceErinMoore.prototype.init = function() {
-    // Three.js
+SequenceEM.prototype.init = function() {
+    // Scene
     this.scene = new THREE.Scene();
+
+    // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
+    this.camera.position.y = 10;
+    this.camera.position.z = 0;
 
     // Materials
     this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true});
@@ -29,14 +33,12 @@ SequenceErinMoore.prototype.init = function() {
     this.ambientLight = new THREE.AmbientLight(0x777777);
     this.scene.add(this.ambientLight);
 
-    /*this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
+    /*this.particulator = new Particulator(50, 500, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
     this.scene.add(this.particulator.pointCloud);*/
 
-    // Camera Positioning
-    this.camera.position.y = 10;
-    this.camera.position.z = 0;
-
-    // Objects
+    /******************************
+    * Add Objects
+    ******************************/
     this.cube = new THREE.Mesh(new THREE.CylinderGeometry(0, 4, 4, 5), this.lightMaterial);
     this.cube.position.y = 0;
 
@@ -44,9 +46,9 @@ SequenceErinMoore.prototype.init = function() {
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-SequenceErinMoore.prototype.pew = function(cube, length, duration, easing) {
+SequenceEM.prototype.pew = function(cube, length, duration, easing) {
     new TWEEN.Tween({length: 0})
         .to({length: length}, duration)
         .onUpdate(function () {
@@ -56,7 +58,7 @@ SequenceErinMoore.prototype.pew = function(cube, length, duration, easing) {
     .start();
 };
 
-SequenceErinMoore.prototype.pewRotate = function(cube, duration, easing) {
+SequenceEM.prototype.pewRotate = function(cube, duration, easing) {
     new TWEEN.Tween({rotateX: 0, rotateY: 0})
         .to({rotateX: 15, rotateY: 45}, duration)
         .onUpdate(function() {
@@ -67,24 +69,32 @@ SequenceErinMoore.prototype.pewRotate = function(cube, duration, easing) {
 };
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceErinMoore = new SequenceErinMoore();
+var sequenceEM = new SequenceEM();
+
+sequenceEM.addEvent('00:34:25', function () {
+    sequenceEM.nextScene(sequenceEM.scene, sequenceEM.camera, true, true, 5, false);
+});
+
+sequenceEM.addEvent('00:34:25', function () {
+    sequenceEM.pew(sequenceEM.cube, 250, 3000, TWEEN.Easing.Quadratic.InOut);
+});
+
+sequenceEM.addEvent('00:34:25', function () {
+    sequenceEM.pewRotate(sequenceEM.cube, 20000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceEM.addEvent('00:34:25', function () {
+    sequenceEM.cameraMovement(sequenceEM.camera, false, -3, 5, 0, 10000, TWEEN.Easing.Exponential.InOut);
+});
+
+/*var erinMoore = new Glitch ('ERIN MOORE', -300, -100);
+sequenceEM.addEvent('00:36:15', function() {erinMoore.animateIn()});
+sequenceEM.addEvent('00:46:00', function () {
+    function() {erinMoore.animateOut()})*/
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-sequenceErinMoore.addEvent('00:35:10', sequenceErinMoore.nextScene, [sequenceErinMoore.scene, sequenceErinMoore.camera, true, true, 5, false]);
-
-sequenceErinMoore.addEvent('00:35:10', sequenceErinMoore.pew, [sequenceErinMoore.cube, 250, 3000, TWEEN.Easing.Quadratic.InOut]);
-sequenceErinMoore.addEvent('00:35:20', sequenceErinMoore.pewRotate, [sequenceErinMoore.cube, 20000, TWEEN.Easing.Exponential.InOut]);
-sequenceErinMoore.addEvent('00:35:10', sequenceErinMoore.cameraMovement, [sequenceErinMoore.camera, false, -3, 5, 0, 10000, TWEEN.Easing.Exponential.InOut]);
-
-var erinMoore = new Glitch ('ERIN MOORE', -300, -100);
-sequenceErinMoore.addEvent('00:36:15', function() {erinMoore.animateIn()});
-sequenceErinMoore.addEvent('00:46:00', function() {erinMoore.animateOut()})
-
-/******************************
-* Add Sequences
-******************************/
-sequences.push(sequenceErinMoore);
+timeline.push(sequenceEM);

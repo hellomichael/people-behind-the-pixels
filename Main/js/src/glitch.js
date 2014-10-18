@@ -95,6 +95,46 @@ var Glitch = function(speaker, x, y) {
 
     var that = this;
     window.addEventListener('resize', function() {that.onResize(x, y);});
+
+    // Create artifacts
+    var offset = Math.random() * this.width;
+
+    if (this.direction === 'left') {
+        this.artifact1 = new Artifact(this, 'add', 27, 20, offset, -13);
+        this.artifact2 = new Artifact(this, 'add', 27, 20, offset, -13);
+        this.artifact3 = new Artifact(this, 'add', 27, 20, offset, -13);
+        this.artifact4 = new Artifact(this, 'offset', this.width/1.5, 6, this.width/3, this.height - 6, 5, 8);
+        this.artifact5 = new Artifact(this, 'subtract', this.width/1.5, 6, this.width/3, this.height - 6);
+        this.artifact6 = new Artifact(this, 'add', this.width/1.5, 6, this.width/3, this.height - 6);
+
+        this.artifact2.move(32, 0);
+        this.artifact2.scale(1, 0.3);
+
+        this.artifact3.move(-5, 0);
+        this.artifact3.scale(1.2, 1.2);
+
+        this.artifact6.move(0, 20);
+        this.artifact6.scale(1, 0.6);
+    }
+
+    else {
+        this.artifact1 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
+        this.artifact2 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
+        this.artifact3 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
+
+        this.artifact4 = new Artifact(this, 'offset', this.width/1.5, 6, -1, this.height - 6, -5, 8);
+        this.artifact5 = new Artifact(this, 'subtract', this.width/1.5, 6, -1, this.height - 6);
+        this.artifact6 = new Artifact(this, 'add', this.width/1.5, 6, -1, this.height - 6);
+
+        this.artifact2.move(-32, 0);
+        this.artifact2.scale(1, 0.3);
+
+        this.artifact3.move(0, 0);
+        this.artifact3.scale(1.2, 1.2);
+
+        this.artifact6.move(0, 20);
+        this.artifact6.scale(1, 0.6);
+    }
 };
 
 Glitch.prototype = {
@@ -155,55 +195,11 @@ Glitch.prototype = {
         if (currentFrame === 1) {
             this.context.putImageData(this.clone, this.x, this.y);
 
-            $(this.canvas).css('-webkit-filter', 'blur(0px)');
+            $(this.canvas).css('-webkit-filter', 'blur(1px)');
         }
 
         else if (currentFrame === 2) {
             this.context.putImageData(this.clone, this.x, this.y);
-            var offset = Math.random() * this.width;
-
-            if (this.direction === 'left') {
-
-                this.artifact1 = new Artifact(this, 'add', 27, 20, offset, -13);
-                this.artifact2 = new Artifact(this, 'add', 27, 20, offset, -13);
-                this.artifact3 = new Artifact(this, 'add', 27, 20, offset, -13);
-
-                this.artifact4 = new Artifact(this, 'offset', this.width/1.5, 6, this.width/3, this.height - 6, 5, 8);
-                this.artifact5 = new Artifact(this, 'subtract', this.width/1.5, 6, this.width/3, this.height - 6);
-                this.artifact6 = new Artifact(this, 'add', this.width/1.5, 6, this.width/3, this.height - 6);
-
-                this.artifact2.move(32, 0);
-                this.artifact2.scale(1, 0.3);
-
-                this.artifact3.move(-5, 0);
-                this.artifact3.scale(1.2, 1.2);
-
-                this.artifact6.move(0, 20);
-                this.artifact6.scale(1, 0.6);
-
-                $(this.canvas).css('-webkit-filter', 'blur(1px)');
-            }
-
-            else {
-                this.artifact1 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
-                this.artifact2 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
-                this.artifact3 = new Artifact(this, 'add', 27, 20, this.width - offset, -13);
-
-                this.artifact4 = new Artifact(this, 'offset', this.width/1.5, 6, -1, this.height - 6, -5, 8);
-                this.artifact5 = new Artifact(this, 'subtract', this.width/1.5, 6, -1, this.height - 6);
-                this.artifact6 = new Artifact(this, 'add', this.width/1.5, 6, -1, this.height - 6);
-
-                this.artifact2.move(-32, 0);
-                this.artifact2.scale(1, 0.3);
-
-                this.artifact3.move(0, 0);
-                this.artifact3.scale(1.2, 1.2);
-
-                this.artifact6.move(0, 20);
-                this.artifact6.scale(1, 0.6);
-
-                $(this.canvas).css('-webkit-filter', 'blur(2px)');
-            }
 
             this.artifact1.draw();
             this.artifact2.draw();
@@ -220,7 +216,7 @@ Glitch.prototype = {
             this.artifact5.draw();
             this.artifact6.draw();
 
-            $(this.canvas).css('-webkit-filter', 'blur(0)');
+            $(this.canvas).css('-webkit-filter', 'blur(0px)');
         }
 
         else if (currentFrame === 4) {

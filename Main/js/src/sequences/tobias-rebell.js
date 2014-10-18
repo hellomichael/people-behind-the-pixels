@@ -1,40 +1,51 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceTobiasRebell = function() {
+var SequenceTR = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceTobiasRebell.prototype = new Sequence();
+SequenceTR.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-SequenceTobiasRebell.prototype.init = function() {
-    // Three.js
+SequenceTR.prototype.init = function() {
+    // Scene
     this.scene = new THREE.Scene();
     this.scene.fog = new THREE.Fog(0x00000, -10, 75);
 
+    // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
-    renderator.reset(
-        this.scene,
-        this.camera,
+    this.camera.position.z = 10;
 
-        { // Post-processing options
-            postRenderEnabled: true,
-            blurEnabled: true
+    // Renderator
+    renderator.reset(this.scene, this.camera,
+        {
+            postProcessEnabled      : true,
+
+            blurEnabled             : true,
+            blurAmount              : 2,
+            blurPosition            : 0.75,
+
+            bloomEnabled            : false,
+            noiseEnabled            : false,
+            aaEnabled               : false
         }
     );
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
+    this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
 
     // Lights
     this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-    this.directionalLight.position.set(100, 100, 100).normalize();
+    this.directionalLight.position.set(0, 10000, 100).normalize();
     this.scene.add(this.directionalLight);
 
+    this.ambientLight = new THREE.AmbientLight(0xCCCCCC);
+    this.scene.add(this.ambientLight);
+
+    /******************************
+    * Add Objects
+    ******************************/
     // Grid
     this.grid = new THREE.Object3D();
     this.grid.rotation.z = Util.toRadians(45);
@@ -69,32 +80,13 @@ SequenceTobiasRebell.prototype.init = function() {
         this.grid.add(this.lines[i]);
     }
 
-    // Camera Positioning
-    // this.camera.position.x = 3;
-    this.camera.position.z = 10;
-
-    // Add objects to scene
     this.scene.add(this.grid);
 };
 
 /******************************
-* Add Animations
-
-Types of easing:
-Linear.None
-Quadratic.InOut
-Cubic
-Quartic
-Quintic
-Sinusoidal
-Exponential
-Circular
-Elastic
-Back
-Bounce
-
+* Create Animations
 ******************************/
-SequenceTobiasRebell.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
+SequenceTR.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
     if (line.tween) {
         line.tween.stop();
     }
@@ -110,7 +102,7 @@ SequenceTobiasRebell.prototype.drawHorizontalLine = function(line, newLength, du
     .start();
 };
 
-SequenceTobiasRebell.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
+SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
     if (line.tween) {
         line.tween.stop();
     }
@@ -127,77 +119,55 @@ SequenceTobiasRebell.prototype.drawVerticalLine = function(line, newLength, dura
 };
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceTobiasRebell = new SequenceTobiasRebell();
+var sequenceTR = new SequenceTR();
 
-/******************************
-* Add Sequences
-******************************/
+var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
+/*sequenceTR.addEvent('00:04:00', function() {glitchTR.animateIn()});
+sequenceTR.addEvent('00:10:00', function() {glitchTR.animateOut()})*/
 
 var lineSequence = [];
 var lineSequences = [];
 
-for (var i=0; i<sequenceTobiasRebell.numberOfLines; i++) {
-    lineSequence.push([i, i + sequenceTobiasRebell.numberOfLines]);
+for (var i=0; i<sequenceTR.numberOfLines; i++) {
+    lineSequence.push([i, i + sequenceTR.numberOfLines]);
 }
 
-for (var i=0; i<sequenceTobiasRebell.numberOfLines/2; i++) {
+for (var i=0; i<sequenceTR.numberOfLines/2; i++) {
     lineSequences.push([lineSequence.shift(), lineSequence.pop()]);
 }
 
-// lineSequences.reverse();
-
 // Show Lines
-/*for (var i=0; i<lineSequences.length; i++) {
-    for (var j=0; j<lineSequences[i].length; j++) {
-        for (var k=0; k<lineSequences[i][j].length; k++) {
-            if (k == 0) {
-                sequenceTobiasRebell.addEvent(Util.toTimecode(i*0.01 + 0.05), sequenceTobiasRebell.drawHorizontalLine, [sequenceTobiasRebell.lines[lineSequences[i][j][k]], sequenceTobiasRebell.lineLength, 10000, TWEEN.Easing.Exponential.InOut]);
-            }
-
-            else {
-                sequenceTobiasRebell.addEvent(Util.toTimecode(i*0.01 + 0.05), sequenceTobiasRebell.drawVerticalLine, [sequenceTobiasRebell.lines[lineSequences[i][j][k]], sequenceTobiasRebell.lineLength, 10000, TWEEN.Easing.Exponential.InOut]);
-            }
-        }
-    }
-}*/
-
-// Show Lines
-for (var i=0; i<sequenceTobiasRebell.lines.length; i++) {
+for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines
-    if (i < sequenceTobiasRebell.numberOfLines) {
-        sequenceTobiasRebell.addEvent('00:01:05', sequenceTobiasRebell.drawHorizontalLine, [sequenceTobiasRebell.lines[i], sequenceTobiasRebell.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
+    if (i < sequenceTR.numberOfLines) {
+        sequenceTR.addEvent('00:01:05', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequenceTobiasRebell.addEvent('00:01:05', sequenceTobiasRebell.drawVerticalLine, [sequenceTobiasRebell.lines[i], sequenceTobiasRebell.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
+        sequenceTR.addEvent('00:01:05', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
     }
 }
 
 // Hide Lines
-for (var i=0; i<sequenceTobiasRebell.lines.length; i++) {
+for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines
-    if (i < sequenceTobiasRebell.numberOfLines) {
-        sequenceTobiasRebell.addEvent('00:09:05', sequenceTobiasRebell.drawHorizontalLine, [sequenceTobiasRebell.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+    if (i < sequenceTR.numberOfLines) {
+        sequenceTR.addEvent('00:09:05', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequenceTobiasRebell.addEvent('00:09:05', sequenceTobiasRebell.drawVerticalLine, [sequenceTobiasRebell.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequenceTR.addEvent('00:09:05', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
 
-sequenceTobiasRebell.addEvent('00:07:10', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 10, 100, TWEEN.Easing.Quadratic.InOut]);
-sequenceTobiasRebell.addEvent('00:18:15', sequenceTobiasRebell.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);
-
-
-var speaker = new Glitch ('TOBIAS REBELL', 300, 0);
-sequenceTobiasRebell.addEvent('00:04:00', function() {speaker.animateIn()});
-sequenceTobiasRebell.addEvent('00:10:00', function() {speaker.animateOut()})
+/*sequenceTR.addEvent('00:07:10', sequenceTR.pullFocus, [renderator, 0.5, 10, 100, TWEEN.Easing.Quadratic.InOut]);
+sequenceTR.addEvent('00:18:15', sequenceTR.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);*/
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-sequences.push(sequenceTobiasRebell);
+timeline.push(sequenceTR);

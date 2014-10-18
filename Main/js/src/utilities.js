@@ -76,11 +76,21 @@ Util = (function() {
         return [screenWidth, screenHeight];
     };
 
+    /**
+    * Get the vector coordinates of an angle
+    * @param {angle}
+    * return Vector
+    */
+    var getVector = function(angle){
+        return new THREE.Vector3(Math.sin(Util.toRadians(angle)), Math.cos(Util.toRadians(angle)));
+    };
+
 	return {
 		toTimecode: toTimecode,
         toSeconds: toSeconds,
         toRadians: toRadians,
         getScreenDimensions: getScreenDimensions,
-        cloneArray: cloneArray
+        cloneArray: cloneArray,
+        getVector: getVector
 	};
 }());

@@ -1,44 +1,61 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceSpeakerName = function() {
+var SequenceWD = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceSpeakerName.prototype = new Sequence();
+SequenceWD.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-SequenceSpeakerName.prototype.init = function() {
-    // Three.js
+SequenceWD.prototype.init = function() {
+    // Scene
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
-    renderator.reset(this.scene, this.camera);
+
+    // Camera
+    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
+    this.camera.position.z = 10;
+    this.screenDimensions = Util.getScreenDimensions(this.camera);
+
+    // Renderator
+    renderator.reset(this.scene, this.camera,
+        {
+            postProcessEnabled      : false,
+
+            blurEnabled             : false,
+            blurAmount              : false,
+            blurPosition            : false,
+
+            bloomEnabled            : false,
+            noiseEnabled            : false,
+            aaEnabled               : false
+        }
+    );
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({ color: 'white', transparent: true});
-    this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
-    this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
+    this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
+    this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x222222, opacity: 1, transparent: true, side: THREE.DoubleSide});
+    this.lightMaterial = new THREE.MeshLambertMaterial({color: 0x222222, opacity: 1, transparent: true, side: THREE.DoubleSide});
 
     // Lights
-    this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-    this.directionalLight.position.set(100, 100, 100).normalize();
+    this.directionalLight = new THREE.DirectionalLight(0x999999);
+    this.directionalLight.position.set(0, 10000, 100).normalize();
     this.scene.add(this.directionalLight);
 
-    // Camera Positioning
-    this.camera.position.z = 10;
+    this.ambientLight = new THREE.AmbientLight(0x999999);
+    this.scene.add(this.ambientLight);
 
-    // Objects
+    /******************************
+    * Add Objects
+    ******************************/
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), this.lightMaterial);
     this.scene.add(this.cube);
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-/*SequenceSpeakerName.prototype.animateSomething = function(object, opacity, duration, easing) {
+/*SequenceWD.prototype.animateSomething = function(object, opacity, duration, easing) {
     new TWEEN.Tween({opacity: 0})
         .to({opacity: opacity}, duration)
         .easing(easing)
@@ -49,20 +66,22 @@ SequenceSpeakerName.prototype.init = function() {
 };*/
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceSpeakerName = new SequenceSpeakerName();
+var sequenceWD = new SequenceWD();
 
 /******************************
-* Add Sequences
+* Add Events
 ******************************/
-var speaker = new Glitch ('SPEAKER NAME', 0, 0);
-sequenceSpeakerName.addEvent('00:06:00', function() {speaker.animateIn()});
-sequenceSpeakerName.addEvent('00:12:00', function() {speaker.animateOut()})
+var glitchWD = new Glitch ('SPEAKER NAME', 0, -150);
+sequenceWD.addEvent('00:01:00', function() {glitchWD.animateIn()});
+sequenceWD.addEvent('00:06:00', function() {glitchWD.animateOut()});
 
-//sequenceJessicaHische.addEvent('00:02:15', sequenceJessicaHische.cameraMovement, [sequenceJessicaHische.camera, false, 110, 0, 0, 7700, TWEEN.Easing.Quadratic.InOut]);
+sequenceWD.addEvent('00:00:00', function () {
+    sequenceWD.animateSomething(sequenceWD.cube, 1, 1000, TWEEN.Easing.Exponential.InOut)
+});
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-sequences.push(sequenceSpeakerName);
+timeline.push(sequenceWD);

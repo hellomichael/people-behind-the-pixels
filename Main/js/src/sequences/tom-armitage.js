@@ -1,32 +1,39 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceTomArmitage = function() {
+var SequenceTA = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceTomArmitage.prototype = new Sequence();
+SequenceTA.prototype = new Sequence();
 
-/******************************
-* Add Objects
-******************************/
-SequenceTomArmitage.prototype.init = function() {
-    // Three.js
+SequenceTA.prototype.init = function() {
+    // Scene
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 100);
 
-    renderator.reset(
-        this.scene,
-        this.camera,
-        { // Post-processing options
-            postRenderEnabled: true,
-            blurEnabled: true
+    // Camera
+    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 100);
+    this.camera.setLens(18);
+    this.camera.position.set(15, 10, 75);
+
+    // Renderator
+    renderator.reset(this.scene, this.camera,
+        {
+            postProcessEnabled      : true,
+
+            blurEnabled             : true,
+            blurAmount              : 3,
+            blurPosition            : false,
+
+            bloomEnabled            : false,
+            noiseEnabled            : false,
+            aaEnabled               : false
         }
     );
 
     // Materials
-    this.lineMaterial = new THREE.LineBasicMaterial({color: 'white'});
+    this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 
@@ -43,18 +50,22 @@ SequenceTomArmitage.prototype.init = function() {
     this.particulator = new Particulator(50, 200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
     this.scene.add(this.particulator.pointCloud);
 
-    // Objects
-    this.asteroids1 = new Asteroids(0, 4, 0, true);
-    this.asteroids2 = new Asteroids(4, 8, 0, true);
+    /******************************
+    * Add Objects
+    ******************************/
+    this.asteroids1 = new AsteroidsMesh(0, 4, 0, true);
+    this.asteroids2 = new AsteroidsMesh(4, 8, 0, true);
 
-    this.asteroids3 = new Asteroids(3, 12, 90, true);
-    this.asteroids4 = new Asteroids(3, 12, 240, false);
+    this.asteroids3 = new AsteroidsMesh(3, 12, 90, true);
+    this.asteroids4 = new AsteroidsMesh(3, 12, 240, false);
 
-    this.asteroids5 = new Asteroids(4, 16, 180, true);
+    this.asteroids5 = new AsteroidsMesh(4, 16, 180, true);
 
-    this.asteroids6 = new Asteroids(3, 20, 270, true);
-    this.asteroids7 = new Asteroids(4, 20, 75, false);
-    this.asteroids8 = new Asteroids(3, 20, 0, false);
+    this.asteroids6 = new AsteroidsMesh(3, 20, 270, true);
+    this.asteroids7 = new AsteroidsMesh(4, 20, 75, false);
+    this.asteroids8 = new AsteroidsMesh(3, 20, 0, false);
+
+    this.camera.lookAt(this.asteroids1.position);
 
     this.scene.add(this.asteroids1);
     this.scene.add(this.asteroids2);
@@ -64,17 +75,12 @@ SequenceTomArmitage.prototype.init = function() {
     this.scene.add(this.asteroids6);
     this.scene.add(this.asteroids7);
     this.scene.add(this.asteroids8);
-
-    // Camera Positioning
-    this.camera.setLens(18);
-    this.camera.position.set(15, 10, 75);
-    this.camera.lookAt(this.asteroids1.position);
 };
 
 /******************************
-* Add Animations
+* Create Animations
 ******************************/
-SequenceTomArmitage.prototype.rotateAsteroids = function(asteroids, spin, duration, easing) {
+SequenceTA.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, easing) {
     var spinTarget = asteroids.rotation.z + spin;
     var randomWobble = _.random(-0.75, 0.75);
 
@@ -103,32 +109,54 @@ SequenceTomArmitage.prototype.rotateAsteroids = function(asteroids, spin, durati
 };
 
 /******************************
-* Initialize New Scene
+* Add Events
 ******************************/
-var sequenceTomArmitage = new SequenceTomArmitage();
+var sequenceTA = new SequenceTA();
+
+
+var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
+sequenceTA.addEvent('00:06:00', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:12:00', function() {glitchTA.animateOut()})
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids2, Util.toRadians(180), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids3, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids4, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids5, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids6, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids7, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+});
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids8, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+});
+
+
+sequenceTA.addEvent('00:00:00', function() {
+    sequenceTA.cameraMovement(sequenceTA.camera, sequenceTA.asteroids1, 15, -10, -75, 10000, TWEEN.Easing.Exponential.InOut);
+});
+
 
 /******************************
-* Add Sequences
+* Add to Timeline
 ******************************/
-var speaker = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTomArmitage.addEvent('00:06:00', function() {speaker.animateIn()});
-sequenceTomArmitage.addEvent('00:12:00', function() {speaker.animateOut()})
-
-
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids1, Util.toRadians(0), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids2, Util.toRadians(180), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids3, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids4, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids5, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In]);
-
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids6, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids7, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.rotateAsteroids, [sequenceTomArmitage.asteroids8, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In]);
-
-
-sequenceTomArmitage.addEvent('00:00:01', sequenceTomArmitage.cameraMovement, [sequenceTomArmitage.camera, sequenceTomArmitage.asteroids1, 15, -10, -75, 10000, TWEEN.Easing.Exponential.InOut]);
-
-/******************************
-* Add Sequences
-******************************/
-sequences.push(sequenceTomArmitage);
+timeline.push(sequenceTA);
