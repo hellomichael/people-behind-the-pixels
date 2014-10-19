@@ -32,8 +32,8 @@ var peopleBehindthePixels = (function () {
         // Import sequences
             //= src/sequence.js
 
-            // src/sequences/tobias-rebell.js
-            // src/sequences/matt-webb.js
+            //= src/sequences/tobias-rebell.js
+            //= src/sequences/matt-webb.js
 
             // src/sequences/jake-archibald.js
             // src/sequences/jeriamiah-lee.js
@@ -44,13 +44,16 @@ var peopleBehindthePixels = (function () {
 
             // src/sequences/sarah-mei.js
 
-            //= src/sequences/jonny-mack.js
-            //= src/sequences/younghee-jung.js
+            // src/sequences/jonny-mack.js
+            // src/sequences/younghee-jung.js
+
+            // src/sequences/emily-nakashami.js
+
 
         // Load audio
-        pbtp.audio.init('shared/audio/music.mp3');
+        pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.seek('00:00:00');
-        pbtp.audio.mute();
+        //pbtp.audio.mute();
 
         // Speakers
         speakers = [

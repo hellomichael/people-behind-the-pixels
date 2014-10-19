@@ -112,7 +112,7 @@ sequenceJM.addEvent('00:08:00', function() {glitchJM.animateOut()});*/
 for (var i=sequenceJM.lines.length-1; i>=0; i--) {
 //for (var i=0; i<sequenceJM.lines.length; i++) {
     console.log(i);
-    sequenceJM.addEvent(Util.toTimecode((i * 0.05) + 0.2), sequenceJM.animateLines, [sequenceJM.lines[i], 1000, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent(Util.toTimecode((i * 0.05) + 0.1), sequenceJM.animateLines, [sequenceJM.lines[i], 1000, TWEEN.Easing.Quadratic.InOut]);
 }
 
 

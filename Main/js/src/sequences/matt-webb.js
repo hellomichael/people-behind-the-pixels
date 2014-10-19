@@ -55,10 +55,10 @@ SequenceMW.prototype.init = function() {
     // Triangles
     this.triangles = new THREE.Object3D();
 
-    for (var i = 0; i < 18; i++) {
-        var triMesh = this.CreatePolyOutline(3, 7, 0.15);
-        triMesh.position.z = (i) * 4 + 10;
-        this.triangles.children.push(triMesh);
+    for (var i=0; i<18; i++) {
+        this.triMesh = this.CreatePolyOutline(3, 7, 0.15);
+        this.triMesh.position.z = (i) * 4 + 10;
+        this.triangles.children.push(this.triMesh);
     }
 
     this.scene.add(this.triangles);
@@ -203,8 +203,7 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
         geo.faces.push(new THREE.Face3(iB, iC, iD));
     }
 
-    var mtl = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-    // var mtl = new THREE.MeshPhongMaterial({ ambient: 0xffffff, side: THREE.DoubleSide });
+    var mtl = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 1, transparent: true, side: THREE.DoubleSide});
     var mesh = new THREE.Mesh(geo, mtl);
     mesh.doubleSided = true;
 
@@ -217,33 +216,47 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-var glitchMW = new Glitch ('MATT WEBB', -350, -50);
-/*sequenceMW.addEvent('00:04:00', function() {glitchMW.animateIn()});
-sequenceMW.addEvent('00:10:00', function() {glitchMW.animateOut()})*/
+var glitchMW = new Glitch ('MATT WEBB', -300, -25);
+sequenceMW.addEvent('00:14:15', function() {glitchMW.animateIn()});
+sequenceMW.addEvent('00:18:15', function() {glitchMW.animateOut()})
 
-sequenceMW.addEvent('00:05:20', function () {
-    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 2000, TWEEN.Easing.Exponential.InOut);
+sequenceMW.addEvent('00:04:10', function () {
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:07:10', function () {
+sequenceMW.addEvent('00:06:00', function () {
     sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 8000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:07:10', function () {
+sequenceMW.addEvent('00:06:00', function () {
     sequenceMW.positionCubeGroup(sequenceMW.cubeGroup, 76, 8000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:07:15', function () {
+sequenceMW.addEvent('00:06:15', function () {
     sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(720), 8000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:10:15', function () {
+sequenceMW.addEvent('00:09:15', function () {
     sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 6000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceMW.addEvent('00:16:10', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, -8, 2000, TWEEN.Easing.Exponential.InOut);
+sequenceMW.addEvent('00:09:05', sequenceMW.pullFocus, [renderator, 0.5, 10, 20, TWEEN.Easing.Quadratic.InOut]);
+
+// Camera Zoom
+sequenceMW.addEvent('00:13:00', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, -8, 1500, TWEEN.Easing.Exponential.InOut);
 });
+
+sequenceMW.addEvent('00:14:10', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, 0, 0, -0.5, 6000, TWEEN.Easing.Linear.None);
+});
+
+
+// Hide triangles
+for (var i=0; i<18; i++) {
+    sequenceMW.addEvent('00:16:00', sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
+}
+
 
 /******************************
 * Add to Timeline

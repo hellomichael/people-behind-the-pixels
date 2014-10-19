@@ -128,3 +128,13 @@ Sequence.prototype.pullFocus = function(renderator, position, blur, duration, ea
         }
     }
 }
+
+Sequence.prototype.fade = function(object, opacity, duration, easing) {
+    new TWEEN.Tween({opacity: object.material.opacity})
+        .to({opacity: opacity}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            object.material.opacity = this.opacity;
+        })
+    .start();
+};

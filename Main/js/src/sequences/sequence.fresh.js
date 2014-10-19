@@ -77,7 +77,7 @@ sequenceWD.addEvent('00:01:00', function() {glitchWD.animateIn()});
 sequenceWD.addEvent('00:06:00', function() {glitchWD.animateOut()});
 
 sequenceWD.addEvent('00:00:00', function () {
-    sequenceWD.animateSomething(sequenceWD.cube, 1, 1000, TWEEN.Easing.Exponential.InOut)
+    sequenceWD.animateSomething(sequenceWD.cube, 1, 1000, TWEEN.Easing.Exponential.InOut);
 });
 
 /******************************

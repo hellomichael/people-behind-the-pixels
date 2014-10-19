@@ -123,8 +123,8 @@ SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easi
 var sequenceTR = new SequenceTR();
 
 var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
-/*sequenceTR.addEvent('00:04:00', function() {glitchTR.animateIn()});
-sequenceTR.addEvent('00:10:00', function() {glitchTR.animateOut()})*/
+sequenceTR.addEvent('00:09:00', function() {glitchTR.animateIn()});
+sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()})
 
 var lineSequence = [];
 var lineSequences = [];
@@ -162,9 +162,6 @@ for (var i=0; i<sequenceTR.lines.length; i++) {
         sequenceTR.addEvent('00:09:05', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
-
-/*sequenceTR.addEvent('00:07:10', sequenceTR.pullFocus, [renderator, 0.5, 10, 100, TWEEN.Easing.Quadratic.InOut]);
-sequenceTR.addEvent('00:18:15', sequenceTR.pullFocus, [renderator, 0.5, 0, 100, TWEEN.Easing.Quadratic.InOut]);*/
 
 /******************************
 * Add to Timeline
