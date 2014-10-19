@@ -17,20 +17,6 @@ SequenceTR.prototype.init = function() {
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
     this.camera.position.z = 10;
 
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : true,
-
-            blurEnabled             : true,
-            blurAmount              : 2,
-            blurPosition            : 0.75,
-
-            bloomEnabled            : false,
-            aaEnabled               : false
-        }
-    );
-
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
 
@@ -122,9 +108,13 @@ SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easi
 ******************************/
 var sequenceTR = new SequenceTR();
 
+sequenceTR.addEvent('00:00:00', function () {
+    sequenceTR.nextScene(sequenceTR.scene, sequenceTR.camera, true, true, 1, 1);
+});
+
 var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
-sequenceTR.addEvent('00:09:00', function() {glitchTR.animateIn()});
-sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()})
+/*sequenceTR.addEvent('00:09:00', function() {glitchTR.animateIn()});
+sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()})*/
 
 var lineSequence = [];
 var lineSequences = [];
@@ -154,12 +144,12 @@ for (var i=0; i<sequenceTR.lines.length; i++) {
 for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines
     if (i < sequenceTR.numberOfLines) {
-        sequenceTR.addEvent('00:09:05', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequenceTR.addEvent('00:07:25', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequenceTR.addEvent('00:09:05', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequenceTR.addEvent('00:07:25', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
     }
 }
 

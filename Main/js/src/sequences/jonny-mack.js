@@ -48,7 +48,7 @@ SequenceJM.prototype.init = function() {
     * Add Objects
     ******************************/
     this.lines = [];
-    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.5, 0, 0), new THREE.Vector3(0, -0.6, 0)];
+    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.6, 0)];
     this.numberOfLines = 15;
     this.lineDistance = (this.vertices[0].y - this.vertices[2].y)/(this.numberOfLines - 1);
 
@@ -100,7 +100,7 @@ SequenceJM.prototype.animateLines = function(line, duration, easing) {
 ******************************/
 var sequenceJM = new SequenceJM();
 
-sequenceJM.addEvent('00:00:00', function () {
+sequenceJM.addEvent('00:14:00', function () {
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, true, true, 2, 0.75);
 });
 
@@ -109,10 +109,13 @@ sequenceJM.addEvent('00:03:00', function() {glitchJM.animateIn()});
 sequenceJM.addEvent('00:08:00', function() {glitchJM.animateOut()});*/
 
 // Animate lines
-for (var i=sequenceJM.lines.length-1; i>=0; i--) {
-//for (var i=0; i<sequenceJM.lines.length; i++) {
-    console.log(i);
-    sequenceJM.addEvent(Util.toTimecode((i * 0.05) + 0.1), sequenceJM.animateLines, [sequenceJM.lines[i], 1000, TWEEN.Easing.Quadratic.InOut]);
+//for (var i=sequenceJM.lines.length-1; i>=0; i--) {
+for (var i=0; i<sequenceJM.lines.length; i++) {
+    sequenceJM.addEvent('00:16:15', sequenceJM.animateLines, [sequenceJM.lines[i], 1250, TWEEN.Easing.Quadratic.InOut]);
+}
+
+for (var i=0; i<sequenceJM.lines.length; i++) {
+    sequenceJM.addEvent('00:19:10', sequenceJM.fade, [sequenceJM.lines[i], 0, 450, TWEEN.Easing.Linear.None]);
 }
 
 

@@ -216,47 +216,47 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-var glitchMW = new Glitch ('MATT WEBB', -300, -25);
+/*var glitchMW = new Glitch ('MATT WEBB', -300, -25);
 sequenceMW.addEvent('00:14:15', function() {glitchMW.animateIn()});
-sequenceMW.addEvent('00:18:15', function() {glitchMW.animateOut()})
+sequenceMW.addEvent('00:18:15', function() {glitchMW.animateOut()})*/
 
 sequenceMW.addEvent('00:04:10', function () {
-    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1500, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1000, TWEEN.Easing.Exponential.InOut);
 });
 
 sequenceMW.addEvent('00:06:00', function () {
     sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 8000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:06:00', function () {
+sequenceMW.addEvent('00:05:29', function () {
     sequenceMW.positionCubeGroup(sequenceMW.cubeGroup, 76, 8000, TWEEN.Easing.Exponential.InOut);
 });
 
 sequenceMW.addEvent('00:06:15', function () {
-    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(720), 8000, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(675), 8000, TWEEN.Easing.Exponential.InOut);
 });
 
 sequenceMW.addEvent('00:09:15', function () {
     sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 6000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceMW.addEvent('00:09:05', sequenceMW.pullFocus, [renderator, 0.5, 10, 20, TWEEN.Easing.Quadratic.InOut]);
+sequenceMW.addEvent('00:10:00', sequenceMW.pullFocus, [renderator, 0.5, 10, 20, TWEEN.Easing.Quadratic.InOut]);
 
-// Camera Zoom
-sequenceMW.addEvent('00:13:00', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, -8, 1500, TWEEN.Easing.Exponential.InOut);
+// Camera Pan
+sequenceMW.addEvent('00:12:20', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 2500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:14:10', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, 0, 0, -0.5, 6000, TWEEN.Easing.Linear.None);
-});
-
+sequenceMW.addEvent('00:13:00', sequenceMW.pullFocus, [renderator, 0.5, 0, 1000, TWEEN.Easing.Quadratic.InOut]);
 
 // Hide triangles
 for (var i=0; i<18; i++) {
-    sequenceMW.addEvent('00:16:00', sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
+    sequenceMW.addEvent('00:14:25', sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
 }
 
+var glitchDH = new Glitch ('DAN HON', 0, 100);
+sequenceMW.addEvent('00:13:15', function() {glitchDH.animateIn()});
+sequenceMW.addEvent('00:17:15', function() {glitchDH.animateOut()})
 
 /******************************
 * Add to Timeline

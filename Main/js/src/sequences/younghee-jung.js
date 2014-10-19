@@ -10,11 +10,10 @@ SequenceYJ.prototype = new Sequence();
 
 SequenceYJ.prototype.init = function() {
     // Scene
-    this.scene = new THREE.Scene();
+    this.scene = sequenceJM.scene;
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
-    this.camera.position.z = 10;
+    this.camera = sequenceJM.camera;
     this.screenDimensions = Util.getScreenDimensions(this.camera);
 
     // Renderator
@@ -56,6 +55,12 @@ SequenceYJ.prototype.init = function() {
     this.tetrahedron.children[2].rotateOnAxis(Util.getVector(270), Util.toRadians(-109.5));
     this.tetrahedron.children[3].rotateOnAxis(Util.getVector(270), Util.toRadians(-109.5));
 
+    this.tetrahedron.children[1].children[0].material.opacity = 0;
+    this.tetrahedron.children[2].children[0].material.opacity = 0;
+    this.tetrahedron.children[3].children[0].material.opacity = 0;
+
+    this.tetrahedron.visible = false;
+
     this.scene.add(this.tetrahedron);
 };
 
@@ -79,19 +84,6 @@ SequenceYJ.prototype.unFold = function(tetrahedronFace, rotation, axis, duration
     .start();
 };
 
-SequenceYJ.prototype.showWireframe = function(tetrahedron, opacity, duration, easing) {
-    new TWEEN.Tween({opacity: tetrahedron.children[1].children[1].material.opacity})
-        .to({opacity: opacity}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            tetrahedron.children[1].children[1].material.opacity = this.opacity;
-            tetrahedron.children[2].children[1].material.opacity = this.opacity;
-            tetrahedron.children[3].children[1].material.opacity = this.opacity;
-        })
-    .start();
-};
-
-
 SequenceYJ.prototype.rotateTetrahedron = function(tetrahedron, rotation, duration, easing) {
     new TWEEN.Tween({rotation: tetrahedron.rotation.x})
         .to({rotation: rotation}, duration)
@@ -111,34 +103,32 @@ var sequenceYJ = new SequenceYJ();
 sequenceYJ.addEvent('00:05:00', function() {glitchYJ.animateIn()});
 sequenceYJ.addEvent('00:10:00', function() {glitchYJ.animateOut()});*/
 
-sequenceYJ.addEvent('00:03:00', function () {
-    sequenceYJ.nextScene(sequenceYJ.scene, sequenceYJ.camera, true, true, 2, 0.75);
+sequenceYJ.addEvent('00:19:10', function () {
+    this.tetrahedron.visible = true;
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 500, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 500, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 500, TWEEN.Easing.Linear.None);
 });
 
 // Move camera
-sequenceYJ.addEvent('00:02:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
-
+sequenceYJ.addEvent('00:22:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 // Rotate tetrahedron
-sequenceYJ.addEvent('00:02:25', function () {
+sequenceYJ.addEvent('00:22:25', function () {
     sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 3000, TWEEN.Easing.Quadratic.InOut);
 });
 
 // Open flower
-sequenceYJ.addEvent('00:03:00', function () {
-    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[1], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut)
+sequenceYJ.addEvent('00:23:00', function () {
+    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[1], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[2], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[3], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceYJ.addEvent('00:03:00', function () {
-    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[2], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut)
-});
-
-sequenceYJ.addEvent('00:03:00', function () {
-    sequenceYJ.unFold(sequenceYJ.tetrahedron.children[3], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut)
-});
-
-sequenceYJ.addEvent('00:03:15', function () {
-    sequenceYJ.showWireframe(sequenceYJ.tetrahedron, 1, 1200, TWEEN.Easing.Quadratic.InOut)
+sequenceYJ.addEvent('00:23:15', function () {
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
 });
 
 

@@ -52,10 +52,10 @@ Sequence.prototype = {
     }
 };
 
-Sequence.prototype.nextScene = function(scene, camera, postRenderEnabled, blurEnabled, blurAmount, blurPosition) {
+Sequence.prototype.nextScene = function(scene, camera, postProcessEnabled, blurEnabled, blurAmount, blurPosition) {
     renderator.reset(scene, camera,
         {
-            postRenderEnabled: postRenderEnabled,
+            postProcessEnabled: postProcessEnabled,
             blurEnabled: blurEnabled,
             blurAmount: blurAmount,
             blurPosition: blurPosition
