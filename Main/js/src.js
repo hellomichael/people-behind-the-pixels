@@ -32,9 +32,9 @@ var peopleBehindthePixels = (function () {
         // Import sequences
             //= src/sequence.js
 
-            //= src/sequences/tobias-rebell.js
-            //= src/sequences/matt-webb.js
-            //= src/sequences/dan-hon.js
+            // src/sequences/tobias-rebell.js
+            // src/sequences/matt-webb.js
+            // src/sequences/dan-hon.js
 
             // src/sequences/jonny-mack.js
             // src/sequences/younghee-jung.js
@@ -48,9 +48,9 @@ var peopleBehindthePixels = (function () {
 
             // src/sequences/sarah-mei.js
 
-
-
             // src/sequences/emily-nakashami.js
+
+            //= src/sequences/hadi-michael.js
 
 
         // Load audio

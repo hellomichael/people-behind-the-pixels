@@ -101,7 +101,7 @@ SequenceJM.prototype.animateLines = function(line, duration, easing) {
 var sequenceJM = new SequenceJM();
 
 sequenceJM.addEvent('00:14:00', function () {
-    sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, true, true, 2, 0.75);
+    sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
 });
 
 /*var glitchJM = new Glitch ('YOUNGHEE JUNG', 0, -150);
