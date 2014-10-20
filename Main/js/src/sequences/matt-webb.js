@@ -252,11 +252,11 @@ sequenceMW.addEvent('00:13:00', sequenceMW.pullFocus, [renderator, 0.5, 0, 1000,
 // Hide triangles
 for (var i=0; i<18; i++) {
     sequenceMW.addEvent('00:14:25', sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
-}
+}/*
 
 var glitchDH = new Glitch ('DAN HON', 0, 100);
 sequenceMW.addEvent('00:13:15', function() {glitchDH.animateIn()});
-sequenceMW.addEvent('00:17:15', function() {glitchDH.animateOut()})
+sequenceMW.addEvent('00:17:15', function() {glitchDH.animateOut()})*/
 
 /******************************
 * Add to Timeline

@@ -5,3 +5,4 @@
 //= plugins/tween.js
 //= plugins/tween.easing.js
 //= plugins/objLoader.js
+//= plugins/stackBoxBlur.js

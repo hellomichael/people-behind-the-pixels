@@ -103,29 +103,35 @@ var sequenceYJ = new SequenceYJ();
 sequenceYJ.addEvent('00:05:00', function() {glitchYJ.animateIn()});
 sequenceYJ.addEvent('00:10:00', function() {glitchYJ.animateOut()});*/
 
-sequenceYJ.addEvent('00:19:10', function () {
+
+// Fade with Tetrahedron
+sequenceYJ.addEvent('00:24:10', function () {
     this.tetrahedron.visible = true;
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 500, TWEEN.Easing.Linear.None);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 500, TWEEN.Easing.Linear.None);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 500, TWEEN.Easing.Linear.None);
 });
 
+for (var i=0; i<sequenceJM.lines.length; i++) {
+    sequenceJM.addEvent('00:24:10', sequenceJM.fade, [sequenceJM.lines[i], 0, 450, TWEEN.Easing.Linear.None]);
+}
+
 // Move camera
-sequenceYJ.addEvent('00:21:15', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:25:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 // Rotate tetrahedron
-sequenceYJ.addEvent('00:21:15', function () {
+sequenceYJ.addEvent('00:25:25', function () {
     sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 3000, TWEEN.Easing.Quadratic.InOut);
 });
 
 // Open flower
-sequenceYJ.addEvent('00:21:15', function () {
+sequenceYJ.addEvent('00:25:25', function () {
     sequenceYJ.unFold(sequenceYJ.tetrahedron.children[1], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
     sequenceYJ.unFold(sequenceYJ.tetrahedron.children[2], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
     sequenceYJ.unFold(sequenceYJ.tetrahedron.children[3], 0, Util.getVector(270), 3000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceYJ.addEvent('00:22:00', function () {
+sequenceYJ.addEvent('00:26:10', function () {
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);

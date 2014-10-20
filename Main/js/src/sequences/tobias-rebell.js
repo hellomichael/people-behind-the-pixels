@@ -28,6 +28,10 @@ SequenceTR.prototype.init = function() {
     this.ambientLight = new THREE.AmbientLight(0xCCCCCC);
     this.scene.add(this.ambientLight);
 
+    // Particulator
+    /*this.particulator = new Particulator(30, 300, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0xCCCCCC), this.camera);
+    this.scene.add(this.particulator.pointCloud);*/
+
     /******************************
     * Add Objects
     ******************************/
@@ -112,9 +116,9 @@ sequenceTR.addEvent('00:00:00', function () {
     sequenceTR.nextScene(sequenceTR.scene, sequenceTR.camera, true, true, 1, 1);
 });
 
-var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
-/*sequenceTR.addEvent('00:09:00', function() {glitchTR.animateIn()});
-sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()})*/
+/*var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
+sequenceTR.addEvent('00:01:00', function() {glitchTR.animateIn()});*/
+//sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()});
 
 var lineSequence = [];
 var lineSequences = [];

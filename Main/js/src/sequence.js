@@ -138,3 +138,15 @@ Sequence.prototype.fade = function(object, opacity, duration, easing) {
         })
     .start();
 };
+
+Sequence.prototype.rotate = function(object, rotationTargetX, rotationTargetY, rotationTargetZ, duration, easing) {
+    new TWEEN.Tween({rotationX: object.rotation.x, rotationY: object.rotation.y, rotationZ: object.rotation.z})
+        .to({rotationX: rotationTargetX, rotationY: rotationTargetY, rotationZ: rotationTargetZ}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            object.rotation.x = this.rotationX;
+            object.rotation.y = this.rotationY;
+            object.rotation.z = this.rotationZ;
+        })
+    .start();
+};

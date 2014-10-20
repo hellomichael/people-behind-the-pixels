@@ -48,9 +48,14 @@ SequenceDH.prototype.init = function() {
     /******************************
     * Add Objects
     ******************************/
-    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.15, 300, 300), this.lightMaterial);
+    this.hemisphereLeft = new THREE.Mesh(new THREE.SphereGeometry(0.15, 300, 300, Math.PI*2, Math.PI/2), this.lightMaterial);
+    this.hemisphereRight = new THREE.Mesh(new THREE.SphereGeometry(0.15, 300, 300, Math.PI/2, Math.PI), this.lightMaterial);
+
+    this.sphere = new THREE.Object3D();
+    this.sphere.add(this.hemisphereLeft);
+    this.sphere.add(this.hemisphereRight);
+
     this.scene.add(this.sphere);
-    this.sphere.position.y = 0;
 };
 
 /******************************
@@ -81,20 +86,22 @@ SequenceDH.prototype.bounceSphere = function(sphere, position, duration, easing)
 ******************************/
 var sequenceDH = new SequenceDH();
 
-/******************************
-* Add Events
-******************************/
-sequenceDH.addEvent('00:17:15', function () {
+sequenceDH.addEvent('00:17:05', function () {
     sequenceDH.nextScene(sequenceDH.scene, sequenceDH.camera, true, true, 0, 1);
 });
+
+var glitchDH = new Glitch ('DAN HON', 0, 75);
+/*sequenceDH.addEvent('00:20:15', function() {glitchDH.animateIn()});
+sequenceDH.addEvent('00:26:15', function() {glitchDH.animateOut()})*/
+
 
 /*var glitchDH = new Glitch ('SPEAKER NAME', 0, -150);*/
 /*sequenceDH.addEvent('00:01:00', function() {glitchDH.animateIn()});
 sequenceDH.addEvent('00:06:00', function() {glitchDH.animateOut()});*/
 
 // Ball Drop
-sequenceDH.addEvent('00:18:00', function () {
-    sequenceDH.bounceSphere(sequenceDH.sphere, -4.5, 2000, TWEEN.Easing.Bounce.Out);
+sequenceDH.addEvent('00:17:05', function () {
+    sequenceDH.bounceSphere(sequenceDH.sphere, -this.screenDimensions[1]/2, 1450, TWEEN.Easing.Exponential.InOut);
 });
 
 /*SequenceDH.addEvent('00:17:15', function () {

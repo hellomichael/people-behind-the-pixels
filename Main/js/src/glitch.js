@@ -195,7 +195,7 @@ Glitch.prototype = {
         if (currentFrame === 1) {
             this.context.putImageData(this.clone, this.x, this.y);
 
-            $(this.canvas).css('-webkit-filter', 'blur(1px)');
+            stackBoxBlurCanvasRGBA('speakers', this.x - 20, this.y - 20, this.width + 40, this.height + 40, 1, 2);
         }
 
         else if (currentFrame === 2) {
@@ -215,8 +215,6 @@ Glitch.prototype = {
             this.artifact3.draw();
             this.artifact5.draw();
             this.artifact6.draw();
-
-            $(this.canvas).css('-webkit-filter', 'blur(0px)');
         }
 
         else if (currentFrame === 4) {
@@ -246,7 +244,7 @@ Glitch.prototype = {
             this.artifact2.draw();
             this.artifact4.draw();
 
-            $(this.canvas).css('-webkit-filter', 'blur(2px)');
+            stackBoxBlurCanvasRGBA('speakers', this.x - 20, this.y - 20, this.width + 40, this.height + 40, 2, 2);
         }
 
         else if (currentFrame === 6) {
@@ -258,8 +256,6 @@ Glitch.prototype = {
 
         else if (currentFrame === 7) {
             this.context.putImageData(this.clone, this.x, this.y);
-
-            $(this.canvas).css('-webkit-filter', 'blur(0px)');
         }
 
         this.context.fill();
