@@ -38,7 +38,7 @@ canvas, #stats {
     width: 100%;
     height: 100%;
     background: url('../img/noise.gif') center center;
-    background-size: cover;
+    /* background-size: cover; */
     opacity: 0.05;
     z-index: 9999;
 }
@@ -114,8 +114,87 @@ canvas, #stats {
         left: 100%;
     }
 }
+/*
+$shape: #CCC;
+$duration: 1.5s;
+$border: 20px;
+$angle: 30deg;
+
+.shape {
+    height: 0;
+    width: 0;
+    margin: 36px;
+    float: left;
+    border: $border solid;
+    animation: morphing $duration ease infinite;
+
+    &:after {
+        content: '';
+        display: block;
+        border: inherit;
+        margin-left: -($border - 1);
+        margin-top: -($border - 1);
+        animation: pseudomorphing $duration ease infinite;
+    }
+
+    img {
+        float: left;
+    }
+}
+
+@keyframes morphing {
+    0% {
+        border-color: transparent $bes-red $bes-red transparent;
+        transform: rotateZ(6*$angle);
+        border-radius: 50%;
+    }
+
+    33.33% {
+        border-color: transparent $bes-green $bes-green transparent;
+        transform: rotateZ(9*$angle);
+        border-radius: 0;
+    }
+
+    66.67% {
+        border-color: transparent $bes-navy $bes-navy transparent;
+        transform: skewX($angle) rotateX($angle) rotateZ(0) translateX(-($border/2));
+        border-radius: 0;
+    }
+
+    100% {
+        border-color: transparent $bes-red $bes-red transparent;
+        transform: rotateZ(3*$angle);
+        border-radius: 50%;
+    }
+}
+
+@keyframes pseudomorphing {
+    0% {
+        border-color: $bes-red transparent transparent $bes-red;
+        transform: rotateY(0);
+        border-radius: 50%;
+    }
+
+    33.33% {
+        border-color: $bes-green transparent transparent $bes-green;
+        transform: rotateY(0);
+        border-radius: 0;
+    }
+
+    66.67% {
+        border-color: $bes-navy transparent transparent $bes-navy;
+        transform: skewX(-$angle) rotateX(-$angle) rotateZ($angle) rotateY(3*$angle) scale(0.8);
+        border-radius: 0;
+    }
+
+    100% {
+        border-color: $bes-red transparent transparent $bes-red;
+        transform: rotateY(0);
+        border-radius: 50%;
+    }
+}
 
 // Hide browser sync message
 #__bs_notify__ {
     display: none !important;
-}
+} */

@@ -13,7 +13,7 @@ SequenceJL.prototype.init = function() {
     this.scene = new THREE.Scene();
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 50);
+    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
     this.camera.position.z = 10;
 
     // Renderator

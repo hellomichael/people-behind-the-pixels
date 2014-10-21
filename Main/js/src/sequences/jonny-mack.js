@@ -53,7 +53,7 @@ SequenceJM.prototype.init = function() {
     * Add Objects
     ******************************/
     this.lines = [];
-    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.6, 0)];
+    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.75, 0)];
     this.numberOfLines = 15;
     this.lineDistance = (this.vertices[0].y - this.vertices[2].y)/(this.numberOfLines - 1);
 
@@ -153,7 +153,7 @@ SequenceJM.prototype.splitSphere = function(sphere, duration, easing) {
 ******************************/
 var sequenceJM = new SequenceJM();
 
-sequenceJM.addEvent('00:18:15', function () {
+sequenceJM.addEvent('00:17:20', function () {
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
 });
 
@@ -162,19 +162,15 @@ sequenceJM.addEvent('00:03:00', function() {glitchJM.animateIn()});
 sequenceJM.addEvent('00:08:00', function() {glitchJM.animateOut()});*/
 
 // Break lines
-sequenceJM.addEvent('00:19:05', function () {
+sequenceJM.addEvent('00:18:00', function () {
     for (var i=0; i<sequenceJM.lines.length; i++) {
-        sequenceJM.breakLines(sequenceJM.lines[i], 500, TWEEN.Easing.Exponential.InOut);
+        sequenceJM.breakLines(sequenceJM.lines[i], 2000, TWEEN.Easing.Exponential.InOut);
     }
 });
 
-/*for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:14:10', sequenceJM.lines[i], 500, TWEEN.Easing.Exponential.InOut]);
-}*/
-
 // Merge lines
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:20:27', sequenceJM.mergeLines, [sequenceJM.lines[i], 1250, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent('00:20:27', sequenceJM.mergeLines, [sequenceJM.lines[i], 1750, TWEEN.Easing.Quadratic.InOut]);
 }
 
 // Ball Drop
@@ -188,7 +184,7 @@ for (var i=0; i<sequenceJM.lines.length; i++) {
     sequenceJM.rotate(sequenceJM.sphere.children[1], 0, Util.toRadians(360), 0, 500, TWEEN.Easing.Exponential.InOut);
 });*/
 
-sequenceJM.addEvent('00:17:25', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 2750, TWEEN.Easing.Exponential.InOut]);
+sequenceJM.addEvent('00:17:25', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add to Timeline

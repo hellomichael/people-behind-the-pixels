@@ -60,8 +60,31 @@ SequenceYJ.prototype.init = function() {
     this.tetrahedron.children[3].children[0].material.opacity = 0;
 
     this.tetrahedron.visible = false;
-
     this.scene.add(this.tetrahedron);
+
+    // Emitter
+    this.emitter = new Emitter();
+    this.scene.add(this.emitter.group);
+
+    // Material
+    var material = new THREE.MeshLambertMaterial({
+        map: THREE.ImageUtils.loadTexture('shared/img/light.png'),
+        transparent: true,
+        opacity: 0,
+        depthWrite: false,
+        depthTest: false
+    });
+
+    // Add extrusion
+    this.triangleShape = new TriangleShape(2.5);
+    this.extrusionSettings = {bevelEnabled: false, material: 0, amount: 1};
+    this.extrusionGeometry = new THREE.ExtrudeGeometry( this.triangleShape, this.extrusionSettings );
+    this.lightbeam = new THREE.Mesh(this.extrusionGeometry, material);
+    this.lightbeam.rotation.x = Util.toRadians(-90);
+    this.lightbeam.rotation.z = Util.toRadians(180);
+    this.lightbeam.scale.set(1, 1, 0);
+    this.lightbeam.visible = false;
+    this.scene.add(this.lightbeam);
 };
 
 /******************************
@@ -94,10 +117,31 @@ SequenceYJ.prototype.rotateTetrahedron = function(tetrahedron, rotation, duratio
     .start();
 };
 
+SequenceYJ.prototype.lightBeam = function(lightBeam, scale, duration, easing) {
+    lightBeam.visible = true;
+
+    new TWEEN.Tween({scale: 0, opacity: 0})
+        .to({scale: scale, opacity: 1}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            lightBeam.scale.set(1, 1, this.scale);
+            lightBeam.material.opacity = this.opacity;
+        })
+    .start();
+};
+
+SequenceYJ.prototype.update = function(delta) {
+    this.emitter.update(delta);
+};
+
 /******************************
 * Add Events
 ******************************/
 var sequenceYJ = new SequenceYJ();
+
+/*sequenceYJ.addEvent('00:23:00', function () {
+    sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
+});*/
 
 /*var glitchYJ = new Glitch ('YOUNGHEE JUNG', 0, -150);
 sequenceYJ.addEvent('00:05:00', function() {glitchYJ.animateIn()});
@@ -113,11 +157,12 @@ sequenceYJ.addEvent('00:24:10', function () {
 });
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:24:10', sequenceJM.fade, [sequenceJM.lines[i], 0, 450, TWEEN.Easing.Linear.None]);
+    sequenceJM.addEvent('00:24:15', sequenceJM.fade, [sequenceJM.lines[i], 0, 450, TWEEN.Easing.Linear.None]);
 }
 
 // Move camera
-sequenceYJ.addEvent('00:25:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 5, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:21:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale + 3, 2, 10000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:21:25', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-15), 0, 0, 10000, TWEEN.Easing.Exponential.InOut]);
 
 // Rotate tetrahedron
 sequenceYJ.addEvent('00:25:25', function () {
@@ -137,6 +182,16 @@ sequenceYJ.addEvent('00:26:10', function () {
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
 });
 
+// Light
+sequenceYJ.addEvent('00:25:15', function () {
+    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 4, 7500, TWEEN.Easing.Exponential.InOut);
+});
+
+/*sequenceYJ.addEvent('00:27:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -5, 2, 20000, TWEEN.Easing.Exponential.InOut]);*/
+
+sequenceYJ.addEvent('00:18:15', function () {
+    sequenceYJ.emitter.trigger();
+});
 
 /******************************
 * Add to Timeline

@@ -3,13 +3,14 @@
     //= src/utilities.js
     //= src/renderator.js
     //= src/particulator.js
+    //= src/emitter.js
     //= src/audio.js
     //= src/glitch.js
 
 // Objects
     //= src/objs/TriangleGeometry.js
+    //= src/objs/TriangleShape.js
     //= src/objs/TetrahedronMesh.js
-    //= src/objs/TetrahedronEdge.js
     //= src/objs/RingMesh.js
     //= src/objs/AsteroidsMesh.js
     //= src/objs/IcosahedronMesh.js
@@ -38,8 +39,9 @@ var peopleBehindthePixels = (function () {
 
             //= src/sequences/jonny-mack.js
             //= src/sequences/younghee-jung.js
+            //= src/sequences/jake-archibald.js
 
-            // src/sequences/jake-archibald.js
+
             // src/sequences/jeriamiah-lee.js
             // src/sequences/tom-armitage.js
 
@@ -56,7 +58,7 @@ var peopleBehindthePixels = (function () {
         // Load audio
         //pbtp.audio.init('shared/audio/music.mp3');
         pbtp.audio.init('shared/audio/interstellar.mp3');
-        //pbtp.audio.seek('00:12:00');
+        pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Speakers

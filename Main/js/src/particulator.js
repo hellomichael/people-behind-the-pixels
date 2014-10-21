@@ -9,6 +9,8 @@ var Particulator = function(range, density, acceleration, texture, color, focusO
         transparent: true,
         blending: THREE.AdditiveBlending,
         color: color,
+        depthWrite: false,
+        depthTest: false
     });
 
 
