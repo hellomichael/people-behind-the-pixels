@@ -53,7 +53,7 @@ SequenceJM.prototype.init = function() {
     * Add Objects
     ******************************/
     this.lines = [];
-    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.75, 0)];
+    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.6, 0)];
     this.numberOfLines = 15;
     this.lineDistance = (this.vertices[0].y - this.vertices[2].y)/(this.numberOfLines - 1);
 
@@ -81,18 +81,6 @@ SequenceJM.prototype.init = function() {
     for (var i=0; i<this.lines.length; i++) {
         this.scene.add(this.lines[i]);
     }
-
-    // Cube
-    this.hemisphereLeft = new THREE.Mesh(new THREE.SphereGeometry(0.1, 300, 300, Math.PI*2, Math.PI/2), this.lightMaterial);
-    this.hemisphereRight = new THREE.Mesh(new THREE.SphereGeometry(0.1, 300, 300, Math.PI*2, Math.PI/2), this.lightMaterial);
-    this.hemisphereRight.rotation.y = Util.toRadians(90);
-
-    this.sphere = new THREE.Object3D();
-    this.sphere.add(this.hemisphereLeft);
-    this.sphere.add(this.hemisphereRight);
-
-    this.sphere.position.y = this.screenDimensions[1] + this.screenDimensions[1]/4 + 0.6;
-    this.scene.add(this.sphere);
 };
 
 /******************************
@@ -127,64 +115,33 @@ SequenceJM.prototype.breakLines = function(line, duration, easing) {
     .start();
 };
 
-SequenceJM.prototype.bounceSphere = function(sphere, position, duration, easing) {
-    new TWEEN.Tween({position: sphere.position.y})
-        .to({position: position}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            sphere.position.y = this.position;
-        })
-        .start();
-};
-
-SequenceJM.prototype.splitSphere = function(sphere, duration, easing) {
-    new TWEEN.Tween({position1: 0, position2: 0})
-        .to({position1: -3, position2: 3}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            sphere.children[0].position.x = this.position1;
-            sphere.children[1].position.x = this.position2;
-        })
-        .start();
-};
-
 /******************************
 * Add Events
 ******************************/
 var sequenceJM = new SequenceJM();
 
-sequenceJM.addEvent('00:17:20', function () {
+sequenceJM.addEvent('00:22:10', function () {
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
 });
 
-/*var glitchJM = new Glitch ('YOUNGHEE JUNG', 0, -150);
-sequenceJM.addEvent('00:03:00', function() {glitchJM.animateIn()});
-sequenceJM.addEvent('00:08:00', function() {glitchJM.animateOut()});*/
-
 // Break lines
-sequenceJM.addEvent('00:18:00', function () {
+/*sequenceJM.addEvent('00:23:20', function () {
     for (var i=0; i<sequenceJM.lines.length; i++) {
         sequenceJM.breakLines(sequenceJM.lines[i], 2000, TWEEN.Easing.Exponential.InOut);
     }
-});
+});*/
+
+for (var i=0; i<sequenceJM.lines.length; i++) {
+    sequenceJM.addEvent('00:22:20', sequenceJM.breakLines, [sequenceJM.lines[i], 1250, TWEEN.Easing.Quadratic.InOut]);
+}
+
 
 // Merge lines
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:20:27', sequenceJM.mergeLines, [sequenceJM.lines[i], 1750, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent('00:25:15', sequenceJM.mergeLines, [sequenceJM.lines[i], 1750, TWEEN.Easing.Quadratic.InOut]);
 }
 
-// Ball Drop
-/*sequenceJM.addEvent('00:18:08', function () {
-    sequenceJM.bounceSphere(sequenceJM.sphere, -this.screenDimensions[1], 3250, TWEEN.Easing.Bounce.Out);
-});*/
-
-/*sequenceJM.addEvent('00:14:05', function () {
-    sequenceJM.splitSphere(sequenceJM.sphere, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJM.rotate(sequenceJM.sphere.children[0], 0, Util.toRadians(360), 0, 500, TWEEN.Easing.Exponential.InOut);
-    sequenceJM.rotate(sequenceJM.sphere.children[1], 0, Util.toRadians(360), 0, 500, TWEEN.Easing.Exponential.InOut);
-});*/
-
-sequenceJM.addEvent('00:17:25', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+sequenceJM.addEvent('00:21:00', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 4000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add to Timeline

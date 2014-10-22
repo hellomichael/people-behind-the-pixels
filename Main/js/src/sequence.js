@@ -13,10 +13,14 @@ Sequence.prototype = {
     },
 
     addEvent: function(timeCode, callback, args) {
+        // Convert timecode
+        if (typeof timeCode != 'string') {
+            timeCode = Util.toTimecode(timeCode);
+        }
+
 
         // Callback can be string for extended prototype function, or a function itself
         if (_.isFunction(callback)) {
-
             this.events.push([timeCode, callback, args]);
             this.sortEvents();
         }
@@ -52,15 +56,8 @@ Sequence.prototype = {
     }
 };
 
-Sequence.prototype.nextScene = function(scene, camera, postProcessEnabled, blurEnabled, blurAmount, blurPosition) {
-    renderator.reset(scene, camera,
-        {
-            postProcessEnabled: postProcessEnabled,
-            blurEnabled: blurEnabled,
-            blurAmount: blurAmount,
-            blurPosition: blurPosition
-        }
-    );
+Sequence.prototype.nextScene = function(scene, camera, options) {
+    renderator.reset(scene, camera, options);
 }
 
 Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing) {
@@ -100,7 +97,7 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
     }
 };
 
-Sequence.prototype.pullFocus = function(renderator, position, blur, duration, easing) {
+Sequence.prototype.pullFocus = function(renderator, blur, position, duration, easing) {
     //this.zoomAudio = new Audio('shared/audio/zoom.mp3');
     //this.zoomAudio.play();
 
@@ -147,6 +144,18 @@ Sequence.prototype.rotate = function(object, rotationTargetX, rotationTargetY, r
             object.rotation.x = this.rotationX;
             object.rotation.y = this.rotationY;
             object.rotation.z = this.rotationZ;
+        })
+    .start();
+};
+
+Sequence.prototype.position = function(object, positionTargetX, positionTargetY, positionTargetZ, duration, easing) {
+    new TWEEN.Tween({positionX: object.position.x, positionY: object.position.y, positionZ: object.position.z})
+        .to({positionX: positionTargetX, positionY: positionTargetY, positionZ: positionTargetZ}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            object.position.x = this.positionX;
+            object.position.y = this.positionY;
+            object.position.z = this.positionZ;
         })
     .start();
 };

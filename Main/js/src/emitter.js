@@ -2,7 +2,7 @@
 var Emitter = function(src, accel, hz) {
 
 	this.src = src || new THREE.Vector3(0, -0.7, 0);
-	this.accel = accel || new THREE.Vector3(0, 1.5, 0);
+	this.accel = accel || new THREE.Vector3(0, 1, 0);
 	this.hz = hz || 0.1;
 	this.delay = 1 / this.hz;
 	this.pending = 0;
@@ -40,7 +40,6 @@ Emitter.prototype.update = function(delta) {
 			mesh.rotAccel = new THREE.Vector3(Math.random(), Math.random(), Math.random());
 			mesh.rotation.set(Math.random() * fullRot, Math.random() * fullRot, Math.random() * fullRot);
 
-
 			mesh.position.set(
 				0,
 				0,
@@ -55,17 +54,26 @@ Emitter.prototype.update = function(delta) {
 			this.group.add(mesh);
 
 			mesh.scale.set();
+
 			var scaleTween = new TWEEN.Tween({ scale: 0 })
-			.to({ scale: 1}, 300)
+			.to({ scale: 2}, 1000)
 		    .onUpdate(function () {
 				mesh.scale.set(this.scale, this.scale, this.scale);
+		    })
+		    .start();
+
+		    var posTween = new TWEEN.Tween({ position: 1.5})
+			.to({ position: 8}, 7500)
+			.easing(TWEEN.Easing.Linear.None)
+		    .onUpdate(function () {
+				mesh.position.y = this.position;
 		    })
 		    .start();
 
 			this.pending = 0;
 		}
 
-		var disp = this.accel.clone().multiplyScalar(delta);
+		//var disp = this.accel.clone().multiplyScalar(delta);
 
 		for (var i = 0; i < this.group.children.length; i++) {
 
@@ -73,7 +81,7 @@ Emitter.prototype.update = function(delta) {
 
 			var rot = mesh.rotAccel.clone().multiplyScalar(delta);
 
-			mesh.position.add(disp);
+			//mesh.position.add(disp);
 			mesh.rotation.x += rot.x;
 			mesh.rotation.y += rot.y;
 			mesh.rotation.z += rot.z;

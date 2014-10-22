@@ -1,5 +1,10 @@
 @include font-face('Futura', 'futura-condensed-med', normal, normal);
 
+// Hide browser sync message
+#__bs_notify__ {
+    display: none !important;
+}
+
 html, body, canvas {
     position: relative;
     height: 100%;
@@ -19,7 +24,7 @@ html, body, canvas {
 }
 
 body {
-    background: radial-gradient(at center -250px, #333, #000);
+    background: radial-gradient(at center -350px, #444, #000);
 }
 
 canvas, #stats {
@@ -57,7 +62,7 @@ canvas, #stats {
     left: 50%;
     margin-left: -1px;
     z-index: 9999;
-    border-right: 1px dashed #FFF;
+    border-right: 1px dashed #FF0000;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
 
@@ -90,7 +95,7 @@ canvas, #stats {
     top: 50%;
     margin-top: -1px;
     z-index: 9999;
-    border-bottom: 1px dashed #FFF;
+    border-bottom: 1px dashed #FF0000;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
 
@@ -114,19 +119,47 @@ canvas, #stats {
         left: 100%;
     }
 }
-/*
-$shape: #CCC;
+
+.vertical-speed-down {
+    display: block;
+    height: 0;
+    width: 1px;
+    background-color: red;
+
+    position: absolute;
+    top: 25%;
+    left: 50%;
+
+    transition: all 1s;
+
+    &.animate {
+        top: 100%;
+        height: 200px;
+    }
+}
+
+
 $duration: 1.5s;
-$border: 20px;
+$border: 21px;
 $angle: 30deg;
 
 .shape {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 9999;
+
     height: 0;
     width: 0;
-    margin: 36px;
+    margin-top: -$border;
+    margin-left: -$border;
     float: left;
     border: $border solid;
-    animation: morphing $duration ease infinite;
+
+    opacity: 0;
+    border-color: transparent #EEE #EEE transparent;
+    transform: rotateZ(6*$angle);
+    border-radius: 50%;
 
     &:after {
         content: '';
@@ -134,67 +167,120 @@ $angle: 30deg;
         border: inherit;
         margin-left: -($border - 1);
         margin-top: -($border - 1);
-        animation: pseudomorphing $duration ease infinite;
+
+        border-color: #EEE transparent transparent #EEE;
+        transform: rotateY(0);
+        border-radius: 50%;
     }
 
-    img {
-        float: left;
+    &.morph {
+        $easing: cubic-bezier(0.525, 0.105, 0.320, 1.275);
+
+        animation: morphing $duration $easing 1;
+        animation-fill-mode: forwards;
+
+        &:after {
+            animation: pseudomorphing $duration $easing 1;
+            animation-fill-mode: forwards;
+        }
+    }
+
+    &.visible {
+        transition: all 1.5s;
+        opacity: 1;
     }
 }
 
 @keyframes morphing {
     0% {
-        border-color: transparent $bes-red $bes-red transparent;
+        border-color: transparent #EEE #EEE transparent;
         transform: rotateZ(6*$angle);
         border-radius: 50%;
     }
 
-    33.33% {
-        border-color: transparent $bes-green $bes-green transparent;
-        transform: rotateZ(9*$angle);
-        border-radius: 0;
-    }
-
-    66.67% {
-        border-color: transparent $bes-navy $bes-navy transparent;
+   50% {
+        border-color: transparent #EEE #EEE transparent;
         transform: skewX($angle) rotateX($angle) rotateZ(0) translateX(-($border/2));
         border-radius: 0;
+        top: 25%;
     }
 
     100% {
-        border-color: transparent $bes-red $bes-red transparent;
-        transform: rotateZ(3*$angle);
-        border-radius: 50%;
+        border-color: transparent #EEE #EEE transparent;
+        transform: rotateZ(9*$angle);
+        border-radius: 0;
+        top: 105%;
     }
 }
 
 @keyframes pseudomorphing {
     0% {
-        border-color: $bes-red transparent transparent $bes-red;
+        border-color: #EEE transparent transparent #EEE;
         transform: rotateY(0);
         border-radius: 50%;
     }
 
-    33.33% {
-        border-color: $bes-green transparent transparent $bes-green;
-        transform: rotateY(0);
-        border-radius: 0;
-    }
-
-    66.67% {
-        border-color: $bes-navy transparent transparent $bes-navy;
+    50% {
+        border-color: #EEE transparent transparent #EEE;
         transform: skewX(-$angle) rotateX(-$angle) rotateZ($angle) rotateY(3*$angle) scale(0.8);
         border-radius: 0;
     }
 
     100% {
-        border-color: $bes-red transparent transparent $bes-red;
+        border-color: #EEE transparent transparent #EEE;
         transform: rotateY(0);
-        border-radius: 50%;
+        border-radius: 0;
     }
 }
 
-// Hide browser sync message
-#__bs_notify__ {
-    display: none !important;
+/* @keyframes morphing {
+    0% {
+        border-color: transparent #EEE #EEE transparent;
+        transform: rotateZ(6*$angle);
+        border-radius: 50%;
+    }
+
+    33.3% {
+        border-color: transparent #EEE #EEE transparent;
+        transform: skewX($angle) rotateX($angle) rotateZ(0) translateX(-($border/2));
+        border-radius: 0;
+    }
+
+    50% {
+        top: 25%;
+    }
+
+    70% {
+        border-color: transparent #EEE #EEE transparent;
+        transform: rotateZ(9*$angle);
+        border-radius: 0;
+    }
+
+    100% {
+        top: 105%;
+    }
+}
+
+@keyframes pseudomorphing {
+    0% {
+        border-color: #EEE transparent transparent #EEE;
+        transform: rotateY(0);
+        border-radius: 50%;
+    }
+
+    33.3% {
+        border-color: #EEE transparent transparent #EEE;
+        transform: skewX(-$angle) rotateX(-$angle) rotateZ($angle) rotateY(3*$angle) scale(0.8);
+        border-radius: 0;
+    }
+
+    70% {
+        border-color: #EEE transparent transparent #EEE;
+        transform: rotateY(0);
+        border-radius: 0;
+    }
+
+    100% {
+
+    }
 } */

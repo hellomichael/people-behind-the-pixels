@@ -22,10 +22,10 @@ SequenceTR.prototype.init = function() {
 
     // Lights
     this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-    this.directionalLight.position.set(0, 10000, 100).normalize();
+    this.directionalLight.position.set(0, 10, 0).normalize();
     this.scene.add(this.directionalLight);
 
-    this.ambientLight = new THREE.AmbientLight(0xCCCCCC);
+    this.ambientLight = new THREE.AmbientLight(0xAAAAAA);
     this.scene.add(this.ambientLight);
 
     // Particulator
@@ -37,6 +37,7 @@ SequenceTR.prototype.init = function() {
     ******************************/
     // Grid
     this.grid = new THREE.Object3D();
+    this.grid.position.z = 1.5;
     this.grid.rotation.z = Util.toRadians(45);
 
     // Cube
@@ -113,34 +114,34 @@ SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easi
 var sequenceTR = new SequenceTR();
 
 sequenceTR.addEvent('00:00:00', function () {
-    sequenceTR.nextScene(sequenceTR.scene, sequenceTR.camera, true, true, 1, 1);
+    var options = {
+        postProcessEnabled      : true,
+
+        blurEnabled             : true,
+        blurAmount              : 1,
+        blurPosition            : 0.5,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceTR.nextScene(sequenceTR.scene, sequenceTR.camera, options);
 });
 
-/*var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
-sequenceTR.addEvent('00:01:00', function() {glitchTR.animateIn()});*/
-//sequenceTR.addEvent('00:13:00', function() {glitchTR.animateOut()});
-
-var lineSequence = [];
-var lineSequences = [];
-
-for (var i=0; i<sequenceTR.numberOfLines; i++) {
-    lineSequence.push([i, i + sequenceTR.numberOfLines]);
-}
-
-for (var i=0; i<sequenceTR.numberOfLines/2; i++) {
-    lineSequences.push([lineSequence.shift(), lineSequence.pop()]);
-}
+var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
+sequenceTR.addEvent('00:03:15', function() {glitchTR.animateIn()});
+sequenceTR.addEvent('00:08:15', function() {glitchTR.animateOut()});
 
 // Show Lines
 for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines
     if (i < sequenceTR.numberOfLines) {
-        sequenceTR.addEvent('00:01:05', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
+        sequenceTR.addEvent('00:01:20', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequenceTR.addEvent('00:01:05', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
+        sequenceTR.addEvent('00:01:25', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], sequenceTR.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
     }
 }
 
@@ -148,14 +149,19 @@ for (var i=0; i<sequenceTR.lines.length; i++) {
 for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines
     if (i < sequenceTR.numberOfLines) {
-        sequenceTR.addEvent('00:07:25', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequenceTR.addEvent('00:09:05', sequenceTR.drawHorizontalLine, [sequenceTR.lines[i], 0, 1250, TWEEN.Easing.Elastic.InOut]);
     }
 
     // Horizontal lines
     else {
-        sequenceTR.addEvent('00:07:25', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1000, TWEEN.Easing.Elastic.InOut]);
+        sequenceTR.addEvent('00:09:00', sequenceTR.drawVerticalLine, [sequenceTR.lines[i], 0, 1250, TWEEN.Easing.Elastic.InOut]);
     }
 }
+
+sequenceTR.addEvent('00:02:00', function () {
+    sequenceTR.position(sequenceTR.grid, 0, 0, 0, 6500, TWEEN.Easing.Linear.None);
+});
+
 
 /******************************
 * Add to Timeline

@@ -12,13 +12,17 @@ SequenceMW.prototype.init = function() {
     // Previous scene objects being reused
     this.scene = sequenceTR.scene;
 
+    // Camera
+    this.camera = sequenceTR.camera;
+    this.screenDimensions = Util.getScreenDimensions(this.camera);
+
     // Audio
     this.spaceAudio = new Audio('shared/audio/space.mp3');
     this.rocksAudio = new Audio('shared/audio/rocks.mp3');
 
     // Materials
     this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x999999, opacity: 1, transparent: true, side: THREE.DoubleSide});
-    this.lightMaterial = new THREE.MeshLambertMaterial({color: 0x999999, opacity: 0, transparent: true, side: THREE.DoubleSide});
+    this.lightMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF, opacity: 0, transparent: true, side: THREE.DoubleSide});
 
     /******************************
     * Add Objects
@@ -27,8 +31,9 @@ SequenceMW.prototype.init = function() {
     this.cubeGroup = new THREE.Object3D();
 
     // Cube
-    this.cubeDimensions = sequenceTR.cubeDimensions;
+    this.cubeDimensions = sequenceTR.cubeDimensions - 0.01;
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.lightMaterial);
+    this.cube.position.z = this.cubeDimensions;
     this.cubeGroup.add(this.cube);
 
     // Sphere
@@ -68,8 +73,6 @@ SequenceMW.prototype.init = function() {
     this.grid.rotation.z = Util.toRadians(45);
     this.grid.add(this.cubeGroup);
 
-    // Camera
-    this.camera = sequenceTR.camera;
     this.scene.add(this.grid);
 };
 
@@ -88,20 +91,6 @@ SequenceMW.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
             sphere.material.opacity = this.opacity;
         })
     .start();
-};
-
-SequenceMW.prototype.positionCubeGroup = function(cubeGroup, position, duration, easing) {
-    this.spaceAudio.play();
-
-    var cubeGroupTarget = cubeGroup.position.z + position;
-
-    new TWEEN.Tween({position: cubeGroup.position.z})
-        .to({position: cubeGroupTarget}, duration)
-        .easing(easing)
-        .onUpdate(function () {
-            cubeGroup.position.z = this.position;
-        })
-        .start();
 };
 
 SequenceMW.prototype.rotateCubeGroup = function(cubeGroup, rotation, duration, easing) {
@@ -216,45 +205,67 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-/*var glitchMW = new Glitch ('MATT WEBB', -300, -25);
-sequenceMW.addEvent('00:14:15', function() {glitchMW.animateIn()});
-sequenceMW.addEvent('00:18:15', function() {glitchMW.animateOut()})*/
+var glitchMW = new Glitch ('MATT WEBB', -315, -5);
+sequenceMW.addEvent('00:12:15', function() {glitchMW.animateIn()});
+sequenceMW.addEvent('00:17:15', function() {glitchMW.animateOut()})
 
-sequenceMW.addEvent('00:04:10', function () {
-    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1000, TWEEN.Easing.Exponential.InOut);
+// Show
+sequenceMW.addEvent('00:05:20', function () {
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 750, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:06:00', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 8000, TWEEN.Easing.Exponential.InOut);
+// Fly
+sequenceMW.addEvent('00:07:00', function () {
+    sequenceMW.position(sequenceMW.cubeGroup, 0, 0, 76, 7475, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:05:29', function () {
-    sequenceMW.positionCubeGroup(sequenceMW.cubeGroup, 76, 8000, TWEEN.Easing.Exponential.InOut);
+// Zoom
+sequenceMW.addEvent('00:07:01', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 7500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:06:15', function () {
-    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(675), 8000, TWEEN.Easing.Exponential.InOut);
+sequenceMW.addEvent('00:07:25', function () {
+    sequenceMW.spaceAudio.play();
+    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(675), 7500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:09:15', function () {
-    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 6000, TWEEN.Easing.Quadratic.InOut);
-});
+// Pull focus
+sequenceMW.addEvent('00:10:15', sequenceMW.pullFocus, [renderator, 5, 0.5, 20, TWEEN.Easing.Quadratic.InOut]);
 
-sequenceMW.addEvent('00:10:00', sequenceMW.pullFocus, [renderator, 0.5, 10, 20, TWEEN.Easing.Quadratic.InOut]);
+sequenceMW.addEvent('00:10:00', function () {
+    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 7500 - 3000, TWEEN.Easing.Quadratic.InOut);
+});
 
 // Camera Pan
-sequenceMW.addEvent('00:12:20', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 2500, TWEEN.Easing.Exponential.InOut);
+sequenceMW.addEvent('00:13:15', function () {
+   sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceMW.addEvent('00:13:00', sequenceMW.pullFocus, [renderator, 0.5, 0, 1000, TWEEN.Easing.Quadratic.InOut]);
+sequenceMW.addEvent('00:13:25', sequenceMW.pullFocus, [renderator, 0, 0.5, 1500, TWEEN.Easing.Quadratic.InOut]);
 
 // Hide triangles
 for (var i=0; i<18; i++) {
-    sequenceMW.addEvent('00:14:25', sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
-}/*
+    sequenceMW.addEvent(16.5 + i * (0.25), sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
+}
 
-var glitchDH = new Glitch ('DAN HON', 0, 100);
+/*var glitchDH = new Glitch ('DAN HON', 0, 160);
+sequenceMW.addEvent('00:21:00', function() {glitchDH.animateIn()});
+sequenceMW.addEvent('00:26:00', function() {glitchDH.animateOut()});*/
+
+// CSS Shape
+sequenceMW.addEvent('00:19:00', function () {
+   sequenceMW.fade(sequenceMW.sphere, 0, 2000, TWEEN.Easing.Exponential.InOut);
+   $('.shape').addClass('visible');
+});
+
+sequenceMW.addEvent('00:21:25', function () {
+    sequenceMW.cubeGroup.visible = false;
+    $('.shape').addClass('morph');
+
+    //sequenceMW.position(sequenceMW.cubeGroup, 0, 0, -this.screenDimensions[1]/2, 1450, TWEEN.Easing.Bounce.Out);
+});
+
+/*var glitchDH = new Glitch ('DAN HON', 0, 100);
 sequenceMW.addEvent('00:13:15', function() {glitchDH.animateIn()});
 sequenceMW.addEvent('00:17:15', function() {glitchDH.animateOut()})*/
 

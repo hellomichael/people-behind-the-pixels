@@ -15,20 +15,6 @@ SequenceJA.prototype.init = function() {
     this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 1, 50);
     this.camera.position.z = 10;
     this.screenDimensions = Util.getScreenDimensions(this.camera);
-/*
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : true,
-
-            blurEnabled             : true,
-            blurAmount              : 3,
-            blurPosition            : 0.3,
-
-            bloomEnabled            : false,
-            aaEnabled               : false
-        }
-    );*/
 
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
@@ -46,31 +32,41 @@ SequenceJA.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-   /* this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x000000), this.camera);
+    /*this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0xAAAAAA), this.camera);
     this.scene.add(this.particulator.pointCloud);*/
+
+    // Add lightbeam
+    var material = new THREE.MeshLambertMaterial({
+        map: THREE.ImageUtils.loadTexture('shared/img/light.png'),
+        transparent: true,
+        opacity: 1,
+        depthWrite: false,
+        depthTest: false
+    });
+
+    this.triangleShape = new TriangleShape(2.5);
+    this.extrusionSettings = {bevelEnabled: false, material: 0, amount: 1};
+    this.extrusionGeometry = new THREE.ExtrudeGeometry( this.triangleShape, this.extrusionSettings );
+    this.lightbeam = new THREE.Mesh(this.extrusionGeometry, material);
+
+    //this.lightbeam.rotation.x = Util.toRadians(-90);
+    this.lightbeam.rotation.z = Util.toRadians(180);
+
+
+    this.lightbeam.position.z = -30;
+    this.lightbeam.position.y = 0;
+    this.lightbeam.scale.set(20, this.screenDimensions[1], 20);
+    this.scene.add(this.lightbeam);
+
 
     /******************************
     * Add Objects
     ******************************/
-    this.icosahedron = new IcosahedronMesh(this.screenDimensions[0]*0.4, this.screenDimensions[1]*0.5, 0, this.screenDimensions[1]/2);
-    this.icosahedron2 = new IcosahedronMesh(-10, -0.5, -15, 0.6);
+    this.icosahedron = new IcosahedronMesh(this.screenDimensions[0]*0.3, this.screenDimensions[1]*0.5, 0, this.screenDimensions[1]/2);
+    //this.icosahedron2 = new IcosahedronMesh(-10, -0.5, -15, 0.6);
 
     this.scene.add(this.icosahedron);
-    this.scene.add(this.icosahedron2);
-};
-
-/******************************
-* Create Animations
-******************************/
-SequenceJA.prototype.rotateIcosahedron = function(icosahedron, rotation, duration, easing) {
-    new TWEEN.Tween({rotation: 0})
-        .to({rotation: rotation}, duration)
-        .onUpdate(function () {
-            icosahedron.rotation.x = this.rotation;
-            icosahedron.rotation.y = this.rotation;
-            icosahedron.rotation.z = this.rotation;
-        })
-    .start();
+    //this.scene.add(this.icosahedron2);
 };
 
 /******************************
@@ -78,24 +74,45 @@ SequenceJA.prototype.rotateIcosahedron = function(icosahedron, rotation, duratio
 ******************************/
 var sequenceJA = new SequenceJA();
 
-/*var glitchJA = new Glitch ('JAKE ARCHIBALD', -50, 100);
-sequenceJA.addEvent('00:02:00', function() {glitchJA.animateIn()});
-sequenceJA.addEvent('00:07:00', function() {glitchJA.animateOut()})*/
+sequenceJA.addEvent('00:37:00', function () {
+    var options = {
+        postProcessEnabled      : true,
 
-sequenceJA.addEvent('00:32:00', function () {
-    sequenceJA.nextScene(sequenceJA.scene, sequenceJA.camera, false, false, false, false);
+        blurEnabled             : true,
+        blurAmount              : 5,
+        blurPosition            : 0.3,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceJA.nextScene(sequenceJA.scene, sequenceJA.camera, options);
 });
 
-sequenceJA.addEvent('00:31:00', function () {
-    sequenceJA.rotateIcosahedron(sequenceJA.icosahedron, Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
+var glitchJA = new Glitch ('JAKE ARCHIBALD', -400, -100);
+sequenceJA.addEvent('00:40:00', function() {glitchJA.animateIn()});
+sequenceJA.addEvent('00:46:00', function() {glitchJA.animateOut()})
+
+sequenceJA.addEvent('00:35:00', function () {
+    sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(180), Util.toRadians(180), Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
 });
 
-sequenceJA.addEvent('00:31:00', function () {
-    sequenceJA.rotateIcosahedron(sequenceJA.icosahedron2, Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
+sequenceJA.addEvent('00:35:00', function () {
+   // sequenceJA.rotate(sequenceJA.icosahedron2, Util.toRadians(180), Util.toRadians(180), Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
 });
 
 
-//sequenceJA.addEvent('00:30:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 0, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+sequenceJA.addEvent('00:35:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 8, 0, 15000, TWEEN.Easing.Linear.None]);
+
+
+sequenceJA.addEvent('00:42:00', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-180), 0, 6000, TWEEN.Easing.Exponential.InOut]);
+
+sequenceJA.addEvent('00:42:15', sequenceJA.fade, [sequenceJA.lightbeam, 0, 3000, TWEEN.Easing.Exponential.InOut]);
+
+sequenceJA.addEvent('00:35:20', function () {
+    sequenceJA.fade(sequenceJA.lightbeam, 0.5, 7000, TWEEN.Easing.Elastic.InOut);
+});
+
 
 /******************************
 * Add to Timeline

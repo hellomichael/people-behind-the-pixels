@@ -17,20 +17,6 @@ SequenceTA.prototype.init = function() {
     this.camera.setLens(18);
     this.camera.position.set(15, 10, 75);
 
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : true,
-
-            blurEnabled             : true,
-            blurAmount              : 3,
-            blurPosition            : false,
-
-            bloomEnabled            : false,
-            aaEnabled               : false
-        }
-    );
-
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
@@ -46,8 +32,8 @@ SequenceTA.prototype.init = function() {
     this.scene.add(this.directionalLight2);
 
     // Particulator
-    this.particulator = new Particulator(50, 200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
-    this.scene.add(this.particulator.pointCloud);
+    /*this.particulator = new Particulator(50, 200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
+    this.scene.add(this.particulator.pointCloud);*/
 
     /******************************
     * Add Objects
@@ -112,46 +98,60 @@ SequenceTA.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
 ******************************/
 var sequenceTA = new SequenceTA();
 
+sequenceTA.addEvent('00:45:10', function () {
+    var options = {
+        postProcessEnabled      : true,
 
-var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTA.addEvent('00:06:00', function() {glitchTA.animateIn()});
-sequenceTA.addEvent('00:12:00', function() {glitchTA.animateOut()})
+        blurEnabled             : true,
+        blurAmount              : 5,
+        blurPosition            : 0.5,
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 30000, TWEEN.Easing.Cubic.In);
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceTA.nextScene(sequenceTA.scene, sequenceTA.camera, options);
+})
+
+/*var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
+sequenceTA.addEvent('00:46:00', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:52:00', function() {glitchTA.animateOut()})*/
+
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids2, Util.toRadians(180), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids2, Util.toRadians(180), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids3, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids3, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids4, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids4, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids5, Util.toRadians(90), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids5, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids6, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids6, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids7, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids7, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids8, Util.toRadians(45), 30000, TWEEN.Easing.Cubic.In);
+sequenceTA.addEvent('00:46:00', function() {
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids8, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
 });
 
 
-sequenceTA.addEvent('00:00:00', function() {
-    sequenceTA.cameraMovement(sequenceTA.camera, sequenceTA.asteroids1, 15, -10, -75, 10000, TWEEN.Easing.Exponential.InOut);
+sequenceTA.addEvent('00:42:15', function() {
+    sequenceTA.cameraMovement(sequenceTA.camera, sequenceTA.asteroids1, 15, -10, -75, 7500, TWEEN.Easing.Exponential.InOut);
 });
 
 
