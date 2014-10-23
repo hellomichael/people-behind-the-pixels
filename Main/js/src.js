@@ -34,11 +34,11 @@ var peopleBehindthePixels = (function () {
         // Import sequences
             //= src/sequence.js
 
-            //= src/sequences/tobias-rebell.js
-            //= src/sequences/matt-webb.js
+            // src/sequences/tobias-rebell.js
+            // src/sequences/matt-webb.js
 
-            //= src/sequences/jonny-mack.js
-            //= src/sequences/younghee-jung.js
+            // src/sequences/jonny-mack.js
+            // src/sequences/younghee-jung.js
 
             //= src/sequences/jake-archibald.js
             //= src/sequences/tom-armitage.js
@@ -58,7 +58,7 @@ var peopleBehindthePixels = (function () {
         // Load audio
         //pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:00:00');
+        pbtp.audio.seek('00:40:00');
         //pbtp.audio.mute();
 
         // Speakers
@@ -92,9 +92,15 @@ var peopleBehindthePixels = (function () {
         // Display Stats
         $stats = $('#stats');
 
+        resizeCSS();
         mainLoop(0);
     };
 
+    var resizeCSS = function() {
+        // Morph
+        var scale = 0.040;
+        $('.shape').css('-webkit-transform', 'scale(' + window.innerHeight * scale / 40 + ')', 'important');
+    };
 
     var mainLoop = function(timestamp) {
         // Determine delta

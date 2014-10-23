@@ -47,7 +47,7 @@ SequenceMW.prototype.init = function() {
 
     loader.load("shared/js/objs/Fragments.obj", function (obj) {
         that.fragments = obj;
-        that.fragments.scale.set(0.5, 0.5, 0.5);
+        that.fragments.scale.set(0.55, 0.55, 0.55);
 
         for (var i=0; i<that.fragments.children.length; i++) {
             that.fragments.children[i].material = that.lightMaterial;
@@ -88,7 +88,8 @@ SequenceMW.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
         .easing(easing)
         .onUpdate(function () {
             cube.material.opacity = this.opacity;
-            sphere.material.opacity = this.opacity;
+        }).onComplete(function () {
+            sphere.visible = true;
         })
     .start();
 };
@@ -131,7 +132,6 @@ SequenceMW.prototype.explodeCubeGroup = function(cubeGroup, duration, easing) {
 
     // Hide cube
     cube.visible = false;
-    sphere.visible = true;
 
     for (var i=0; i<fragments.children.length; i++) {
         fragments.children[i].visible = true;
@@ -205,39 +205,39 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-var glitchMW = new Glitch ('MATT WEBB', -315, -5);
+var glitchMW = new Glitch ('MATT WEBB', -320, -5);
 sequenceMW.addEvent('00:12:15', function() {glitchMW.animateIn()});
 sequenceMW.addEvent('00:17:15', function() {glitchMW.animateOut()})
 
 // Show
 sequenceMW.addEvent('00:05:20', function () {
-    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 750, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1000, TWEEN.Easing.Exponential.InOut);
 });
 
 // Fly
 sequenceMW.addEvent('00:07:00', function () {
-    sequenceMW.position(sequenceMW.cubeGroup, 0, 0, 76, 7475, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.position(sequenceMW.cubeGroup, 0, 0, 76, 7100 - 10, TWEEN.Easing.Exponential.InOut);
 });
 
 // Zoom
 sequenceMW.addEvent('00:07:01', function () {
-    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 7500, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 7100, TWEEN.Easing.Exponential.InOut);
 });
 
 sequenceMW.addEvent('00:07:25', function () {
     sequenceMW.spaceAudio.play();
-    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(675), 7500, TWEEN.Easing.Exponential.InOut);
+    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(450), 7100, TWEEN.Easing.Exponential.InOut);
 });
 
 // Pull focus
 sequenceMW.addEvent('00:10:15', sequenceMW.pullFocus, [renderator, 5, 0.5, 20, TWEEN.Easing.Quadratic.InOut]);
 
 sequenceMW.addEvent('00:10:00', function () {
-    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 7500 - 3000, TWEEN.Easing.Quadratic.InOut);
+    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 7100 - 3750, TWEEN.Easing.Quadratic.InOut);
 });
 
 // Camera Pan
-sequenceMW.addEvent('00:13:15', function () {
+sequenceMW.addEvent('00:13:05', function () {
    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut);
 });
 
@@ -245,7 +245,7 @@ sequenceMW.addEvent('00:13:25', sequenceMW.pullFocus, [renderator, 0, 0.5, 1500,
 
 // Hide triangles
 for (var i=0; i<18; i++) {
-    sequenceMW.addEvent(16.5 + i * (0.25), sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
+    sequenceMW.addEvent(15.25 + i * (0.30), sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
 }
 
 /*var glitchDH = new Glitch ('DAN HON', 0, 160);
@@ -253,13 +253,13 @@ sequenceMW.addEvent('00:21:00', function() {glitchDH.animateIn()});
 sequenceMW.addEvent('00:26:00', function() {glitchDH.animateOut()});*/
 
 // CSS Shape
-sequenceMW.addEvent('00:19:00', function () {
+sequenceMW.addEvent('00:18:15', function () {
    sequenceMW.fade(sequenceMW.sphere, 0, 2000, TWEEN.Easing.Exponential.InOut);
    $('.shape').addClass('visible');
 });
 
 sequenceMW.addEvent('00:21:25', function () {
-    sequenceMW.cubeGroup.visible = false;
+    //sequenceMW.cubeGroup.visible = false;
     $('.shape').addClass('morph');
 
     //sequenceMW.position(sequenceMW.cubeGroup, 0, 0, -this.screenDimensions[1]/2, 1450, TWEEN.Easing.Bounce.Out);

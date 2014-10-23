@@ -53,7 +53,7 @@ SequenceJA.prototype.init = function() {
     this.lightbeam.rotation.z = Util.toRadians(180);
 
 
-    this.lightbeam.position.z = -30;
+    this.lightbeam.position.z = -40;
     this.lightbeam.position.y = 0;
     this.lightbeam.scale.set(20, this.screenDimensions[1], 20);
     this.scene.add(this.lightbeam);
@@ -63,10 +63,7 @@ SequenceJA.prototype.init = function() {
     * Add Objects
     ******************************/
     this.icosahedron = new IcosahedronMesh(this.screenDimensions[0]*0.3, this.screenDimensions[1]*0.5, 0, this.screenDimensions[1]/2);
-    //this.icosahedron2 = new IcosahedronMesh(-10, -0.5, -15, 0.6);
-
     this.scene.add(this.icosahedron);
-    //this.scene.add(this.icosahedron2);
 };
 
 /******************************
@@ -74,7 +71,7 @@ SequenceJA.prototype.init = function() {
 ******************************/
 var sequenceJA = new SequenceJA();
 
-sequenceJA.addEvent('00:37:00', function () {
+sequenceJA.addEvent('00:37:25', function () {
     var options = {
         postProcessEnabled      : true,
 
@@ -90,28 +87,18 @@ sequenceJA.addEvent('00:37:00', function () {
 });
 
 var glitchJA = new Glitch ('JAKE ARCHIBALD', -400, -100);
-sequenceJA.addEvent('00:40:00', function() {glitchJA.animateIn()});
-sequenceJA.addEvent('00:46:00', function() {glitchJA.animateOut()})
+sequenceJA.addEvent('00:38:00', function() {glitchJA.animateIn()});
+sequenceJA.addEvent('00:43:00', function() {glitchJA.animateOut()})
 
-sequenceJA.addEvent('00:35:00', function () {
-    sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(180), Util.toRadians(180), Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
+sequenceJA.addEvent('00:32:00', function () {
+    sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(-180), Util.toRadians(-180), Util.toRadians(-180), 40000, TWEEN.Easing.Linear.None);
 });
 
-sequenceJA.addEvent('00:35:00', function () {
-   // sequenceJA.rotate(sequenceJA.icosahedron2, Util.toRadians(180), Util.toRadians(180), Util.toRadians(180), 30000, TWEEN.Easing.Linear.None);
-});
+sequenceJA.addEvent('00:36:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 7, 0, 10000, TWEEN.Easing.Linear.None]);
 
+sequenceJA.addEvent('00:42:05', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-150), Util.toRadians(20), 6000, TWEEN.Easing.Exponential.InOut]);
 
-sequenceJA.addEvent('00:35:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 8, 0, 15000, TWEEN.Easing.Linear.None]);
-
-
-sequenceJA.addEvent('00:42:00', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-180), 0, 6000, TWEEN.Easing.Exponential.InOut]);
-
-sequenceJA.addEvent('00:42:15', sequenceJA.fade, [sequenceJA.lightbeam, 0, 3000, TWEEN.Easing.Exponential.InOut]);
-
-sequenceJA.addEvent('00:35:20', function () {
-    sequenceJA.fade(sequenceJA.lightbeam, 0.5, 7000, TWEEN.Easing.Elastic.InOut);
-});
+sequenceJA.addEvent('00:41:25', sequenceJA.fade, [sequenceJA.lightbeam, 0, 6000, TWEEN.Easing.Exponential.InOut]);
 
 
 /******************************

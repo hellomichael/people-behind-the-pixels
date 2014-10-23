@@ -136,6 +136,14 @@ Sequence.prototype.fade = function(object, opacity, duration, easing) {
     .start();
 };
 
+Sequence.prototype.hide = function(object) {
+    object.position.x = -9999;
+};
+
+Sequence.prototype.show = function(object) {
+    object.position.x = 0;
+};
+
 Sequence.prototype.rotate = function(object, rotationTargetX, rotationTargetY, rotationTargetZ, duration, easing) {
     new TWEEN.Tween({rotationX: object.rotation.x, rotationY: object.rotation.y, rotationZ: object.rotation.z})
         .to({rotationX: rotationTargetX, rotationY: rotationTargetY, rotationZ: rotationTargetZ}, duration)

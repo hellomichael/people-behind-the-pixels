@@ -13,9 +13,10 @@ SequenceTA.prototype.init = function() {
     this.scene = new THREE.Scene();
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 100);
+    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
     this.camera.setLens(18);
-    this.camera.position.set(15, 10, 75);
+    this.camera.position.set(0, 0, 50);
+    this.camera.rotation.y = Util.toRadians(105);
 
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
@@ -50,7 +51,7 @@ SequenceTA.prototype.init = function() {
     this.asteroids7 = new AsteroidsMesh(4, 20, 75, false);
     this.asteroids8 = new AsteroidsMesh(3, 20, 0, false);
 
-    this.camera.lookAt(this.asteroids1.position);
+    //this.camera.lookAt(this.asteroids1.position);
 
     this.scene.add(this.asteroids1);
     this.scene.add(this.asteroids2);
@@ -98,7 +99,7 @@ SequenceTA.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
 ******************************/
 var sequenceTA = new SequenceTA();
 
-sequenceTA.addEvent('00:45:10', function () {
+sequenceTA.addEvent('00:45:15', function () {
     var options = {
         postProcessEnabled      : true,
 
@@ -113,9 +114,9 @@ sequenceTA.addEvent('00:45:10', function () {
     sequenceTA.nextScene(sequenceTA.scene, sequenceTA.camera, options);
 })
 
-/*var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTA.addEvent('00:46:00', function() {glitchTA.animateIn()});
-sequenceTA.addEvent('00:52:00', function() {glitchTA.animateOut()})*/
+var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
+sequenceTA.addEvent('00:48:00', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:53:00', function() {glitchTA.animateOut()})
 
 sequenceTA.addEvent('00:46:00', function() {
     sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 20000, TWEEN.Easing.Cubic.In);
@@ -150,10 +151,11 @@ sequenceTA.addEvent('00:46:00', function() {
 });
 
 
-sequenceTA.addEvent('00:42:15', function() {
-    sequenceTA.cameraMovement(sequenceTA.camera, sequenceTA.asteroids1, 15, -10, -75, 7500, TWEEN.Easing.Exponential.InOut);
+sequenceTA.addEvent('00:42:00', function() {
+    sequenceTA.cameraMovement(sequenceTA.camera, false, 0, -15, -15, 7500, TWEEN.Easing.Exponential.InOut);
 });
 
+sequenceTA.addEvent('00:42:00', sequenceTA.rotate, [sequenceTA.camera, Util.toRadians(-25), 0, 0, 7500, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add to Timeline

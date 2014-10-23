@@ -4,9 +4,10 @@ var Emitter = function(src, accel, hz) {
 	this.src = src || new THREE.Vector3(0, -0.7, 0);
 	this.accel = accel || new THREE.Vector3(0, 1, 0);
 	this.hz = hz || 0.1;
-	this.delay = 1 / this.hz;
+	this.delay = 0;
 	this.pending = 0;
 	this.triggered = false;
+    this.count = 0;
 
 	this.group = new THREE.Object3D();
 }
@@ -30,14 +31,14 @@ Emitter.prototype.update = function(delta) {
 
 		this.pending += delta;
 
-		if (this.pending > this.delay) {
+		if (this.pending > this.delay && this.count === 0) {
 
 			var mesh;
 
 			mesh = new IcosahedronMesh(0, 0, 0, 0.25);
 
 			var fullRot = Math.PI * 2;
-			mesh.rotAccel = new THREE.Vector3(Math.random(), Math.random(), Math.random());
+			mesh.rotAccel = new THREE.Vector3(0.3, 0.3, 0.3);
 			mesh.rotation.set(Math.random() * fullRot, Math.random() * fullRot, Math.random() * fullRot);
 
 			mesh.position.set(
@@ -56,14 +57,15 @@ Emitter.prototype.update = function(delta) {
 			mesh.scale.set();
 
 			var scaleTween = new TWEEN.Tween({ scale: 0 })
-			.to({ scale: 2}, 1000)
+			.to({ scale: 2}, 2000)
+            .easing(TWEEN.Easing.Quadratic.InOut)
 		    .onUpdate(function () {
 				mesh.scale.set(this.scale, this.scale, this.scale);
 		    })
 		    .start();
 
-		    var posTween = new TWEEN.Tween({ position: 1.5})
-			.to({ position: 8}, 7500)
+		    var posTween = new TWEEN.Tween({ position: 0})
+			.to({ position: 7}, 7000)
 			.easing(TWEEN.Easing.Linear.None)
 		    .onUpdate(function () {
 				mesh.position.y = this.position;
@@ -71,6 +73,7 @@ Emitter.prototype.update = function(delta) {
 		    .start();
 
 			this.pending = 0;
+            this.count = 1;
 		}
 
 		//var disp = this.accel.clone().multiplyScalar(delta);

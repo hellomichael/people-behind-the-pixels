@@ -19,7 +19,7 @@ SequenceJM.prototype.init = function() {
     this.screenDimensions = Util.getScreenDimensions(this.camera);
 
     // Renderator
-    renderator.reset(this.scene, this.camera,
+/*    renderator.reset(this.scene, this.camera,
         {
             postProcessEnabled      : false,
 
@@ -31,7 +31,7 @@ SequenceJM.prototype.init = function() {
             aaEnabled               : true
         }
     );
-
+*/
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x222222, opacity: 1, transparent: true, side: THREE.DoubleSide});
@@ -53,7 +53,7 @@ SequenceJM.prototype.init = function() {
     * Add Objects
     ******************************/
     this.lines = [];
-    this.vertices = [new THREE.Vector3(0, 4.7, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.6, 0)];
+    this.vertices = [new THREE.Vector3(0, 5.0, 0), new THREE.Vector3(2.4, 0, 0), new THREE.Vector3(0, -0.38, 0)];
     this.numberOfLines = 15;
     this.lineDistance = (this.vertices[0].y - this.vertices[2].y)/(this.numberOfLines - 1);
 
@@ -106,7 +106,7 @@ SequenceJM.prototype.breakLines = function(line, duration, easing) {
     line.geometry.verticesNeedUpdate = true;*/
 
     new TWEEN.Tween({y: line.geometry.vertices[1].y})
-        .to({y: line.geometry.vertices[1].y - 1}, duration)
+        .to({y: line.geometry.vertices[1].y - 1.25}, duration)
         .easing(easing)
         .onUpdate(function () {
             line.geometry.vertices[1].y = this.y;
@@ -121,7 +121,18 @@ SequenceJM.prototype.breakLines = function(line, duration, easing) {
 var sequenceJM = new SequenceJM();
 
 sequenceJM.addEvent('00:22:10', function () {
-    sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
+    var options = {
+        postProcessEnabled      : true,
+
+        blurEnabled             : true,
+        blurAmount              : 0,
+        blurPosition            : 0.5,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, options);
 });
 
 // Break lines
@@ -132,7 +143,7 @@ sequenceJM.addEvent('00:22:10', function () {
 });*/
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:22:20', sequenceJM.breakLines, [sequenceJM.lines[i], 1250, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent('00:22:10', sequenceJM.breakLines, [sequenceJM.lines[i], 1600, TWEEN.Easing.Quadratic.InOut]);
 }
 
 
