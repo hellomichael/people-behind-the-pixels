@@ -149,10 +149,14 @@ for (var i=0; i<sequenceJM.lines.length; i++) {
 
 // Merge lines
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:25:15', sequenceJM.mergeLines, [sequenceJM.lines[i], 1750, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent('00:25:00', sequenceJM.mergeLines, [sequenceJM.lines[i], 1750, TWEEN.Easing.Quadratic.InOut]);
 }
 
-sequenceJM.addEvent('00:21:00', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 4000, TWEEN.Easing.Exponential.InOut]);
+sequenceJM.addEvent('00:20:15', sequenceJM.cameraMovement, [sequenceJM.camera, false, 0, 20, 0, 4000, TWEEN.Easing.Exponential.InOut]);
+
+
+
+
 
 /******************************
 * Add to Timeline

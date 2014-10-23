@@ -19,14 +19,6 @@ var AsteroidsMesh = function(count, radius, rotation, showRing) {
     this.cubeGeometry = new THREE.BoxGeometry(1, 1, 1);
     this.pyramidGeometry = new THREE.CylinderGeometry(0, 1, 1, 3, false);
 
-    // Orbit
-    if (showRing) {
-        this.ringInnerGeometry = new THREE.CircleGeometry(radius, 250);
-        this.ringInnerGeometry.vertices.shift();
-        this.ringInner = new THREE.Line(this.ringInnerGeometry, this.lineMaterial);
-        this.asteroidGroup.add(this.ringInner);
-    }
-
     for (var i=0; i<this.count; i++) {
         // Create random shape
         var randomShape = this.shapes[~~ (Math.random() * this.shapes.length)];
@@ -57,6 +49,15 @@ var AsteroidsMesh = function(count, radius, rotation, showRing) {
 
     this.asteroidGroup.rotation.x = Util.toRadians(90);
     this.asteroidGroup.rotation.z = Util.toRadians(rotation);
+
+
+    // Orbit
+    if (showRing) {
+        this.ringInnerGeometry = new THREE.CircleGeometry(radius, 250);
+        this.ringInnerGeometry.vertices.shift();
+        this.ringInner = new THREE.Line(this.ringInnerGeometry, this.lineMaterial);
+        this.asteroidGroup.add(this.ringInner);
+    }
 
     return this.asteroidGroup;
 };

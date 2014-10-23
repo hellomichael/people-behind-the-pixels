@@ -115,8 +115,8 @@ sequenceTA.addEvent('00:45:15', function () {
 })
 
 var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTA.addEvent('00:48:00', function() {glitchTA.animateIn()});
-sequenceTA.addEvent('00:53:00', function() {glitchTA.animateOut()})
+sequenceTA.addEvent('00:45:00', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:50:00', function() {glitchTA.animateOut()})
 
 sequenceTA.addEvent('00:46:00', function() {
     sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 20000, TWEEN.Easing.Cubic.In);
@@ -150,12 +150,13 @@ sequenceTA.addEvent('00:46:00', function() {
     sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids8, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
 });
 
-
-sequenceTA.addEvent('00:42:00', function() {
+// Camera
+sequenceTA.addEvent('00:41:25', function() {
     sequenceTA.cameraMovement(sequenceTA.camera, false, 0, -15, -15, 7500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceTA.addEvent('00:42:00', sequenceTA.rotate, [sequenceTA.camera, Util.toRadians(-25), 0, 0, 7500, TWEEN.Easing.Exponential.InOut]);
+sequenceTA.addEvent('00:41:25', sequenceTA.rotate, [sequenceTA.camera, Util.toRadians(-25), 0, 0, 7500, TWEEN.Easing.Exponential.InOut]);
+
 
 /******************************
 * Add to Timeline

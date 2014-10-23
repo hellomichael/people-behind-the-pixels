@@ -138,20 +138,21 @@ sequenceJM.addEvent('00:23:15', function() {glitchJM.animateIn()});
 sequenceJM.addEvent('00:27:15', function() {glitchJM.animateOut()});
 
 
-var glitchYJ = new Glitch ('YOUNGHEE JUNG', 300, -225);
+var glitchYJ = new Glitch ('YOUNGHEE JUNG', 300, -175);
 sequenceYJ.addEvent('00:32:00', function() {glitchYJ.animateIn()});
 sequenceYJ.addEvent('00:37:15', function() {glitchYJ.animateOut()});
 
 // Fade with Tetrahedron
 sequenceYJ.addEvent('00:28:25', function () {
     this.tetrahedron.visible = true;
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 400, TWEEN.Easing.Linear.None);
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 400, TWEEN.Easing.Linear.None);
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 400, TWEEN.Easing.Linear.None);
+
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 200, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 200, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 200, TWEEN.Easing.Linear.None);
 });
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:28:25', sequenceJM.fade, [sequenceJM.lines[i], 0, 400, TWEEN.Easing.Linear.None]);
+    sequenceJM.addEvent('00:28:25', sequenceJM.fade, [sequenceJM.lines[i], 0, 200, TWEEN.Easing.Linear.None]);
 }
 
 // Move camera

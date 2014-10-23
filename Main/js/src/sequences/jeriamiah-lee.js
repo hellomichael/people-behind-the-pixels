@@ -16,20 +16,6 @@ SequenceJL.prototype.init = function() {
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
     this.camera.position.z = 10;
 
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : true,
-
-            blurEnabled             : true,
-            blurAmount              : false,
-            blurPosition            : false,
-
-            bloomEnabled            : false,
-            aaEnabled               : false
-        }
-    );
-
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
@@ -90,35 +76,50 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
 ******************************/
 var sequenceJL = new SequenceJL();
 
+sequenceJL.addEvent('01:02:00', function () {
+    var options = {
+        postProcessEnabled      : true,
+
+        blurEnabled             : true,
+        blurAmount              : 2,
+        blurPosition            : 0.6,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceJL.nextScene(sequenceJL.scene, sequenceJL.camera, options);
+})
+
 var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
-sequenceJL.addEvent('00:06:00', function() {glitchJL.animateIn()});
-sequenceJL.addEvent('00:11:00', function() {glitchJL.animateOut()});
+sequenceJL.addEvent('01:06:00', function() {glitchJL.animateIn()});
+sequenceJL.addEvent('01:11:00', function() {glitchJL.animateOut()});
 
-sequenceJL.addEvent('00:00:01', function() {
-    sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 2048), 0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:02:01', function() {
+    sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('00:00:05', function() {
-    sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:02:02', function() {
+    sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('00:00:10', function() {
-    sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 2048), 0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:02:10', function() {
+    sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 4095), 0.25, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('00:00:15', function() {
-    sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -2048), -0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:02:15', function() {
+    sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -4095), -0.25, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('00:00:05', function() {
-    sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 2048), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:02:02', function() {
+    sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
 
-sequenceJL.addEvent('00:00:01', function() {
+/*sequenceJL.addEvent('00:00:01', function() {
     sequenceJL.cameraMovement(sequenceJL.camera, false, 0, 0, -1.5, 15000, TWEEN.Easing.Quadratic.InOut);
 });
-
+*/
 /******************************
 * Add to Timeline
 ******************************/
