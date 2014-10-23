@@ -28,6 +28,7 @@
 //= src/shaders/BokehShader.js
 //= src/shaders/BokehPass.js
 
+var disc2 = THREE.ImageUtils.loadTexture("shared/img/disc2.png");
 
 // People Behind the Pixels
 var peopleBehindthePixels = (function () {
@@ -46,10 +47,11 @@ var peopleBehindthePixels = (function () {
         if (playtime === undefined) playtime = 0.0;
 
         // Import sequences
-        //= src/01-08-younghee-jung.js
-        //= src/01-09-scott-thomas.js
+        // = src/01-08-younghee-jung.js
+        // = src/01-09-scott-thomas.js
         // = src/01-15-sarah-mei.js
         // = src/01-16-julio-cesar-ody.js
+        //= src/01-17-guy-podjarny.js
         // = src/01-23-mark-dalgesh.js
         // = src/01-26-paul-theriault.js
 
@@ -73,7 +75,7 @@ var peopleBehindthePixels = (function () {
 
         // Updates
         updateSequence(pbtp.audio.getCurrentTime(), delta);        
-        TWEEN.update(timestamp);
+        TWEEN.update(timestamp); 
 
         // Render
         renderator.render(delta);

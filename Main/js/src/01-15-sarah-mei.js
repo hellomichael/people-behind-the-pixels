@@ -12,7 +12,7 @@ var Speaker15 = function() {
 	this.camera.lookAt(new THREE.Vector3());
 	this.scene.add(this.camera);
 
-	var controls = new THREE.OrbitControls(this.camera);
+	// var controls = new THREE.OrbitControls(this.camera);
 
 	var cgeo = new THREE.CircleGeometry(1, 64);
 	var cmtl = new THREE.MeshBasicMaterial({ color:0x666666 });

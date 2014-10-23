@@ -1,72 +1,72 @@
 
 
-var Tetramid = function(height) {
-
-	var mtl = new THREE.MeshBasicMaterial({ color:0x666666 });
-	var geo = new THREE.BoxGeometry(1, 1, 1);
-	var width = height * 2;
-
-	this.height = height;
-	this.group = new THREE.Object3D();
-	this.rows = [];	
-
-	for (var i = 0; i < width; i++) {
-
-		var col = [];
-		var count = i <= height ? i : height - (i - height);
-
-		for (var j = 0; j < count; j++) {
-
-			var mesh = new THREE.Mesh(geo, mtl);
-			// mesh.position.set(i, j, 0);
-			col.push({ mesh:mesh, destination:new THREE.Vector3(i,j,0) });
-
-			// this.group.add(mesh);
-		}
-
-		this.rows.push(col);
-	}
-}
-
-
-Tetramid.prototype.drop = function(hz) {
-
-	var context = this;
-
-	// this.rows.forEach(function(col) {
-	// 	col.forEach(function(data) {
-
-	// 		context.group.add(data.mesh);
-
-	// 		var tween = new TWEEN.Tween(data.mesh.position)
-	// 			.to({ y: })
-	// 	});
-	// });
-}
-
-
-/*----------------------------------------------------------------------------*/
 
 
 var Speaker16 = function() {
 
-	this.scene = speaker15.scene;
-	this.camera = speaker15.camera;
-	this.square = speaker15.square;
-	this.cube = speaker15.cube;
+	this.scene = new THREE.Scene();
+	this.scene.fog = new THREE.FogExp2(0x050505, 0.1);
 
-	// this.scene = new THREE.Scene();
-	// this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 256);
+	this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 256);
+	this.camera.position.set(1, 0, -3.5);
+	this.camera.lookAt(new THREE.Vector3(2, 0, 0)); 
+	this.scene.add(this.camera);
 
-	this.addEvent('00:04:00', function() {
+	this.particulator = new Particulator(16, 200, new THREE.Vector3(0.05, 0.2, 0.08), disc2, new THREE.Color(0x662230), this.camera, 0.2);
+	this.scene.add(this.particulator.pointCloud);
 
-		this.scene.remove(this.square);
-		this.scene.remove(this.cube);
+	// var controls = new THREE.OrbitControls(this.camera);
 
-		var tetramid = new Tetramid(32);
-		this.scene.add(tetramid.group);
+	this.ambient = new THREE.AmbientLight(0x020202);
+	this.scene.add(this.ambient);
 
-		tetramid.drop(100);
+	this.dl = new THREE.DirectionalLight(0xffffff, 1);
+	this.dl.position.set(-1, 3, -2);
+	this.scene.add(this.dl);
+
+	var geo = new THREE.BoxGeometry(1,1,1);
+	var mtl = new THREE.MeshPhongMaterial({ color:0x666666 });
+
+	this.cubeA = new THREE.Mesh(geo, mtl);
+	this.cubeA.position.setY(2);
+	this.scene.add(this.cubeA);
+
+	this.cubeB = new THREE.Mesh(geo, mtl);
+	this.cubeB.position.set(4, 6, 4);
+	this.scene.add(this.cubeB);
+
+	this.cubeC = new THREE.Mesh(geo, mtl);
+	this.cubeC.position.set(-3, 8, 10);
+	this.scene.add(this.cubeC);
+
+	this.cubeD = new THREE.Mesh(geo, mtl);
+	this.cubeD.position.set(2, 0, 15);
+	this.scene.add(this.cubeD);
+
+	this.addEvent('00:00:01', function() {
+
+		renderator.reset(this.scene, this.camera);
+		
+		var tweenA = new TWEEN.Tween(this.cubeA.position)
+			.to({ y: -2 }, 5000)
+			.start();
+
+		var tweenD = new TWEEN.Tween(this.cubeD.position)
+			.to({ y: -10 }, 5000)
+			.start();
+		
+	});
+
+	this.addEvent('00:01:00', function() {
+
+		var tweenB = new TWEEN.Tween(this.cubeB.position)
+			.to({ y: 2 }, 4000)
+			.start();
+
+		var tweenC = new TWEEN.Tween(this.cubeC.position)
+			.to({ y: 1 }, 4000)
+			.start();
+
 	});
 }
 
@@ -76,6 +76,7 @@ Speaker16.prototype = new Sequence();
 
 Speaker16.prototype.update = function(delta) {
 
+	this.particulator.update(delta);
 }
 
 
