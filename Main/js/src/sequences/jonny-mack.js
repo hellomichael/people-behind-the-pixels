@@ -143,7 +143,7 @@ sequenceJM.addEvent('00:22:10', function () {
 });*/
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:22:10', sequenceJM.breakLines, [sequenceJM.lines[i], 1600, TWEEN.Easing.Quadratic.InOut]);
+    sequenceJM.addEvent('00:22:10', sequenceJM.breakLines, [sequenceJM.lines[i], 1500, TWEEN.Easing.Quadratic.InOut]);
 }
 
 

@@ -44,7 +44,7 @@ canvas, #stats {
     height: 100%;
     //background: url('../img/noise.gif') center center;
     /* background-size: cover; */
-    opacity: 0.05;
+    opacity: 0.03;
     z-index: 9999;
 }
 
@@ -139,7 +139,7 @@ canvas, #stats {
 }
 
 
-$duration: 1.5s;
+$duration: 2s;
 $border: 21px;
 $angle: 30deg;
 

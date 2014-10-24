@@ -32,11 +32,11 @@ SequenceTA.prototype.init = function() {
     this.directionalLight2.position.set(0, -1000, 0).normalize();
     this.scene.add(this.directionalLight2);
 
-    this.ambientLight = new THREE.AmbientLight(0xAAAAAA);
+    this.ambientLight = new THREE.AmbientLight(0x666666);
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(50, 50, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -127,17 +127,22 @@ SequenceTA.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
     }
 };
 
+SequenceTA.prototype.update = function(delta) {
+    this.particulator.update(delta);
+};
+
+
 /******************************
 * Add Events
 ******************************/
 var sequenceTA = new SequenceTA();
 
-sequenceTA.addEvent('00:45:10', function () {
+sequenceTA.addEvent('00:45:02', function () {
     var options = {
         postProcessEnabled      : true,
 
         blurEnabled             : true,
-        blurAmount              : 5,
+        blurAmount              : 7,
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
@@ -148,11 +153,11 @@ sequenceTA.addEvent('00:45:10', function () {
 })
 
 var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTA.addEvent('00:46:10', function() {glitchTA.animateIn()});
-sequenceTA.addEvent('00:51:10', function() {glitchTA.animateOut()})
+sequenceTA.addEvent('00:45:05', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:49:20', function() {glitchTA.animateOut()})
 
 sequenceTA.addEvent('00:46:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(0), 20000, TWEEN.Easing.Cubic.In);
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids1, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
 sequenceTA.addEvent('00:46:00', function() {
@@ -184,15 +189,18 @@ sequenceTA.addEvent('00:46:00', function() {
 });
 
 // Camera
-sequenceTA.addEvent('00:41:20', function() {
-    sequenceTA.cameraMovement(sequenceTA.camera, false, 0, -15, -15, 7500, TWEEN.Easing.Exponential.InOut);
+sequenceTA.addEvent('00:41:05', function() {
+    sequenceTA.cameraMovement(sequenceTA.camera, false, 0, -15, -15, 7500, TWEEN.Easing.Exponential.InOut, function () {
+        sequenceTA.cameraMovement(sequenceTA.camera, false, 0, 0, -5, 7500, TWEEN.Easing.Linear.None);
+        sequenceTA.rotate(sequenceTA.camera, Util.toRadians(-30), 0, 0, 7500, TWEEN.Easing.Linear.None);
+    });
 });
 
 sequenceTA.addEvent('00:41:20', sequenceTA.rotate, [sequenceTA.camera, Util.toRadians(-25), 0, 0, 7500, TWEEN.Easing.Exponential.InOut]);
 
 
 sequenceTA.addEvent('00:44:15', function() {
-    sequenceTA.fade(sequenceTA.particulator, 0.20, 2500, TWEEN.Easing.Exponential.InOut);
+    sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
 });
 
 /******************************

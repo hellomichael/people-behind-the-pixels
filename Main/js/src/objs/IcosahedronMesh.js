@@ -4,8 +4,8 @@ var IcosahedronMesh = function(x, y, z, radius) {
 
     // Materials
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
-    this.basicMaterial = new THREE.MeshBasicMaterial ({color: 0x999999, opacity: 1, transparent: true,});
-    this.edgeMaterial = new THREE.MeshBasicMaterial ({color: 0x999999, opacity: 0.5, transparent: true, wireframe: true});
+    this.basicMaterial = new THREE.MeshBasicMaterial ({color: 0xCCCCCC, opacity: 1, transparent: true,});
+    this.edgeMaterial = new THREE.MeshBasicMaterial ({color: 0x333333, opacity: 0.5, transparent: true, wireframe: true});
     this.wireFrameMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 0.5, transparent: true, wireframe: true});
 
     // Group

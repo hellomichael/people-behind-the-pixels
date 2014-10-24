@@ -60,7 +60,7 @@ Sequence.prototype.nextScene = function(scene, camera, options) {
     renderator.reset(scene, camera, options);
 }
 
-Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing) {
+Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing, callback) {
     var pedestalTarget = camera.position.x + pedastal;
     var dollyTarget = camera.position.y - dolly;
     var zoomTarget = camera.position.z + zoom;
@@ -82,6 +82,10 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
                 // Add look at object
                 if (object) {
                     camera.lookAt(object.position);
+                }
+            }).onComplete(function() {
+                if (callback) {
+                    callback();
                 }
             })
         .start();
@@ -127,11 +131,19 @@ Sequence.prototype.pullFocus = function(renderator, blur, position, duration, ea
 }
 
 Sequence.prototype.fade = function(object, opacity, duration, easing) {
+    if (object.material.opacity === 0) {
+        object.visible = true;
+    }
+
     new TWEEN.Tween({opacity: object.material.opacity})
         .to({opacity: opacity}, duration)
         .easing(easing)
         .onUpdate(function () {
             object.material.opacity = this.opacity;
+        }).onComplete(function () {
+            if (opacity === 0) {
+                object.visible = false;
+            }
         })
     .start();
 };

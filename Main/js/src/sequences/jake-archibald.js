@@ -96,9 +96,9 @@ sequenceJA.addEvent('00:32:00', function () {
 
 sequenceJA.addEvent('00:36:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 7, 0, 10000, TWEEN.Easing.Linear.None]);
 
-sequenceJA.addEvent('00:42:05', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-150), Util.toRadians(20), 6000, TWEEN.Easing.Exponential.InOut]);
+sequenceJA.addEvent('00:42:05', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-150), Util.toRadians(20), 5000, TWEEN.Easing.Exponential.InOut]);
 
-sequenceJA.addEvent('00:41:15', sequenceJA.fade, [sequenceJA.lightbeam, 0, 6000, TWEEN.Easing.Exponential.InOut]);
+sequenceJA.addEvent('00:41:15', sequenceJA.fade, [sequenceJA.lightbeam, 0, 5000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add to Timeline

@@ -152,12 +152,19 @@ sequenceYJ.addEvent('00:28:25', function () {
 });
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:28:25', sequenceJM.fade, [sequenceJM.lines[i], 0, 250, TWEEN.Easing.Linear.None]);
+    sequenceJM.addEvent('00:29:00', sequenceJM.fade, [sequenceJM.lines[i], 0, 250, TWEEN.Easing.Linear.None]);
 }
 
 // Move camera
-sequenceYJ.addEvent('00:28:00', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-20), 0, 0, 5000, TWEEN.Easing.Exponential.InOut]);
-sequenceYJ.addEvent('00:28:00', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:28:00', function() {
+    sequenceYJ.cameraMovement(sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut, function () {
+        sequenceYJ.cameraMovement(sequenceYJ.camera, false, 0, 0, -1, 8000, TWEEN.Easing.Linear.None);
+        sequenceYJ.rotate(sequenceYJ.camera, Util.toRadians(-20), 0, 0, 8000, TWEEN.Easing.Linear.None);
+    });
+});
+
+//sequenceYJ.addEvent('00:28:00', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:28:00', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-15), 0, 0, 5000, TWEEN.Easing.Exponential.InOut]);
 sequenceYJ.addEvent('00:28:00', function () {
     sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 5000, TWEEN.Easing.Exponential.InOut);
 });
@@ -175,7 +182,7 @@ sequenceYJ.addEvent('00:30:20', function () {
     sequenceYJ.unFold(sequenceYJ.tetrahedron.children[3], 0, Util.getVector(270), 2000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceYJ.addEvent('00:30:15', function () {
+sequenceYJ.addEvent('00:31:05', function () {
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
     sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[1], 1, 750, TWEEN.Easing.Quadratic.InOut);
@@ -183,7 +190,7 @@ sequenceYJ.addEvent('00:30:15', function () {
 
 // Light
 sequenceYJ.addEvent('00:30:15', function () {
-    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 4, 2500, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 5, 2500, TWEEN.Easing.Exponential.InOut);
 });
 
 // Flickr
@@ -200,7 +207,7 @@ sequenceYJ.addEvent('00:31:10', sequenceYJ.pullFocus, [renderator, 3, 0.5, 4500,
 
 //sequenceYJ.addEvent('00:34:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, 0, 1, 20000, TWEEN.Easing.Exponential.InOut]);
 
-sequenceYJ.addEvent('00:30:15', function () {
+sequenceYJ.addEvent('00:30:20', function () {
     sequenceYJ.emitter.trigger();
 });
 

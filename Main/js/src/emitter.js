@@ -56,16 +56,17 @@ Emitter.prototype.update = function(delta) {
 
 			mesh.scale.set();
 
-			var scaleTween = new TWEEN.Tween({ scale: 0 })
+			var scaleTween = new TWEEN.Tween({ scale: 0})
 			.to({ scale: 2}, 2000)
-            .easing(TWEEN.Easing.Quadratic.InOut)
+            .easing(TWEEN.Easing.Exponential.InOut)
 		    .onUpdate(function () {
 				mesh.scale.set(this.scale, this.scale, this.scale);
 		    })
 		    .start();
 
-		    var posTween = new TWEEN.Tween({ position: 0})
+		    var posTween = new TWEEN.Tween({ position: 0.25})
 			.to({ position: 8}, 7000)
+            .delay(50)
 			.easing(TWEEN.Easing.Linear.None)
 		    .onUpdate(function () {
 				mesh.position.y = this.position;

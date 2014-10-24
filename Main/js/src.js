@@ -24,12 +24,17 @@ var peopleBehindthePixels = (function () {
     var prevTimestamp;
     var delta;
     var speakers;
-    var canvas1, canvas2;
     var $stats;
 
     // Initialisation
     var init = function (playtime) {
         if (playtime === undefined) playtime = 0.0;
+
+        // Load audio
+        //pbtp.audio.init('shared/audio/interstellar.mp3');
+        pbtp.audio.init('shared/audio/music.mp3');
+        pbtp.audio.seek('00:45:00');
+        //pbtp.audio.mute();
 
         // Import sequences
             //= src/sequence.js
@@ -42,23 +47,16 @@ var peopleBehindthePixels = (function () {
 
             //= src/sequences/jake-archibald.js
             //= src/sequences/tom-armitage.js
-            // src/sequences/douglas-bowman.js
+            //= src/sequences/douglas-bowman.js
+            //= src/sequences/jeriamiah-lee.js
+            //= src/sequences/sarah-mei.js
 
 
-            // src/sequences/jeriamiah-lee.js
 
             // src/sequences/jessica-hische.js
             // src/sequences/erin-moore.js
-            // src/sequences/sarah-mei.js
             // src/sequences/emily-nakashami.js
             // src/sequences/hadi-michael.js
-
-
-        // Load audio
-        //pbtp.audio.init('shared/audio/interstellar.mp3');
-        pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:40:00');
-        //pbtp.audio.mute();
 
         // Speakers
         speakers = [

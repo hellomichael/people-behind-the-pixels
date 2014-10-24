@@ -10,33 +10,30 @@ SequenceJL.prototype = new Sequence();
 
 SequenceJL.prototype.init = function() {
     // Scene
-    this.scene = new THREE.Scene();
+    this.scene = sequenceDB.scene;
 
     // Camera
-    this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
-    this.camera.position.z = 10;
+    this.camera = sequenceDB.camera;
 
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
 
-    // Lights
-    this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-    this.directionalLight.position.set(100, 100, 100).normalize();
-    this.scene.add(this.directionalLight);
-
-    this.ambientLight = new THREE.AmbientLight(0xFFFFFF);
-    this.scene.add(this.ambientLight);
-
     /******************************
     * Add Objects
     ******************************/
-    this.ring1 = new RingMesh(0, 0, 5, 3);
-    this.ring2 = new RingMesh(0, 0, 5, 3);
-    this.ring3 = new RingMesh(0, 0, 5, 3);
-    this.ring4 = new RingMesh(0, 0, 5, 3);
-    this.ring5 = new RingMesh(0, 0, 5, 3);
+    this.ring1 = new RingMesh(0, 0, 8, 5);
+    this.ring2 = new RingMesh(0, 0, 8, 5);
+    this.ring3 = new RingMesh(0, 0, 8, 5);
+    this.ring4 = new RingMesh(0, 0, 8, 5);
+    this.ring5 = new RingMesh(0, 0, 8, 5);
+
+    this.ring1.rotation.x = Util.toRadians(90);
+    this.ring2.rotation.x = Util.toRadians(90);
+    this.ring3.rotation.x = Util.toRadians(90);
+    this.ring4.rotation.x = Util.toRadians(90);
+    this.ring5.rotation.x = Util.toRadians(90);
 
     this.scene.add(this.ring1);
     this.scene.add(this.ring2);
@@ -79,44 +76,55 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
 ******************************/
 var sequenceJL = new SequenceJL();
 
-sequenceJL.addEvent('01:04:00', function () {
-    var options = {
-        postProcessEnabled      : true,
+var glitchJL = new Glitch ('JERIAMIAH LEE', 0, -15);
+sequenceJL.addEvent('01:04:00', function() {glitchJL.animateIn()});
+sequenceJL.addEvent('01:09:00', function() {glitchJL.animateOut()});
 
-        blurEnabled             : true,
-        blurAmount              : 2,
-        blurPosition            : 0.6,
-
-        bloomEnabled            : false,
-        aaEnabled               : true
-    }
-
-    sequenceJL.nextScene(sequenceJL.scene, sequenceJL.camera, options);
-})
-
-var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
-sequenceJL.addEvent('01:06:00', function() {glitchJL.animateIn()});
-sequenceJL.addEvent('01:11:00', function() {glitchJL.animateOut()});
-
-sequenceJL.addEvent('01:04:01', function() {
-    sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:03:01', function() {
+    sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:04:04', function() {
-    sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:03:04', function() {
+    sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:04:10', function() {
-    sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 4095), 0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:03:10', function() {
+    sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 4095), 0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:04:15', function() {
-    sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -4095), -0.25, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:03:15', function() {
+    sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:04:04', function() {
-    sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
+sequenceJL.addEvent('01:03:04', function() {
+    sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
+
+sequenceJL.addEvent('01:02:00', function() {
+    sequenceJL.fade(sequenceDB.asteroids1.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceDB.asteroids2.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceDB.asteroids3.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceDB.asteroids5.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceDB.asteroids6.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+
+    sequenceJL.fade(sequenceJL.ring1.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+
+    sequenceJL.fade(sequenceJL.ring1.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+});
+
+/*sequenceJL.addEvent('01:02:00', function() {
+    sequenceJL.fade(sequenceJL.ring1, 1, 1000, TWEEN.Easing.Exponential.InOut);
+});*/
+
+
 
 
 /*sequenceJL.addEvent('00:00:01', function() {

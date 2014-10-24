@@ -23,7 +23,7 @@ var Renderator = function(scene, camera, options) {
     this.renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById('canvas'),
         alpha: true,
-        antialias: false,
+        antialias: true,
         sortObjects: true
     });
 
