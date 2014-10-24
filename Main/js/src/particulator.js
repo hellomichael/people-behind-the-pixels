@@ -1,4 +1,4 @@
-var Particulator = function(range, density, acceleration, texture, color, focusObject) {
+var Particulator = function(range, density, acceleration, texture, focusObject) {
 
     this.range = range;
     this.acceleration = acceleration;
@@ -8,7 +8,8 @@ var Particulator = function(range, density, acceleration, texture, color, focusO
         map: texture,
         transparent: true,
         blending: THREE.AdditiveBlending,
-        color: color,
+        color: new THREE.Color(0xFFFFFF),
+        opacity: 0,
         depthWrite: false
     });
 

@@ -42,10 +42,10 @@ var peopleBehindthePixels = (function () {
 
             //= src/sequences/jake-archibald.js
             //= src/sequences/tom-armitage.js
-            //= src/sequences/douglas-bowman.js
+            // src/sequences/douglas-bowman.js
 
 
-            //= src/sequences/jeriamiah-lee.js
+            // src/sequences/jeriamiah-lee.js
 
             // src/sequences/jessica-hische.js
             // src/sequences/erin-moore.js
@@ -57,7 +57,7 @@ var peopleBehindthePixels = (function () {
         // Load audio
         //pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:50:00');
+        pbtp.audio.seek('00:40:00');
         //pbtp.audio.mute();
 
         // Speakers

@@ -50,7 +50,6 @@ var AsteroidsMesh = function(count, radius, rotation, showRing) {
     this.asteroidGroup.rotation.x = Util.toRadians(90);
     this.asteroidGroup.rotation.z = Util.toRadians(rotation);
 
-
     // Orbit
     if (showRing) {
         this.ringInnerGeometry = new THREE.CircleGeometry(radius, 250);
@@ -59,5 +58,7 @@ var AsteroidsMesh = function(count, radius, rotation, showRing) {
         this.asteroidGroup.add(this.ringInner);
     }
 
+    this.asteroidGroup.count = count;
+    this.asteroidGroup.showRing = this.showRing;
     return this.asteroidGroup;
 };

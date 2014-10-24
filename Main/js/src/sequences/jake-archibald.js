@@ -37,7 +37,7 @@ SequenceJA.prototype.init = function() {
 
     // Add lightbeam
     var material = new THREE.MeshLambertMaterial({
-        map: THREE.ImageUtils.loadTexture('shared/img/light.png'),
+        map: THREE.ImageUtils.loadTexture('shared/img/light2.png'),
         transparent: true,
         opacity: 1,
         depthWrite: false,
@@ -52,10 +52,10 @@ SequenceJA.prototype.init = function() {
     //this.lightbeam.rotation.x = Util.toRadians(-90);
     this.lightbeam.rotation.z = Util.toRadians(180);
 
-
+    this.lightbeam.position.x = 30;
     this.lightbeam.position.z = -40;
     this.lightbeam.position.y = 0;
-    this.lightbeam.scale.set(20, this.screenDimensions[1], 20);
+    this.lightbeam.scale.set(40, this.screenDimensions[1], 40);
     this.scene.add(this.lightbeam);
 
 
@@ -71,7 +71,7 @@ SequenceJA.prototype.init = function() {
 ******************************/
 var sequenceJA = new SequenceJA();
 
-sequenceJA.addEvent('00:37:25', function () {
+sequenceJA.addEvent('00:37:20', function () {
     var options = {
         postProcessEnabled      : true,
 
@@ -91,15 +91,14 @@ sequenceJA.addEvent('00:38:00', function() {glitchJA.animateIn()});
 sequenceJA.addEvent('00:43:00', function() {glitchJA.animateOut()})
 
 sequenceJA.addEvent('00:32:00', function () {
-    sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(-180), Util.toRadians(-180), Util.toRadians(-180), 40000, TWEEN.Easing.Linear.None);
+    sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(-180), Util.toRadians(-180), Util.toRadians(-180), 70000, TWEEN.Easing.Linear.None);
 });
 
 sequenceJA.addEvent('00:36:00', sequenceJA.cameraMovement, [sequenceJA.camera, false, 0, 7, 0, 10000, TWEEN.Easing.Linear.None]);
 
 sequenceJA.addEvent('00:42:05', sequenceJA.rotate, [sequenceJA.camera, 0, Util.toRadians(-150), Util.toRadians(20), 6000, TWEEN.Easing.Exponential.InOut]);
 
-sequenceJA.addEvent('00:41:25', sequenceJA.fade, [sequenceJA.lightbeam, 0, 6000, TWEEN.Easing.Exponential.InOut]);
-
+sequenceJA.addEvent('00:41:15', sequenceJA.fade, [sequenceJA.lightbeam, 0, 6000, TWEEN.Easing.Exponential.InOut]);
 
 /******************************
 * Add to Timeline

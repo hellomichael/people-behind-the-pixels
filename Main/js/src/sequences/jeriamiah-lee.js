@@ -26,6 +26,9 @@ SequenceJL.prototype.init = function() {
     this.directionalLight.position.set(100, 100, 100).normalize();
     this.scene.add(this.directionalLight);
 
+    this.ambientLight = new THREE.AmbientLight(0xFFFFFF);
+    this.scene.add(this.ambientLight);
+
     /******************************
     * Add Objects
     ******************************/
@@ -76,7 +79,7 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
 ******************************/
 var sequenceJL = new SequenceJL();
 
-sequenceJL.addEvent('01:02:00', function () {
+sequenceJL.addEvent('01:04:00', function () {
     var options = {
         postProcessEnabled      : true,
 
@@ -95,23 +98,23 @@ var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
 sequenceJL.addEvent('01:06:00', function() {glitchJL.animateIn()});
 sequenceJL.addEvent('01:11:00', function() {glitchJL.animateOut()});
 
-sequenceJL.addEvent('01:02:01', function() {
+sequenceJL.addEvent('01:04:01', function() {
     sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:02:02', function() {
+sequenceJL.addEvent('01:04:04', function() {
     sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:02:10', function() {
+sequenceJL.addEvent('01:04:10', function() {
     sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 4095), 0.25, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:02:15', function() {
+sequenceJL.addEvent('01:04:15', function() {
     sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -4095), -0.25, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:02:02', function() {
+sequenceJL.addEvent('01:04:04', function() {
     sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 4095), -0.2, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 

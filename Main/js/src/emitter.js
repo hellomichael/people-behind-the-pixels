@@ -65,7 +65,7 @@ Emitter.prototype.update = function(delta) {
 		    .start();
 
 		    var posTween = new TWEEN.Tween({ position: 0})
-			.to({ position: 7}, 7000)
+			.to({ position: 8}, 7000)
 			.easing(TWEEN.Easing.Linear.None)
 		    .onUpdate(function () {
 				mesh.position.y = this.position;

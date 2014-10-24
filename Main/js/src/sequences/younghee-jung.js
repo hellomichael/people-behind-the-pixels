@@ -1,14 +1,14 @@
 /******************************
 * Extend Scene Prototype
 ******************************/
-var SequenceYJ = function() {
+var sequenceYJ = function() {
     this.sequence = [];
     this.init();
 };
 
-SequenceYJ.prototype = new Sequence();
+sequenceYJ.prototype = new Sequence();
 
-SequenceYJ.prototype.init = function() {
+sequenceYJ.prototype.init = function() {
     // Scene
     this.scene = sequenceJM.scene;
 
@@ -76,7 +76,7 @@ SequenceYJ.prototype.init = function() {
 /******************************
 * Create Animations
 ******************************/
-SequenceYJ.prototype.unFold = function(tetrahedronFace, rotation, axis, duration, easing) {
+sequenceYJ.prototype.unFold = function(tetrahedronFace, rotation, axis, duration, easing) {
     var prevRotation = -109.45;
 
     new TWEEN.Tween({rotation: prevRotation})
@@ -93,7 +93,7 @@ SequenceYJ.prototype.unFold = function(tetrahedronFace, rotation, axis, duration
     .start();
 };
 
-SequenceYJ.prototype.rotateTetrahedron = function(tetrahedron, rotation, duration, easing) {
+sequenceYJ.prototype.rotateTetrahedron = function(tetrahedron, rotation, duration, easing) {
     new TWEEN.Tween({rotation: tetrahedron.rotation.x})
         .to({rotation: rotation}, duration)
         .easing(easing)
@@ -103,7 +103,7 @@ SequenceYJ.prototype.rotateTetrahedron = function(tetrahedron, rotation, duratio
     .start();
 };
 
-SequenceYJ.prototype.lightBeam = function(lightBeam, scale, duration, easing) {
+sequenceYJ.prototype.lightBeam = function(lightBeam, scale, duration, easing) {
     lightBeam.visible = true;
 
     new TWEEN.Tween({scale: 0, opacity: 0})
@@ -116,14 +116,14 @@ SequenceYJ.prototype.lightBeam = function(lightBeam, scale, duration, easing) {
     .start();
 };
 
-SequenceYJ.prototype.update = function(delta) {
+sequenceYJ.prototype.update = function(delta) {
     this.emitter.update(delta);
 };
 
 /******************************
 * Add Events
 ******************************/
-var sequenceYJ = new SequenceYJ();
+var sequenceYJ = new sequenceYJ();
 
 /*sequenceYJ.addEvent('00:23:00', function () {
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
@@ -135,7 +135,7 @@ sequenceYJ.addEvent('00:10:00', function() {glitchYJ.animateOut()});*/
 
 var glitchJM = new Glitch ('JOHNNY MACK', 0, 145);
 sequenceJM.addEvent('00:23:15', function() {glitchJM.animateIn()});
-sequenceJM.addEvent('00:27:15', function() {glitchJM.animateOut()});
+sequenceJM.addEvent('00:27:20', function() {glitchJM.animateOut()});
 
 
 var glitchYJ = new Glitch ('YOUNGHEE JUNG', 300, -175);
@@ -146,20 +146,20 @@ sequenceYJ.addEvent('00:37:15', function() {glitchYJ.animateOut()});
 sequenceYJ.addEvent('00:28:25', function () {
     this.tetrahedron.visible = true;
 
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 200, TWEEN.Easing.Linear.None);
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 200, TWEEN.Easing.Linear.None);
-    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 200, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[1].children[0], 1, 250, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[2].children[0], 1, 250, TWEEN.Easing.Linear.None);
+    sequenceYJ.fade(sequenceYJ.tetrahedron.children[3].children[0], 1, 250, TWEEN.Easing.Linear.None);
 });
 
 for (var i=0; i<sequenceJM.lines.length; i++) {
-    sequenceJM.addEvent('00:28:25', sequenceJM.fade, [sequenceJM.lines[i], 0, 200, TWEEN.Easing.Linear.None]);
+    sequenceJM.addEvent('00:28:25', sequenceJM.fade, [sequenceJM.lines[i], 0, 250, TWEEN.Easing.Linear.None]);
 }
 
 // Move camera
-sequenceYJ.addEvent('00:28:00', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-25), 0, 0, 5500, TWEEN.Easing.Exponential.InOut]);
-sequenceYJ.addEvent('00:28:00', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale, 2, 5500, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:28:00', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-20), 0, 0, 5000, TWEEN.Easing.Exponential.InOut]);
+sequenceYJ.addEvent('00:28:00', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut]);
 sequenceYJ.addEvent('00:28:00', function () {
-    sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 5500, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 5000, TWEEN.Easing.Exponential.InOut);
 });
 
 /*sequenceYJ.addEvent('00:28:20', function () {
@@ -183,8 +183,16 @@ sequenceYJ.addEvent('00:30:15', function () {
 
 // Light
 sequenceYJ.addEvent('00:30:15', function () {
-    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 3, 2500, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 4, 2500, TWEEN.Easing.Exponential.InOut);
 });
+
+// Flickr
+for (var i=0; i<150; i++) {
+    sequenceYJ.addEvent(31.75 + i*0.10, function () {
+        sequenceYJ.fade(sequenceYJ.lightbeam, Math.random() * 0.2 + 0.8, 25, TWEEN.Easing.Exponential.InOut);
+    });
+}
+
 
 // Pull focus
 sequenceYJ.addEvent('00:31:10', sequenceYJ.pullFocus, [renderator, 3, 0.5, 4500, TWEEN.Easing.Quadratic.InOut]);
@@ -192,7 +200,7 @@ sequenceYJ.addEvent('00:31:10', sequenceYJ.pullFocus, [renderator, 3, 0.5, 4500,
 
 //sequenceYJ.addEvent('00:34:25', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, 0, 1, 20000, TWEEN.Easing.Exponential.InOut]);
 
-sequenceYJ.addEvent('00:31:05', function () {
+sequenceYJ.addEvent('00:30:15', function () {
     sequenceYJ.emitter.trigger();
 });
 
