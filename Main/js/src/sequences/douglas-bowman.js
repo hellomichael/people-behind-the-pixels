@@ -14,9 +14,11 @@ SequenceDB.prototype.init = function() {
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 1, 1000);
+    this.camera.position.y = 2;
+    this.camera.position.z = -4;
+
+    this.screenDimensions = Util.getScreenDimensions(this.camera, 0, 4);
     this.camera.setLens(18);
-    this.camera.position.y = 1;
-    this.camera.position.z = -3;
 
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
@@ -36,7 +38,7 @@ SequenceDB.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(75, 200, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -97,7 +99,7 @@ SequenceDB.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
     }
 };
 
-SequenceTA.prototype.update = function(delta) {
+SequenceDB.prototype.update = function(delta) {
     this.particulator.update(delta);
 };
 
@@ -112,7 +114,7 @@ sequenceDB.addEvent('00:53:22', function () {
         postProcessEnabled      : true,
 
         blurEnabled             : true,
-        blurAmount              : 5,
+        blurAmount              : 8,
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
@@ -122,147 +124,100 @@ sequenceDB.addEvent('00:53:22', function () {
     sequenceDB.nextScene(sequenceDB.scene, sequenceDB.camera, options);
 })
 
-sequenceDB.addEvent('00:52:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.fade(sequenceDB.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
 });
 
 // Pull focus
-sequenceDB.addEvent('00:56:15', function() {
+sequenceDB.addEvent('00:55:15', function() {
     sequenceDB.pullFocus(renderator, 0, 0.5, 1500, TWEEN.Easing.Quadratic.InOut);
 });
 
-var glitchDB = new Glitch ('DOUGLAS BOWMAN', -420, 120);
+var glitchDB = new Glitch ('DOUGLAS BOWMAN', -400, 150);
 sequenceDB.addEvent('00:50:05', function() {glitchDB.animateIn()});
-sequenceDB.addEvent('00:55:20', function() {glitchDB.animateOut()})
+sequenceDB.addEvent('00:55:15', function() {glitchDB.animateOut()})
 
-sequenceDB.addEvent('00:45:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids1, Util.toRadians(115), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
-    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids2, Util.toRadians(180), 20000, TWEEN.Easing.Cubic.In);
+sequenceDB.addEvent('00:50:00', function() {
+    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids2, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids3, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
-    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids4, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
+sequenceDB.addEvent('00:50:00', function() {
+    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids4, Util.toRadians(50), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids5, Util.toRadians(90), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
-    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids6, Util.toRadians(180), 20000, TWEEN.Easing.Cubic.In);
+sequenceDB.addEvent('00:50:00', function() {
+    sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids6, Util.toRadians(50), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids7, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
 });
 
-sequenceDB.addEvent('00:45:00', function() {
+sequenceDB.addEvent('00:50:00', function() {
     sequenceDB.rotateAsteroidsMesh(sequenceDB.asteroids8, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
-});
-
-// Camera In
-sequenceDB.addEvent('00:49:20', function() {
-    sequenceDB.cameraMovement(sequenceDB.camera, false, 0, -1, -3, 10000, TWEEN.Easing.Linear.None);
 });
 
 // Camera Out
 sequenceDB.addEvent('00:58:00', function() {
-    sequenceDB.cameraMovement(sequenceDB.camera, false, 0, -25, 6, 3000, TWEEN.Easing.Exponential.InOut);
+    sequenceDB.cameraMovement(sequenceDB.camera, false, 0, -25, 4, 3000, TWEEN.Easing.Exponential.InOut);
 });
 
 sequenceDB.addEvent('00:57:25', sequenceDB.rotate, [sequenceDB.camera, Util.toRadians(-90), 0, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 
-var glitchST = new Glitch ('SCOTT THOMAS', 275, 25);
+var glitchST = new Glitch ('SCOTT THOMAS', 275, 0);
 sequenceDB.addEvent('00:56:00', function() {glitchST.animateIn()});
-sequenceDB.addEvent('00:62:00', function() {glitchST.animateOut()});
+sequenceDB.addEvent('01:00:20', function() {glitchST.animateOut()});
 
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids3.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids7.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids6.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:01', function() {sequenceDB.fade(sequenceDB.asteroids8.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:00', function() {sequenceDB.fade(sequenceDB.asteroids8.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids4.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids3.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids2.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids2.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids2.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids5.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids1.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids6.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids3.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids7.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids1.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids4.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids4.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:05', function() {sequenceDB.fade(sequenceDB.asteroids2.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:01', function() {sequenceDB.fade(sequenceDB.asteroids3.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:01', function() {sequenceDB.fade(sequenceDB.asteroids5.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:00', function() {sequenceDB.fade(sequenceDB.asteroids1.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids5.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:05', function() {sequenceDB.fade(sequenceDB.asteroids8.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:05', function() {sequenceDB.fade(sequenceDB.asteroids6.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:05', function() {sequenceDB.fade(sequenceDB.asteroids4.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids8.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:01', function() {sequenceDB.fade(sequenceDB.asteroids6.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids5.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:02', function() {sequenceDB.fade(sequenceDB.asteroids6.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids6.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:05', function() {sequenceDB.fade(sequenceDB.asteroids7.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids1.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:04', function() {sequenceDB.fade(sequenceDB.asteroids7.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:03', function() {sequenceDB.fade(sequenceDB.asteroids6.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);});
-sequenceDB.addEvent('01:01:00', function() {sequenceDB.fade(sequenceDB.asteroids6.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids3.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids7.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids8.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids8.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids4.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids3.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids2.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids2.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids2.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids5.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids1.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids3.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids7.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids1.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids4.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids4.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids2.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids3.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids5.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids1.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids5.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids8.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids4.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids8.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids5.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids7.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids1.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids7.children[0], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[2], 0, 1000, TWEEN.Easing.Bounce.InOut);});
+sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids6.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
 
-/*sequenceDB.addEvent('01:04:03', function() {
-    sequenceDB.fade(sequenceDB.asteroids1.children[0], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids1.children[1], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids1.children[2], 0, 625, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids1.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids2.children[0], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids2.children[1], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids2.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids2.children[3], 0, 625, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids3.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids3.children[1], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids3.children[2], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids3.children[3], 0, 625, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids4.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids4.children[1], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids4.children[2], 0, 625, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids4.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids5.children[0], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids5.children[1], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids5.children[2], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids5.children[3], 0, 625, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids6.children[0], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids6.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids6.children[2], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids6.children[3], 0, 1000, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids7.children[0], 0, 900, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids7.children[1], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids7.children[2], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids7.children[3], 0, 625, TWEEN.Easing.Exponential.InOut);
-
-    sequenceDB.fade(sequenceDB.asteroids8.children[0], 0, 625, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids8.children[1], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids8.children[2], 0, 750, TWEEN.Easing.Exponential.InOut);
-    sequenceDB.fade(sequenceDB.asteroids8.children[3], 0, 900, TWEEN.Easing.Exponential.InOut);
-});
-*/
 /******************************
 * Add to Timeline
 ******************************/

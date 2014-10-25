@@ -161,7 +161,7 @@ sequenceTA.addEvent('00:46:00', function() {
 });
 
 sequenceTA.addEvent('00:46:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids2, Util.toRadians(180), 20000, TWEEN.Easing.Cubic.In);
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids2, Util.toRadians(110), 20000, TWEEN.Easing.Cubic.In);
 });
 
 sequenceTA.addEvent('00:46:00', function() {
@@ -181,7 +181,7 @@ sequenceTA.addEvent('00:46:00', function() {
 });
 
 sequenceTA.addEvent('00:46:00', function() {
-    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids7, Util.toRadians(45), 20000, TWEEN.Easing.Cubic.In);
+    sequenceTA.rotateAsteroidsMesh(sequenceTA.asteroids7, Util.toRadians(75), 20000, TWEEN.Easing.Cubic.In);
 });
 
 sequenceTA.addEvent('00:46:00', function() {

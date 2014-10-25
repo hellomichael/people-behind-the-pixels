@@ -15,7 +15,6 @@ SequenceSN.prototype.init = function() {
     // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
     this.camera.position.z = 10;
-    this.screenDimensions = Util.getScreenDimensions(this.camera);
 
     // Renderator
     renderator.reset(this.scene, this.camera,

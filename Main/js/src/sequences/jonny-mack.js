@@ -16,22 +16,7 @@ SequenceJM.prototype.init = function() {
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
     this.camera.position.y = 20;
     this.camera.position.z = 10;
-    this.screenDimensions = Util.getScreenDimensions(this.camera);
 
-    // Renderator
-/*    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : false,
-
-            blurEnabled             : true,
-            blurAmount              : 3,
-            blurPosition            : 0.3,
-
-            bloomEnabled            : false,
-            aaEnabled               : true
-        }
-    );
-*/
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
     this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x222222, opacity: 1, transparent: true, side: THREE.DoubleSide});

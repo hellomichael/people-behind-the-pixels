@@ -11,7 +11,7 @@ var AsteroidsMesh = function(count, radius, rotation, showRing) {
 
     // Materials
     this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
-    this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x333333, transparent: true});
+    this.lineMaterial = new THREE.LineBasicMaterial({ color: 0x666666, transparent: true});
 
     // Asteroid Group
     this.shapes = ['cube', 'pyramid'];

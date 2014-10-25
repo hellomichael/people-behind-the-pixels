@@ -14,7 +14,6 @@ sequenceYJ.prototype.init = function() {
 
     // Camera
     this.camera = sequenceJM.camera;
-    this.screenDimensions = Util.getScreenDimensions(this.camera);
 
     // Materials
     this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
@@ -35,7 +34,6 @@ sequenceYJ.prototype.init = function() {
     this.tetrahedronScale = 2.5;
     this.tetrahedron = new TetrahedronMesh(this.tetrahedronScale);
     this.tetrahedron.rotation.x = Util.toRadians(-85);
-    //this.tetrahedron.position.y = -this.screenDimensions[1]/tetrahedronScale;
 
     this.tetrahedron.children[1].rotateOnAxis(Util.getVector(270), Util.toRadians(-109.5));
     this.tetrahedron.children[2].rotateOnAxis(Util.getVector(270), Util.toRadians(-109.5));
@@ -71,6 +69,9 @@ sequenceYJ.prototype.init = function() {
     this.lightbeam.scale.set(1, 1, 0);
     this.lightbeam.visible = false;
     this.scene.add(this.lightbeam);
+
+    // Screen Dimensions
+    this.screenDimensions = Util.getScreenDimensions(this.camera, this.tetrahedron.position.z, this.tetrahedronScale);
 };
 
 /******************************
@@ -157,13 +158,12 @@ for (var i=0; i<sequenceJM.lines.length; i++) {
 
 // Move camera
 sequenceYJ.addEvent('00:28:00', function() {
-    sequenceYJ.cameraMovement(sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut, function () {
+    sequenceYJ.cameraMovement(sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1] + 7, 2, 5000, TWEEN.Easing.Exponential.InOut, function () {
         sequenceYJ.cameraMovement(sequenceYJ.camera, false, 0, 0, -1, 8000, TWEEN.Easing.Linear.None);
         sequenceYJ.rotate(sequenceYJ.camera, Util.toRadians(-20), 0, 0, 8000, TWEEN.Easing.Linear.None);
     });
 });
 
-//sequenceYJ.addEvent('00:28:00', sequenceYJ.cameraMovement, [sequenceYJ.camera, false, 0, -sequenceYJ.screenDimensions[1]/sequenceYJ.tetrahedronScale - 1, 2, 5000, TWEEN.Easing.Exponential.InOut]);
 sequenceYJ.addEvent('00:28:00', sequenceYJ.rotate, [sequenceYJ.camera, Util.toRadians(-15), 0, 0, 5000, TWEEN.Easing.Exponential.InOut]);
 sequenceYJ.addEvent('00:28:00', function () {
     sequenceYJ.rotateTetrahedron(sequenceYJ.tetrahedron, Util.toRadians(-90), 5000, TWEEN.Easing.Exponential.InOut);
@@ -190,7 +190,7 @@ sequenceYJ.addEvent('00:31:05', function () {
 
 // Light
 sequenceYJ.addEvent('00:30:15', function () {
-    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1]/2 + 5, 2500, TWEEN.Easing.Exponential.InOut);
+    sequenceYJ.lightBeam(sequenceYJ.lightbeam, this.screenDimensions[1] + 2, 2500, TWEEN.Easing.Exponential.InOut);
 });
 
 // Flickr

@@ -19,8 +19,6 @@ sequenceSM.prototype.init = function() {
     this.canvas.height = this.screenHeight;
     this.context = this.canvas.getContext('2d');
 
-    this.circleRadius = 150;
-
     var that = this;
 
     window.addEventListener('resize', function() {
@@ -39,6 +37,9 @@ sequenceSM.prototype.init = function() {
 * Create Animations
 ******************************/
 sequenceSM.prototype.vennDiagramIn = function(duration, easing) {
+    this.circleRadius = (3.55/Math.abs(sequenceDB.screenDimensions[1])) * this.canvas.height;
+    this.distance = 75;
+
     var that = this;
 
     if (this.tween) {
@@ -46,7 +47,7 @@ sequenceSM.prototype.vennDiagramIn = function(duration, easing) {
     }
 
     this.tween = new TWEEN.Tween({distance: 0, position: -150, opacity: 0})
-        .to({distance: this.circleRadius - 50, position: 175, opacity: 1}, duration)
+        .to({distance: this.circleRadius - this.distance, position: 175, opacity: 1}, duration)
         .easing(easing)
         .onUpdate(function () {
             if (this.opacity * 1.5 < 1) {
@@ -69,7 +70,7 @@ sequenceSM.prototype.vennDiagramOut = function(duration, easing) {
         this.tween.stop();
     }
 
-    this.tween = new TWEEN.Tween({distance: this.circleRadius - 50, position: 175, opacity: 1})
+    this.tween = new TWEEN.Tween({distance: this.circleRadius - this.distance, position: 175, opacity: 1})
         .to({distance: 0, position: 0, opacity: 0}, duration)
         .easing(easing)
         .onUpdate(function (time) {
@@ -88,7 +89,7 @@ sequenceSM.prototype.draw = function(distance, position, opacity) {
 
     // Draw Circle
     this.context.beginPath();
-    this.context.arc(this.screenWidth/2 - distance + position, this.screenHeight/2, this.circleRadius, 0, 2*Math.PI); //x, y, radius
+    this.context.arc(this.screenWidth/2 - distance, this.screenHeight/2, this.circleRadius, 0, 2*Math.PI); //x, y, radius
     this.context.fill();
 
     // Subtract circle
@@ -96,7 +97,7 @@ sequenceSM.prototype.draw = function(distance, position, opacity) {
 
     // 2nd Circle
     this.context.beginPath();
-    this.context.arc(this.screenWidth/2 + distance + position, this.screenHeight/2, this.circleRadius, 0, 2*Math.PI); //x, y, radius
+    this.context.arc(this.screenWidth/2 + distance, this.screenHeight/2, this.circleRadius, 0, 2*Math.PI); //x, y, radius
     this.context.fill();
 }
 
@@ -106,15 +107,33 @@ sequenceSM.prototype.draw = function(distance, position, opacity) {
 var sequenceSM = new sequenceSM();
 
 var glitchSM = new Glitch ('SARAH MEI', -375, 0);
-sequenceSM.addEvent('00:02:00', function() {glitchSM.animateIn()});
-sequenceSM.addEvent('00:06:15', function() {glitchSM.animateOut()});
+/*sequenceSM.addEvent('01:15:00', function() {glitchSM.animateIn()});
+sequenceSM.addEvent('01:19:15', function() {glitchSM.animateOut()});*/
 
-sequenceSM.addEvent('00:01:15', function () {
-    sequenceSM.vennDiagramIn(20000, TWEEN.Easing.Deceleration.InOut);
+sequenceSM.addEvent('01:08:10', function () {
+    sequenceJL.fade(sequenceJL.ring1.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
+
+    sequenceJL.fade(sequenceJL.ring1.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
-sequenceSM.addEvent('00:05:15', function () {
-    sequenceSM.vennDiagramOut(20000, TWEEN.Easing.Deceleration.InOut);
+sequenceSM.addEvent('01:08:05', function () {
+    sequenceSM.vennDiagramIn(2500, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceSM.addEvent('01:14:00', function () {
+    sequenceTA.addEvent('00:44:15', function() {
+        sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
+    });
+
+    //sequenceSM.vennDiagramOut(2500, TWEEN.Easing.Exponential.InOut);
 });
 
 

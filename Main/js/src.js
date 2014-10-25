@@ -33,7 +33,7 @@ var peopleBehindthePixels = (function () {
         // Load audio
         //pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.init('shared/audio/music.mp3');
-        pbtp.audio.seek('00:45:00');
+        pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Import sequences
@@ -49,6 +49,7 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/tom-armitage.js
             //= src/sequences/douglas-bowman.js
             //= src/sequences/jeriamiah-lee.js
+
             //= src/sequences/sarah-mei.js
 
 
@@ -89,14 +90,7 @@ var peopleBehindthePixels = (function () {
         // Display Stats
         $stats = $('#stats');
 
-        resizeCSS();
         mainLoop(0);
-    };
-
-    var resizeCSS = function() {
-        // Morph
-        var scale = 0.040;
-        $('.shape').css('-webkit-transform', 'scale(' + window.innerHeight * scale / 40 + ')', 'important');
     };
 
     var mainLoop = function(timestamp) {

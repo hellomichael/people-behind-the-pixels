@@ -14,7 +14,6 @@ SequenceMW.prototype.init = function() {
 
     // Camera
     this.camera = sequenceTR.camera;
-    this.screenDimensions = Util.getScreenDimensions(this.camera);
 
     // Audio
     this.spaceAudio = new Audio('shared/audio/space.mp3');
@@ -33,7 +32,7 @@ SequenceMW.prototype.init = function() {
     // Cube
     this.cubeDimensions = sequenceTR.cubeDimensions - 0.01;
     this.cube = new THREE.Mesh(new THREE.BoxGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.lightMaterial);
-    this.cube.position.z = this.cubeDimensions;
+    this.cube.position.z = this.cubeDimensions/2;
     this.cubeGroup.add(this.cube);
 
     // Sphere
@@ -238,7 +237,14 @@ sequenceMW.addEvent('00:10:00', function () {
 
 // Camera Pan
 sequenceMW.addEvent('00:13:05', function () {
-   sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut);
+   sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut, function () {
+    /*sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera);
+    console.log(1/sequenceMW.screenDimensions[1]);*/
+
+    sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera, sequenceMW.cubeGroup.position.z, 0);
+    var cssScale = Math.round(1/sequenceMW.screenDimensions[1] *  window.innerHeight);
+    $('.shape').css('-webkit-transform', 'scale(' + cssScale/2/21 + ')', 'important');
+   });
 });
 
 sequenceMW.addEvent('00:13:25', sequenceMW.pullFocus, [renderator, 0, 0.5, 1500, TWEEN.Easing.Quadratic.InOut]);
@@ -261,8 +267,6 @@ sequenceMW.addEvent('00:18:15', function () {
 sequenceMW.addEvent('00:21:25', function () {
     //sequenceMW.cubeGroup.visible = false;
     $('.shape').addClass('morph');
-
-    //sequenceMW.position(sequenceMW.cubeGroup, 0, 0, -this.screenDimensions[1]/2, 1450, TWEEN.Easing.Bounce.Out);
 });
 
 /*var glitchDH = new Glitch ('DAN HON', 0, 100);

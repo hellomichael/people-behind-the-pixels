@@ -62,7 +62,7 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
 
     new TWEEN.Tween({opacity: 0, opacityHide: 1})
         .to({opacity: 0.25, opacityHide: 0}, 3000)
-        .delay(Math.random() * 3000 + 5000)
+        .delay(Math.random() * 3000 + 7000)
         .onUpdate(function (time) {
             ring.children[0].material.opacity = this.opacityHide;
             ring.children[1].material.opacity = this.opacityHide;
@@ -71,66 +71,64 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
     .start();
 };
 
+SequenceJL.prototype.update = function(delta) {
+    sequenceTA.particulator.update(delta);
+};
+
+
 /******************************
 * Add Events
 ******************************/
 var sequenceJL = new SequenceJL();
 
-var glitchJL = new Glitch ('JERIAMIAH LEE', 0, -15);
-sequenceJL.addEvent('01:04:00', function() {glitchJL.animateIn()});
-sequenceJL.addEvent('01:09:00', function() {glitchJL.animateOut()});
+var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
+sequenceJL.addEvent('01:03:15', function() {glitchJL.animateIn()});
+sequenceJL.addEvent('01:08:15', function() {glitchJL.animateOut()});
 
-sequenceJL.addEvent('01:03:01', function() {
+sequenceJL.addEvent('01:00:15', function() {
     sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:03:04', function() {
+sequenceJL.addEvent('01:00:20', function() {
     sequenceJL.rotateRing(sequenceJL.ring2, Util.toRadians(Math.random() * -4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:03:10', function() {
+sequenceJL.addEvent('01:00:25', function() {
     sequenceJL.rotateRing(sequenceJL.ring3, Util.toRadians(Math.random() * 4095), 0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:03:15', function() {
+sequenceJL.addEvent('01:01:00', function() {
     sequenceJL.rotateRing(sequenceJL.ring4, Util.toRadians(Math.random() * -4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:03:04', function() {
+sequenceJL.addEvent('01:01:05', function() {
     sequenceJL.rotateRing(sequenceJL.ring5, Util.toRadians(Math.random() * 4095), -0.3, 10000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceJL.addEvent('01:02:00', function() {
-    sequenceJL.fade(sequenceDB.asteroids1.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceDB.asteroids2.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceDB.asteroids3.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceDB.asteroids5.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceDB.asteroids6.children[4], 0, 1000, TWEEN.Easing.Exponential.InOut);
+sequenceJL.addEvent('01:01:10', function() {
+    sequenceJL.fade(sequenceDB.asteroids1.children[4], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceDB.asteroids2.children[4], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceDB.asteroids3.children[4], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceDB.asteroids5.children[4], 0, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceDB.asteroids6.children[4], 0, 1500, TWEEN.Easing.Bounce.InOut);
 
-    sequenceJL.fade(sequenceJL.ring1.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring2.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring3.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring4.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring5.children[0], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring1.children[0], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[0], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[0], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[0], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[0], 1, 1500, TWEEN.Easing.Bounce.InOut);
 
-    sequenceJL.fade(sequenceJL.ring1.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring2.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring3.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring4.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
-    sequenceJL.fade(sequenceJL.ring5.children[1], 1, 1000, TWEEN.Easing.Exponential.InOut);
+    sequenceJL.fade(sequenceJL.ring1.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
-/*sequenceJL.addEvent('01:02:00', function() {
-    sequenceJL.fade(sequenceJL.ring1, 1, 1000, TWEEN.Easing.Exponential.InOut);
+/*sequenceJL.addEvent('01:01:10', function() {
+    sequenceJL.cameraMovement(sequenceJL.camera, false, 0, -5, 0, 15000, TWEEN.Easing.Linear.None);
 });*/
 
-
-
-
-/*sequenceJL.addEvent('00:00:01', function() {
-    sequenceJL.cameraMovement(sequenceJL.camera, false, 0, 0, -1.5, 15000, TWEEN.Easing.Quadratic.InOut);
-});
-*/
 /******************************
 * Add to Timeline
 ******************************/

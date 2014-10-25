@@ -65,12 +65,14 @@ Util = (function() {
     /**
     * Converts Screen/Width into a Three.js unit, based on 1 unit squares
     * @param {screen, width}
-    * (http://stackoverflow.com/questions/13350875/three-js-width-of-view/13351534#13351534)
+    * http://stackoverflow.com/questions/13350875/three-js-width-of-view/13351534#13351534
+    * http://stackoverflow.com/questions/15331358/three-js-get-object-size-with-respect-to-camera-and-object-position-on-screen
     */
-    var getScreenDimensions = function(camera){
+    var getScreenDimensions = function(camera, position, dimension) {
         var vFOV = Util.toRadians(camera.fov);
         var aspect = window.innerWidth/window.innerHeight;
-        var screenHeight = 2 * Math.tan(vFOV/2) * (camera.position.z * 1.2); //1.1 is arbitrary
+        var distance = camera.position.z - position - dimension;
+        var screenHeight = 2 * Math.tan(vFOV/2) * (distance); //1.1 is arbitrary
         var screenWidth = screenHeight * aspect;
 
         return [screenWidth, screenHeight];
