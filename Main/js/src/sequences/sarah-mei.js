@@ -38,7 +38,7 @@ sequenceSM.prototype.init = function() {
 ******************************/
 sequenceSM.prototype.vennDiagramIn = function(duration, easing) {
     this.circleRadius = (3.55/Math.abs(sequenceDB.screenDimensions[1])) * this.canvas.height;
-    this.distance = this.circleRadius/3;
+    this.distance = this.circleRadius/4;
 
     var that = this;
 
@@ -106,11 +106,11 @@ sequenceSM.prototype.draw = function(distance, position, opacity) {
 ******************************/
 var sequenceSM = new sequenceSM();
 
-var glitchSM = new Glitch ('SARAH MEI', -(sequenceSM.screenWidth/4), 0);
-sequenceSM.addEvent('01:09:00', function() {glitchSM.animateIn()});
-sequenceSM.addEvent('01:14:15', function() {glitchSM.animateOut()});
+var glitchSM = new Glitch ('SARAH MEI', -(sequenceSM.screenWidth/3.5), 0);
+sequenceSM.addEvent('01:08:10', function() {glitchSM.animateIn()});
+sequenceSM.addEvent('01:13:05', function() {glitchSM.animateOut()});
 
-sequenceSM.addEvent('01:08:10', function () {
+sequenceSM.addEvent('01:07:20', function () {
     sequenceJL.fade(sequenceJL.ring1.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
     sequenceJL.fade(sequenceJL.ring2.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
     sequenceJL.fade(sequenceJL.ring3.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
@@ -124,16 +124,16 @@ sequenceSM.addEvent('01:08:10', function () {
     sequenceJL.fade(sequenceJL.ring5.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
-sequenceSM.addEvent('01:08:12', function () {
-    sequenceSM.vennDiagramIn(2500, TWEEN.Easing.Exponential.InOut);
+sequenceSM.addEvent('01:07:25', function () {
+    sequenceSM.vennDiagramIn(2250, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceSM.addEvent('01:14:00', function () {
-    sequenceTA.addEvent('00:44:15', function() {
-        sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
-    });
+/*sequenceSM.addEvent('01:14:00', function () {
+    sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
+});*/
 
-    //sequenceSM.vennDiagramOut(2500, TWEEN.Easing.Exponential.InOut);
+sequenceSM.addEvent('01:05:15', function () {
+    sequenceSM.fade(sequenceDB.particulator, 0, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 

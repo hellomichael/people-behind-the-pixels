@@ -36,7 +36,8 @@ SequenceTA.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(75, 200, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
+    this.particulator.material.opacity = 0;
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -198,8 +199,7 @@ sequenceTA.addEvent('00:41:05', function() {
 
 sequenceTA.addEvent('00:41:20', sequenceTA.rotate, [sequenceTA.camera, Util.toRadians(-25), 0, 0, 7500, TWEEN.Easing.Exponential.InOut]);
 
-
-sequenceTA.addEvent('00:44:15', function() {
+sequenceTA.addEvent('00:43:25', function() {
     sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
 });
 

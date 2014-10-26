@@ -238,9 +238,6 @@ sequenceMW.addEvent('00:10:00', function () {
 // Camera Pan
 sequenceMW.addEvent('00:13:05', function () {
    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut, function () {
-    /*sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera);
-    console.log(1/sequenceMW.screenDimensions[1]);*/
-
     sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera, sequenceMW.cubeGroup.position.z, 0);
     var cssScale = Math.round(1/sequenceMW.screenDimensions[1] *  window.innerHeight);
     $('.shape').css('-webkit-transform', 'scale(' + cssScale/2/21 + ')', 'important');

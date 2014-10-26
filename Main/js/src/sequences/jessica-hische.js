@@ -27,10 +27,6 @@ SequenceJH.prototype.init = function() {
     this.ambientLight = new THREE.AmbientLight(0xFFFFFF);
     this.scene.add(this.ambientLight);
 
-    // Particulator
-    /*this.particulator = new Particulator(30, 300, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0xCCCCCC), this.camera);
-    this.scene.add(this.particulator.pointCloud);*/
-
     /******************************
     * Add Objects
     ******************************/
@@ -45,7 +41,7 @@ SequenceJH.prototype.init = function() {
     // Lines
     this.lineLength = this.cubeDimensions * 4;
     this.lines = [];
-    this.numberOfLines = 15;
+    this.numberOfLines = 13;
 
     // Draw lines and then offset them
     for (var i=0; i<this.numberOfLines * 2; i++) {
@@ -57,14 +53,14 @@ SequenceJH.prototype.init = function() {
         if (i < this.numberOfLines) {
             this.lines[i].children[0].geometry.vertices.push(new THREE.Vector3(-this.cubeDimensions/2, 0, this.cubeDimensions/2));
             this.lines[i].children[0].geometry.vertices.push(new THREE.Vector3(-this.cubeDimensions/2, 0, this.cubeDimensions/2));
-            this.lines[i].position.x -= this.cubeDimensions * i/2;
+            this.lines[i].position.x -= this.cubeDimensions * i/2 - this.cubeDimensions/2 + this.cubeDimensions/2 ;
         }
 
         this.lines[i].children[0].frustumCulled = false;
 
         // Add lines to the grid
         this.grid.position.x = 0;
-        this.grid.position.y = this.cubeDimensions*this.numberOfLines/2 - this.cubeDimensions*2;
+        this.grid.position.y = this.cubeDimensions*this.numberOfLines/2 - this.cubeDimensions*2 + this.cubeDimensions/2;
 
         this.grid.add(this.lines[i]);
     }
@@ -86,7 +82,6 @@ SequenceJH.prototype.drawHorizontalLine = function(line, newLength, duration, ea
         })
     .start();
 };
-
 /******************************
 * Add Events
 ******************************/
@@ -112,23 +107,23 @@ for (var i=0; i<sequenceJH.lines.length; i++) {
     // Vertical lines
     if (i < sequenceJH.numberOfLines) {
         if (i === 3) {
-            sequenceJH.addEvent('01:10:20', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength * 4, 2500, TWEEN.Easing.Exponential.InOut]);
+            sequenceJH.addEvent('01:10:00', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength * 5, 2600, TWEEN.Easing.Exponential.InOut]);
         }
 
         else {
-            sequenceJH.addEvent('01:10:20', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength, 2000, TWEEN.Easing.Exponential.InOut]);
+            sequenceJH.addEvent('01:10:00', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength, 2275, TWEEN.Easing.Exponential.InOut]);
         }
     }
 }
 
-sequenceJH.addEvent('01:11:30', function () {
-    var duration = 1400;
-    sequenceJH.cameraMovement(sequenceJH.camera, false, 16, 16, 0, duration - 50, TWEEN.Easing.Exponential.InOut);
-    sequenceJH.rotate(sequenceJH.camera, 0, 0, Util.toRadians(-45 + 80), duration - 50, TWEEN.Easing.Exponential.InOut);
-
-    var distance = sequenceJH.screenHeight/2 + sequenceSM.circleRadius/2 + sequenceJH.screenHeight/2;
-    $('#sarah-mei').css('-webkit-transform', 'rotate(45deg) translateX(-' + distance + 'px) translateY(-' + distance +  'px)', 'important');
+sequenceJH.addEvent('01:11:20', function () {
+    var duration = 1450;
+    var distance = sequenceJH.screenHeight/2 + sequenceSM.circleRadius/2 + sequenceJH.screenHeight/2 + 900;
+    $('#sarah-mei').css('-webkit-transform', 'rotate(35deg) translateX(-' + distance + 'px) translateY(-' + distance +  'px)', 'important');
     $('#sarah-mei').css('transition', 'all ' + duration + 'ms cubic-bezier(1.000, 0.000, 0.000, 1.000)');
+
+    sequenceJH.cameraMovement(sequenceJH.camera, false, 22, 22, 0, duration - 150, TWEEN.Easing.Exponential.InOut);
+    sequenceJH.rotate(sequenceJH.camera, 0, 0, Util.toRadians(-45 + 80), duration - 150, TWEEN.Easing.Exponential.InOut);
 });
 
 /******************************

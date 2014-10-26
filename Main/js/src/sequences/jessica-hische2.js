@@ -14,9 +14,9 @@ SequenceJH2.prototype.init = function() {
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 5, 1000);
-    this.camera.position.y = -1;
+    this.camera.position.y = -0.5;
     this.camera.position.z = 10;
-    this.camera.rotation.z = Util.toRadians(-20);
+    this.camera.rotation.z = Util.toRadians(-13);
     this.screenDimensions = Util.getScreenDimensions(this.camera, 0, 0);
 
     // Renderator
@@ -45,9 +45,9 @@ SequenceJH2.prototype.init = function() {
     ******************************/
     var offsetX = -5;
 
-    this.dacrocyte1 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 100 , this.screenDimensions[1]);
-    this.dacrocyte2 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 75, this.screenDimensions[1]);
-    this.dacrocyte3 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 50, this.screenDimensions[1]);
+    this.dacrocyte1 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 125 , this.screenDimensions[1]);
+    this.dacrocyte2 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 100, this.screenDimensions[1]);
+    this.dacrocyte3 = new DacrocyteLine(5, this.screenDimensions[0] - offsetX + 75, this.screenDimensions[1]);
 
     this.dacrocyte1.position.x = offsetX;
     this.dacrocyte2.position.x = offsetX;
@@ -97,38 +97,39 @@ SequenceJH2.prototype.drawLine = function(line, duration, easing) {
 ******************************/
 var sequenceJH2 = new SequenceJH2();
 
-sequenceJH2.addEvent('01:13:00', function () {
-    sequenceJH2.nextScene(sequenceJH2.scene, sequenceJH2.camera, false, false, false, false);
+sequenceJH2.addEvent('01:12:25', function () {
+    var options = {
+        postProcessEnabled      : false,
+
+        blurEnabled             : true,
+        blurAmount              : 1,
+        blurPosition            : 0.5,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceJH2.nextScene(sequenceJH2.scene, sequenceJH2.camera, options);
 });
 
-sequenceJH2.addEvent('01:13:15', function () {
+sequenceJH2.addEvent('01:12:25', function () {
     sequenceJH2.drawLine(sequenceJH2.dacrocyte1, 4000, TWEEN.Easing.Exponential.Out);
     sequenceJH2.drawLine(sequenceJH2.dacrocyte2, 4000, TWEEN.Easing.Exponential.Out);
     sequenceJH2.drawLine(sequenceJH2.dacrocyte3, 4000, TWEEN.Easing.Exponential.Out);
 });
 
-sequenceJH2.addEvent('01:13:00', function () {
-    sequenceJH2.rotate(sequenceJH2.camera, 0, 0, Util.toRadians(0), 3000, TWEEN.Easing.Back.Out);
-    sequenceJH2.cameraMovement(sequenceJH2.camera, false, 0, 2, 0, 3000, TWEEN.Easing.Quadratic.InOut);
+sequenceJH2.addEvent('01:12:25', function () {
+    sequenceJH2.rotate(sequenceJH2.camera, 0, 0, Util.toRadians(0), 3500, TWEEN.Easing.Back.Out);
 });
 
-sequenceJH2.addEvent('01:14:05', function () {
-    sequenceJH2.cameraMovement(sequenceJH2.camera, false, 110, 0, 0, 5000, TWEEN.Easing.Quadratic.InOut);
+sequenceJH2.addEvent('01:14:15', function () {
+    sequenceJH2.cameraMovement(sequenceJH2.camera, false, 110, 0, 0, 5000, TWEEN.Easing.Exponential.InOut);
 });
 
-/*sequenceJH2.addEvent('00:00:05', function () {
-    sequenceJH2.rotate(sequenceJH2.camera, 0, 0, Util.toRadians(0), 1500, TWEEN.Easing.Back.Out);
+var jessicaHische = new Glitch ('JESSICA HISCHE', 250, -150);
+sequenceJH2.addEvent('01:14:15', function() {jessicaHische.animateIn()});
+sequenceJH2.addEvent('01:19:00', function() {jessicaHische.animateOut()})
 
-    sequenceJH2.cameraMovement(sequenceJH2.camera, false, 0, 2, 0, 1250, TWEEN.Easing.Exponential.Out, function () {
-        sequenceJH2.cameraMovement(sequenceJH2.camera, false, 500, 0, 0, 4500, TWEEN.Easing.Exponential.InOut);
-    });
-});
-*/
-/*var jessicaHische = new Glitch ('JESSICA HISCHE', 150, -10);
-sequenceJH2.addEvent('00:31:15',
-function() {jessicaHische.animateIn()});
-sequenceJH2.addEvent('00:35:15',
-    function() {jessicaHische.animateOut()})*/
 
 /******************************
 * Add to Timeline

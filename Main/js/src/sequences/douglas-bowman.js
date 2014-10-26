@@ -38,7 +38,8 @@ SequenceDB.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera);
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
+    this.particulator.material.opacity = 0.2;
     this.scene.add(this.particulator.pointCloud);
 
     /******************************

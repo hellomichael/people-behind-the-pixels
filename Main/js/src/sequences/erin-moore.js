@@ -33,8 +33,10 @@ SequenceEM.prototype.init = function() {
     this.ambientLight = new THREE.AmbientLight(0x777777);
     this.scene.add(this.ambientLight);
 
-    /*this.particulator = new Particulator(50, 500, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera);
-    this.scene.add(this.particulator.pointCloud);*/
+    // Particulator
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 0.5);
+    this.particulator.material.opacity = 0.2;
+    this.scene.add(this.particulator.pointCloud);
 
     /******************************
     * Add Objects
@@ -68,31 +70,46 @@ SequenceEM.prototype.pewRotate = function(cube, duration, easing) {
     .start();
 };
 
+SequenceEM.prototype.update = function(delta) {
+    this.particulator.update(delta);
+};
+
+
 /******************************
 * Add Events
 ******************************/
 var sequenceEM = new SequenceEM();
 
-sequenceEM.addEvent('01:17:05', function () {
-    sequenceEM.nextScene(sequenceEM.scene, sequenceEM.camera, true, true, 5, false);
+sequenceEM.addEvent('01:17:22', function () {
+    var options = {
+        postProcessEnabled      : true,
+
+        blurEnabled             : true,
+        blurAmount              : 5,
+        blurPosition            : 0.5,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceEM.nextScene(sequenceEM.scene, sequenceEM.camera, options);
 });
 
-sequenceEM.addEvent('01:17:15', function () {
+sequenceEM.addEvent('01:17:22', function () {
     sequenceEM.pew(sequenceEM.cube, 250, 3000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceEM.addEvent('01:17:15', function () {
-    sequenceEM.pewRotate(sequenceEM.cube, 20000, TWEEN.Easing.Exponential.InOut);
+sequenceEM.addEvent('01:17:22', function () {
+    sequenceEM.pewRotate(sequenceEM.cube, 15000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceEM.addEvent('01:16:25', function () {
+sequenceEM.addEvent('01:17:22', function () {
     sequenceEM.cameraMovement(sequenceEM.camera, false, -3, 5, 0, 10000, TWEEN.Easing.Exponential.InOut);
 });
 
-/*var erinMoore = new Glitch ('ERIN MOORE', -300, -100);
-sequenceEM.addEvent('00:36:15', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('00:46:00', function () {
-    function() {erinMoore.animateOut()})*/
+var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4), -100);
+sequenceEM.addEvent('01:19:20', function() {erinMoore.animateIn()});
+sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
 
 /******************************
 * Add to Timeline
