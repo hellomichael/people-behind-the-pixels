@@ -6,3 +6,4 @@
 //= plugins/tween.easing.js
 //= plugins/objLoader.js
 //= plugins/stackBoxBlur.js
+//= plugins/OrbitControls.js
