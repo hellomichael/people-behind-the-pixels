@@ -1,17 +1,16 @@
-var Particulator = function(range, density, acceleration, texture, focusObject) {
+var Particulator = function(range, density, acceleration, texture, color, focusObject, size) {
 
     this.range = range;
     this.acceleration = acceleration;
     this.focusObject = focusObject;
     this.material = new THREE.PointCloudMaterial({
+        size: size, 
         sizeAttenuation: true,
-        map: texture,
-        transparent: true,
+        map: texture, 
+        transparent: true, 
         blending: THREE.AdditiveBlending,
-        color: new THREE.Color(0xFFFFFF),
-        opacity: 0,
-        depthWrite: false
-    });
+        color: color,
+    }); 
 
 
     // generate particles within cylinder volume
