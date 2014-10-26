@@ -73,19 +73,19 @@ SequenceEM.prototype.pewRotate = function(cube, duration, easing) {
 ******************************/
 var sequenceEM = new SequenceEM();
 
-sequenceEM.addEvent('00:34:25', function () {
+sequenceEM.addEvent('01:17:05', function () {
     sequenceEM.nextScene(sequenceEM.scene, sequenceEM.camera, true, true, 5, false);
 });
 
-sequenceEM.addEvent('00:34:25', function () {
+sequenceEM.addEvent('01:17:15', function () {
     sequenceEM.pew(sequenceEM.cube, 250, 3000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceEM.addEvent('00:34:25', function () {
+sequenceEM.addEvent('01:17:15', function () {
     sequenceEM.pewRotate(sequenceEM.cube, 20000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceEM.addEvent('00:34:25', function () {
+sequenceEM.addEvent('01:16:25', function () {
     sequenceEM.cameraMovement(sequenceEM.camera, false, -3, 5, 0, 10000, TWEEN.Easing.Exponential.InOut);
 });
 

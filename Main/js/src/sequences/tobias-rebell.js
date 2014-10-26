@@ -77,11 +77,7 @@ SequenceTR.prototype.init = function() {
 * Create Animations
 ******************************/
 SequenceTR.prototype.drawHorizontalLine = function(line, newLength, duration, easing) {
-    if (line.tween) {
-        line.tween.stop();
-    }
-
-    line.tween = new TWEEN.Tween({vertice: line.geometry.vertices[0].y})
+    new TWEEN.Tween({vertice: line.geometry.vertices[0].y})
         .to({vertice: newLength}, duration)
         .easing(easing)
         .onUpdate(function () {
@@ -93,11 +89,7 @@ SequenceTR.prototype.drawHorizontalLine = function(line, newLength, duration, ea
 };
 
 SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easing) {
-    if (line.tween) {
-        line.tween.stop();
-    }
-
-    line.tween = new TWEEN.Tween({vertice: line.geometry.vertices[0].x})
+    new TWEEN.Tween({vertice: line.geometry.vertices[0].x})
         .to({vertice: newLength}, duration)
         .easing(easing)
         .onUpdate(function () {

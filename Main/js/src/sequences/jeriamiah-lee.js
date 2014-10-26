@@ -82,8 +82,8 @@ SequenceJL.prototype.update = function(delta) {
 var sequenceJL = new SequenceJL();
 
 var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
-sequenceJL.addEvent('01:03:15', function() {glitchJL.animateIn()});
-sequenceJL.addEvent('01:08:15', function() {glitchJL.animateOut()});
+sequenceJL.addEvent('01:02:25', function() {glitchJL.animateIn()});
+sequenceJL.addEvent('01:07:25', function() {glitchJL.animateOut()});
 
 sequenceJL.addEvent('01:00:15', function() {
     sequenceJL.rotateRing(sequenceJL.ring1, Util.toRadians(Math.random() * 4095), 0.3, 10000, TWEEN.Easing.Quadratic.InOut);
@@ -125,6 +125,13 @@ sequenceJL.addEvent('01:01:10', function() {
     sequenceJL.fade(sequenceJL.ring5.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
+sequenceJL.addEvent('01:01:15', function() {
+    sequenceJL.fade(sequenceJL.ring1.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring2.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring3.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring4.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+    sequenceJL.fade(sequenceJL.ring5.children[1], 1, 1500, TWEEN.Easing.Bounce.InOut);
+});
 /*sequenceJL.addEvent('01:01:10', function() {
     sequenceJL.cameraMovement(sequenceJL.camera, false, 0, -5, 0, 15000, TWEEN.Easing.Linear.None);
 });*/
