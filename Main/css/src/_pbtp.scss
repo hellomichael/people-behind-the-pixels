@@ -63,7 +63,7 @@ canvas, #stats {
     left: 50%;
     margin-left: -1px;
     z-index: 9999;
-    border-right: 1px dashed #FF0000;
+    border-right: 1px dashed #FFFFFF;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
 
@@ -96,7 +96,7 @@ canvas, #stats {
     top: 50%;
     margin-top: -1px;
     z-index: 9999;
-    border-bottom: 1px dashed #FF0000;
+    border-bottom: 1px dashed #FFFFFF;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
 
@@ -231,4 +231,51 @@ $angle: 30deg;
         transform: rotateY(0);
         border-radius: 0;
     }
+}
+
+.crash {
+    img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+        width: 758px * 1;
+        height: 274px * 1;
+
+        transition: all 1500ms;
+        transform: translate(-50%, -50%) scale(1);
+        image-rendering: -moz-crisp-edges;
+    }
+
+    &.animate {
+        img {
+            margin-top: 19400px;
+            margin-left: -2600px;
+            transform: translate(-50%, -50%) scale(225);
+        }
+    }
+
+/*     img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+
+    width: 758px * 225;
+    height: 274px * 225;
+
+    margin-left: -1200px;
+    margin-top: 12700px;
+
+    transition: all 1500ms;
+    transform: translate(-50%, -50%) scale(0.0035) rotateY(0deg);
+    image-rendering: -moz-crisp-edges;
+}
+
+&.animate {
+    img {
+        margin-top: 19400px;
+        margin-left: -2600px;
+        transform: translate(-50%, -50%) scale(1);
+    }
+} */
 }

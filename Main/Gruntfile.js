@@ -68,7 +68,7 @@ module.exports = function (grunt) {
             },
             images: {
                 files: [
-                    '<%= settings.src %>/img/**/*.{png,jpg,gif}',
+                    '<%= settings.src %>/img/**/*.{png,jpg,gif,svg}',
                     '!<%= settings.src %>/img/<%= settings.spriteFolder %>/*.png'
                 ],
                 tasks: ['copy:images'],
@@ -138,7 +138,7 @@ module.exports = function (grunt) {
                     expand: true,
                     cwd: '<%= settings.src %>/img/',
                     src: [
-                        '**/*.{png,jpg,gif}',
+                        '**/*.{png,jpg,gif,svg}',
                         '!<%= settings.spriteFolder %>/*.png'
                     ],
                     dest: '<%= settings.dist %>/shared/img/'

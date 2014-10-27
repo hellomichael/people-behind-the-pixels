@@ -16,6 +16,7 @@
     //= src/objs/AsteroidsMesh.js
     //= src/objs/IcosahedronMesh.js
     //= src/objs/DacrocyteLine.js
+    //= src/objs/CubeMesh.js
 
 var peopleBehindthePixels = (function () {
     'use strict';
@@ -37,37 +38,43 @@ var peopleBehindthePixels = (function () {
         noise = false;
         pbtp.audio.init('shared/audio/music.mp3');
         //pbtp.audio.seek('01:05:00');
-        pbtp.audio.seek('00:30:00');
-
+        pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Import sequences
             //= src/sequence.js
 
-            //= src/sequences/tobias-rebell.js
-            //= src/sequences/matt-webb.js
+            // = src/sequences/tobias-rebell.js
+            // = src/sequences/matt-webb.js
 
-            //= src/sequences/jonny-mack.js
-            //= src/sequences/younghee-jung.js
+            // = src/sequences/jonny-mack.js
+            // = src/sequences/younghee-jung.js
 
-            //= src/sequences/jake-archibald.js
-            //= src/sequences/tom-armitage.js
-            //= src/sequences/douglas-bowman.js
-            //= src/sequences/jeriamiah-lee.js
-            //= src/sequences/sarah-mei.js
-            //= src/sequences/jessica-hische.js
-            //= src/sequences/jessica-hische2.js
-            //= src/sequences/erin-moore.js
-
-
+            // = src/sequences/jake-archibald.js
+            // = src/sequences/tom-armitage.js
+            // = src/sequences/douglas-bowman.js
+            // = src/sequences/jeriamiah-lee.js
+            // = src/sequences/sarah-mei.js
+            // = src/sequences/jessica-hische.js
+            // = src/sequences/jessica-hische2.js
+            // = src/sequences/erin-moore.js
 
 
-            // src/sequences/emily-nakashami.js
-            // src/sequences/hadi-michael.js
-            // src/sequences/julio-cesar-ody.js
-            // src/sequences/guy-podjarny.js
-            // src/sequences/mark-dalgesh.js
-            // src/sequences/paul-theriault.js
+
+
+            //= src/sequences/guy-podjarny.js
+            //= src/sequences/emily-nakashami.js
+
+
+
+
+            // = src/sequences/hadi-michael.js
+            // = src/sequences/julio-cesar-ody.js
+            // = src/sequences/mark-dalgesh.js
+            // = src/sequences/paul-theriault.js
+
+
+            // src/sequences/web-directions.js
 
 
         // Speakers

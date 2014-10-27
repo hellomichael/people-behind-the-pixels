@@ -65,9 +65,9 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
     var dollyTarget = camera.position.y - dolly;
     var zoomTarget = camera.position.z + zoom;
 
-    if (this.cameraTween) {
+/*    if (this.cameraTween) {
         this.cameraTween.stop();
-    }
+    }*/
 
     // Camera movement
     if (duration) {
@@ -168,7 +168,7 @@ Sequence.prototype.rotate = function(object, rotationTargetX, rotationTargetY, r
     .start();
 };
 
-Sequence.prototype.position = function(object, positionTargetX, positionTargetY, positionTargetZ, duration, easing) {
+Sequence.prototype.position = function(object, positionTargetX, positionTargetY, positionTargetZ, duration, easing, callback) {
     new TWEEN.Tween({positionX: object.position.x, positionY: object.position.y, positionZ: object.position.z})
         .to({positionX: positionTargetX, positionY: positionTargetY, positionZ: positionTargetZ}, duration)
         .easing(easing)
@@ -176,6 +176,10 @@ Sequence.prototype.position = function(object, positionTargetX, positionTargetY,
             object.position.x = this.positionX;
             object.position.y = this.positionY;
             object.position.z = this.positionZ;
-        })
-    .start();
+        }).onComplete(function() {
+                if (callback) {
+                    callback();
+                }
+            })
+        .start();
 };

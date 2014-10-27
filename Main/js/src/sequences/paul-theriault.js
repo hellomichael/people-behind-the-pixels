@@ -18,7 +18,7 @@ var Photon = function(loc, vel, radius) {
 
 Photon.prototype.pulse = function() {
 
-	this.tweenFunc(this.location, this.vel, this.radius);	
+	this.tweenFunc(this.location, this.vel, this.radius);
 }
 
 
@@ -39,7 +39,7 @@ Photon.prototype.tweenFunc = function(loc, vel, dist) {
 		photonPc.geometry.verticesNeedUpdate = true;
 
 	})
-	.onComplete(function () { 
+	.onComplete(function () {
 
 		var rnd = Math.random();
 
@@ -49,21 +49,21 @@ Photon.prototype.tweenFunc = function(loc, vel, dist) {
 		context.tweenFunc(this, vel, dist);
 	})
 	.start();
-}	
+}
 
 
 /*----------------------------------------------------------------------------*/
 
 
 function OldGetHexagon(innerRadius, outerRadius, material) {
-		
-	var slice = Math.PI / 3;	
+
+	var slice = Math.PI / 3;
 	var geometry = new THREE.Geometry();
 	// var material = new THREE.LineBasicMaterial();
-	// var material = new THREE.MeshBasicMaterial({ color: 0x777777, side: THREE.DoubleSide });	
+	// var material = new THREE.MeshBasicMaterial({ color: 0x777777, side: THREE.DoubleSide });
 
 	// var innerRadius = 0.9; //0.975;
-	// var outerRadius = 1.00;	
+	// var outerRadius = 1.00;
 
 	for (var k = 0; k < 6; k++) {
 
@@ -71,7 +71,7 @@ function OldGetHexagon(innerRadius, outerRadius, material) {
 
 		geometry.vertices.push(new THREE.Vector3(
 			innerRadius * Math.sin(theta), 0, innerRadius * Math.cos(theta)));
-		
+
 		geometry.vertices.push(new THREE.Vector3(
 			outerRadius * Math.sin(theta), 0, outerRadius * Math.cos(theta)));
 
@@ -80,19 +80,19 @@ function OldGetHexagon(innerRadius, outerRadius, material) {
 		var fB = k * 2 + 1;
 		var fC = ((k + 1) % 6) * 2;
 		var fD = ((k + 1) % 6) * 2 + 1;
-		
+
 		var f1 = new THREE.Face3(fA, fB, fC, new THREE.Vector3(0, 1, 0));
 		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
 		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
 		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-		
+
 		var f2 = new THREE.Face3(fB, fD, fC, new THREE.Vector3(0, 1, 0));
 		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
 		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
 		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
 
 		geometry.faces.push(f1);
-		geometry.faces.push(f2);		
+		geometry.faces.push(f2);
 
 		// geometry.no
 	}
@@ -109,7 +109,7 @@ var photonPc;
 
 var SequencePT = function() {
 
-	this.scene = new THREE.Scene();	
+	this.scene = new THREE.Scene();
 	this.scene.fog = null;
 
 	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 256);
@@ -120,7 +120,7 @@ var SequencePT = function() {
 	var controls = new THREE.OrbitControls(this.camera);
 
 	// hexgrid
-	var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });	
+	var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });
 	this.hexgrid = new Hexgrid(0.98, 1, 12, 24, mtl);
 	// this.hexgrid.material.color.setHex(0x222222);
 	this.hexgrid.group.rotation.x = Math.PI / 2;
@@ -139,15 +139,15 @@ var SequencePT = function() {
 
 	// photons
 	var pcgeo = new THREE.Geometry();
-	var pcmtl = new THREE.PointCloudMaterial({ 
-		size: 0.3, 
-		sizeAttenuation: true, 
-		map: disc1, 
-		transparent: true, 
+	var pcmtl = new THREE.PointCloudMaterial({
+		size: 0.3,
+		sizeAttenuation: true,
+		map: disc1,
+		transparent: true,
 		blending: THREE.AdditiveBlending,
 		color: 0xffffff });
 	photonPc = new THREE.PointCloud(pcgeo, pcmtl);
-	this.pointCloud = photonPc;	
+	this.pointCloud = photonPc;
 
 	var slice = Math.PI / 3;
 	var photons = [];
@@ -175,7 +175,7 @@ var SequencePT = function() {
 
 	// events
 	this.addEvent('00:04:00', function() {
-		
+
 		renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
 
@@ -216,24 +216,24 @@ var SequencePT = function() {
 
 			})
 			.onComplete(function() {
-				
+
 				var glowTween = new TWEEN.Tween({ opacity: renderator.bloomPass.copyUniforms["opacity"].value, scale: this.scale })
 					.to({ opacity: startValue, scale: 1 }, 300)
 					.onUpdate(function() {
-						renderator.bloomPass.copyUniforms["opacity"].value = this.opacity;				
+						renderator.bloomPass.copyUniforms["opacity"].value = this.opacity;
 					})
-					.start();		
+					.start();
 
 				var scaleTween = new TWEEN.Tween({ scale: this.scale })
 					.to({ scale: 1 }, 100)
 					.onUpdate(function() {
 						context.centerhex.scale.set(this.scale, 1, this.scale);
 					})
-					.start();		
+					.start();
 
 			}).start();
 
-		var photonFade = new TWEEN.Tween(photonPc.material.color)			
+		var photonFade = new TWEEN.Tween(photonPc.material.color)
 			.to({ r: 0.1, g: 0.1, b: 0.1 }, 4000)
 			.onUpdate(function () {
 				photonPc.material.color.set(this.x, this.y, this.z);
@@ -248,7 +248,7 @@ SequencePT.prototype = new Sequence();
 
 SequencePT.prototype.update = function(delta) {
 
-	
+
 }
 
 
