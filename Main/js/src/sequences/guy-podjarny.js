@@ -130,11 +130,16 @@ sequenceGP.addEvent('00:12:00', function () {
     }
 });
 
-
 sequenceGP.addEvent('00:19:00', function () {
-    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 5000, TWEEN.Easing.Exponential.InOut);
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -5, -1, 5000, TWEEN.Easing.Exponential.InOut);
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -8, -1, 4000, TWEEN.Easing.Exponential.InOut);
 });
+
+
+sequenceGP.addEvent('00:19:15', function () {
+    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 4000, TWEEN.Easing.Exponential.InOut);
+});
+
+
 
 var glitchKM = new Glitch ('KATIE MILLER', -700, -400);
 sequenceGP.addEvent('00:15:15', function() {glitchKM.animateIn()});
