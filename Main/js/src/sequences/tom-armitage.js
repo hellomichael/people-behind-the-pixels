@@ -128,11 +128,6 @@ SequenceTA.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
     }
 };
 
-SequenceTA.prototype.update = function(delta) {
-    this.particulator.update(delta);
-};
-
-
 /******************************
 * Add Events
 ******************************/
@@ -147,6 +142,7 @@ sequenceTA.addEvent('00:45:02', function () {
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 

@@ -36,7 +36,9 @@ Sequence.prototype = {
 
 
     update: function(delta) {
-
+        if (this.particulator) {
+            this.particulator.update(delta);
+        }
     },
 
     play: function(currentTime) {

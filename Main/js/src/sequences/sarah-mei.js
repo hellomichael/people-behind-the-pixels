@@ -9,6 +9,17 @@ var sequenceSM = function() {
 sequenceSM.prototype = new Sequence();
 
 sequenceSM.prototype.init = function() {
+    // Scene
+    this.scene = sequenceDB.scene;
+
+    // Camera
+    this.camera = sequenceDB.camera;
+
+    // Materials
+    this.lineMaterial  = new THREE.LineBasicMaterial({ color: 0xFFFFFF, transparent: true});
+    this.basicMaterial = new THREE.MeshBasicMaterial ({color: 'white', opacity: 1, transparent: true});
+    this.lightMaterial = new THREE.MeshLambertMaterial({color: 'white', opacity: 1, transparent: true});
+
     // Screen size
     this.screenWidth = window.innerWidth;
     this.screenHeight = window.innerHeight;
@@ -59,6 +70,15 @@ sequenceSM.prototype.vennDiagramIn = function(duration, easing) {
             }
 
             that.draw(this.distance, this.position, this.opacity);
+        }).onComplete(function () {
+
+            new TWEEN.Tween({distance: that.circleRadius - that.distance, position: 175})
+                .to({distance: that.circleRadius - that.distance + 30, position: 175}, 4000)
+                .onUpdate(function () {
+                    that.draw(this.distance, this.position, 1);
+                })
+            .start();
+
         })
     .start();
 };
@@ -107,10 +127,14 @@ sequenceSM.prototype.draw = function(distance, position, opacity) {
 var sequenceSM = new sequenceSM();
 
 var glitchSM = new Glitch ('SARAH MEI', -(sequenceSM.screenWidth/3.5), 0);
-sequenceSM.addEvent('01:08:10', function() {glitchSM.animateIn()});
-sequenceSM.addEvent('01:13:05', function() {glitchSM.animateOut()});
+sequenceSM.addEvent('01:10:05', function() {glitchSM.animateIn()});
+sequenceSM.addEvent('01:14:10', function() {glitchSM.animateOut()});
 
-sequenceSM.addEvent('01:07:20', function () {
+sequenceSM.addEvent('01:09:05', function () {
+    sequenceSM.vennDiagramIn(2250, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceSM.addEvent('01:09:00', function () {
     sequenceJL.fade(sequenceJL.ring1.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
     sequenceJL.fade(sequenceJL.ring2.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
     sequenceJL.fade(sequenceJL.ring3.children[0], 0, 1500, TWEEN.Easing.Bounce.InOut);
@@ -124,15 +148,7 @@ sequenceSM.addEvent('01:07:20', function () {
     sequenceJL.fade(sequenceJL.ring5.children[1], 0, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
-sequenceSM.addEvent('01:07:25', function () {
-    sequenceSM.vennDiagramIn(2250, TWEEN.Easing.Exponential.InOut);
-});
-
-/*sequenceSM.addEvent('01:14:00', function () {
-    sequenceTA.fade(sequenceTA.particulator, 0.2, 2500, TWEEN.Easing.Exponential.InOut);
-});*/
-
-sequenceSM.addEvent('01:05:15', function () {
+sequenceSM.addEvent('01:04:20', function () {
     sequenceSM.fade(sequenceDB.particulator, 0, 4000, TWEEN.Easing.Exponential.InOut);
 });
 

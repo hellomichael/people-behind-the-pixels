@@ -105,7 +105,7 @@ SequenceTR.prototype.drawVerticalLine = function(line, newLength, duration, easi
 ******************************/
 var sequenceTR = new SequenceTR();
 
-sequenceTR.addEvent('00:00:00', function () {
+sequenceTR.addEvent('00:00:01', function () {
     var options = {
         postProcessEnabled      : true,
 
@@ -114,6 +114,7 @@ sequenceTR.addEvent('00:00:00', function () {
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 

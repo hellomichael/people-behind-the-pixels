@@ -35,9 +35,13 @@ SequenceMW.prototype.init = function() {
     this.cube.position.z = this.cubeDimensions/2;
     this.cubeGroup.add(this.cube);
 
+
+    this.screenDimensions = Util.getScreenDimensions(this.camera, this.cubeGroup.position.z, 0);
+
     // Sphere
     this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 300, 300), this.lightMaterial);
-    this.sphere.visible = false;
+    this.sphere.position.y = this.screenDimensions[1]/2 + 5;
+    //this.sphere.visible = false;
     this.cubeGroup.add(this.sphere);
 
     // Fragments
@@ -46,7 +50,7 @@ SequenceMW.prototype.init = function() {
 
     loader.load("shared/js/objs/Fragments.obj", function (obj) {
         that.fragments = obj;
-        that.fragments.scale.set(0.55, 0.55, 0.55);
+        that.fragments.scale.set(0.52, 0.52, 0.52);
 
         for (var i=0; i<that.fragments.children.length; i++) {
             that.fragments.children[i].material = that.lightMaterial;
@@ -88,7 +92,8 @@ SequenceMW.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
         .onUpdate(function () {
             cube.material.opacity = this.opacity;
         }).onComplete(function () {
-            sphere.visible = true;
+            sphere.position.y = 0;
+            //sphere.visible = true;
         })
     .start();
 };

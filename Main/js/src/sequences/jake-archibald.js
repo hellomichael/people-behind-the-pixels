@@ -90,6 +90,7 @@ sequenceJA.addEvent('00:37:20', function () {
         blurPosition            : 0.3,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 
@@ -99,7 +100,7 @@ sequenceJA.addEvent('00:37:20', function () {
 var glitchJA = new Glitch ('JAKE ARCHIBALD', -450, 100);
 sequenceJA.addEvent('00:38:10', function() {glitchJA.animateIn()});
 
-sequenceJA.addEvent('00:44:20', function() {glitchJA.clear()})
+sequenceJA.addEvent('00:44:10', function() {glitchJA.clear()})
 
 sequenceJA.addEvent('00:32:00', function () {
     sequenceJA.rotate(sequenceJA.icosahedron, Util.toRadians(-180), Util.toRadians(-180), Util.toRadians(-180), 70000, TWEEN.Easing.Linear.None);

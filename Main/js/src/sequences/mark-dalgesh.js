@@ -32,7 +32,7 @@ var SequenceMD = function() {
 
 	// assume control of renderator
 	this.addEvent('00:00:01', function() {
-		
+
 		renderator.reset(this.scene, this.camera);
 
 		var context = this;
@@ -51,12 +51,6 @@ var SequenceMD = function() {
 
 
 SequenceMD.prototype = new Sequence();
-
-SequenceMD.prototype.update = function(delta) {
-
-	this.particulator.update(delta);
-}
-
 
 var sequenceMD = new SequenceMD();
 timeline.push(sequenceMD);

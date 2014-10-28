@@ -39,7 +39,7 @@ SequenceDB.prototype.init = function() {
 
     // Particulator
     this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
-    this.particulator.material.opacity = 0.2;
+    this.particulator.material.opacity = 0.3;
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -86,24 +86,49 @@ SequenceDB.prototype.rotateAsteroidsMesh = function(asteroids, spin, duration, e
     .start();
 
     // Tween each asteroid
-    for (var i=1; i < asteroids.children.length-1; i++) {
-        var asteroid = asteroids.children[i];
+    if (asteroids.count) {
+        var asteroid1 = asteroids.children[0];
+        var asteroid2 = asteroids.children[1];
+        var asteroid3 = asteroids.children[2];
+        var asteroid4 = asteroids.children[3];
 
-        new TWEEN.Tween({x: asteroid.rotation.x, y: asteroid.rotation.y, z: asteroid.rotation.z})
-            .to({x: Util.toRadians(-720), y: Util.toRadians(-720), z: Util.toRadians(-720)}, duration)
+        new TWEEN.Tween({x: asteroid1.rotation.x, y: asteroid1.rotation.y, z: asteroid1.rotation.z})
+            .to({x: Util.toRadians(-360), y: Util.toRadians(-360), z: Util.toRadians(-360)}, duration)
             .onUpdate(function () {
-                asteroid.rotation.x = this.x;
-                asteroid.rotation.y = this.y;
-                asteroid.rotation.z = this.z;
+                asteroid1.rotation.x = this.x;
+                asteroid1.rotation.y = this.y;
+                asteroid1.rotation.z = this.z;
+            })
+        .start();
+
+        new TWEEN.Tween({x: asteroid2.rotation.x, y: asteroid2.rotation.y, z: asteroid2.rotation.z})
+            .to({x: Util.toRadians(-360), y: Util.toRadians(-360), z: Util.toRadians(-360)}, duration)
+            .onUpdate(function () {
+                asteroid2.rotation.x = this.x;
+                asteroid2.rotation.y = this.y;
+                asteroid2.rotation.z = this.z;
+            })
+        .start();
+
+        new TWEEN.Tween({x: asteroid3.rotation.x, y: asteroid3.rotation.y, z: asteroid3.rotation.z})
+            .to({x: Util.toRadians(-360), y: Util.toRadians(-360), z: Util.toRadians(-360)}, duration)
+            .onUpdate(function () {
+                asteroid3.rotation.x = this.x;
+                asteroid3.rotation.y = this.y;
+                asteroid3.rotation.z = this.z;
+            })
+        .start();
+
+        new TWEEN.Tween({x: asteroid4.rotation.x, y: asteroid4.rotation.y, z: asteroid4.rotation.z})
+            .to({x: Util.toRadians(-360), y: Util.toRadians(-360), z: Util.toRadians(-360)}, duration)
+            .onUpdate(function () {
+                asteroid4.rotation.x = this.x;
+                asteroid4.rotation.y = this.y;
+                asteroid4.rotation.z = this.z;
             })
         .start();
     }
 };
-
-SequenceDB.prototype.update = function(delta) {
-    this.particulator.update(delta);
-};
-
 
 /******************************
 * Add Events
@@ -119,6 +144,7 @@ sequenceDB.addEvent('00:53:22', function () {
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 
@@ -180,7 +206,7 @@ sequenceDB.addEvent('00:57:25', sequenceDB.rotate, [sequenceDB.camera, Util.toRa
 
 var glitchST = new Glitch ('SCOTT THOMAS', 315, 0);
 sequenceDB.addEvent('00:56:00', function() {glitchST.animateIn()});
-sequenceDB.addEvent('01:00:20', function() {glitchST.animateOut()});
+sequenceDB.addEvent('01:00:10', function() {glitchST.animateOut()});
 
 sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids3.children[1], 0, 1000, TWEEN.Easing.Bounce.InOut);});
 sequenceDB.addEvent('01:00:10', function() {sequenceDB.fade(sequenceDB.asteroids7.children[3], 0, 1000, TWEEN.Easing.Bounce.InOut);});

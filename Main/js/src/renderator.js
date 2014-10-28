@@ -42,10 +42,10 @@ var Renderator = function(scene, camera, options) {
     }
 
     // Post-processing
-    this.bloomPass = new THREE.BloomPass(10, 10, 25, 256);
+    this.bloomPass = new THREE.BloomPass(5, 10, 25, 256);
     this.hblur = new THREE.ShaderPass(THREE.HorizontalTiltShiftShader);
     this.vblur = new THREE.ShaderPass(THREE.VerticalTiltShiftShader);
-    this.noisePass = new THREE.FilmPass(0.2, 0.025, 600, false);
+    this.noisePass = new THREE.FilmPass(0.3, 0.025, 1200, true);
 
     // Boolean options
     this.postProcessEnabled = false;
@@ -106,16 +106,17 @@ Renderator.prototype.reset = function(scene, camera, options) {
             this.composer.addPass(this.vblur);
         }
 
-        if (this.noiseEnabled) {
-            this.noisePass.renderToScreen = false;
-            this.composer.addPass(this.noisePass);
-        }
-
         if (this.aaEnabled) {
             this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
             this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
             this.composer.addPass(this.aaPass);
         }
+
+        if (this.noiseEnabled) {
+            this.noisePass.renderToScreen = false;
+            this.composer.addPass(this.noisePass);
+        }
+
     }
 
     this.copyShader = new THREE.ShaderPass(THREE.CopyShader);

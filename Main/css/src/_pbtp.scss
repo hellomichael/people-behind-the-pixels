@@ -24,7 +24,7 @@ html, body, canvas {
 }
 
 body {
-    background: radial-gradient(at center -350px, #444, #000);
+    background: radial-gradient(at center -350px, #555, #000);
 }
 
 canvas, #stats {
@@ -45,7 +45,7 @@ canvas, #stats {
     height: 100%;
     //background: url('../img/noise.gif') center center;
     /* background-size: cover; */
-    opacity: 0.03;
+    opacity: 0.075;
     z-index: 9999;
 }
 

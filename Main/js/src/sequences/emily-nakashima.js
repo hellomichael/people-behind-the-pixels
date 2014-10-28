@@ -13,29 +13,11 @@ SequenceEN.prototype.init = function() {
     this.scene = sequenceGP.scene;
     this.camera = sequenceGP.camera;
 
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : false,
-
-            blurEnabled             : false,
-            blurAmount              : false,
-            blurPosition            : false,
-
-            bloomEnabled            : false,
-            aaEnabled               : false
-        }
-    );
-
-    // Particulator
-    /*this.particulator = new Particulator(80, 1200, new THREE.Vector3(0.03, 0.4, -0.2), THREE.ImageUtils.loadTexture('shared/img/particle.png'), new THREE.Color(0x323240), this.camera, 1);
-    this.scene.add(this.particulator.pointCloud);*/
-
     // Materials
-    this.triangleMaterial1 = new THREE.MeshBasicMaterial({color: 0xdedede, opacity: 0, transparent: true, side: THREE.DoubleSide});
-    this.triangleMaterial2 = new THREE.MeshBasicMaterial({color: 0xadacb1, opacity: 0, transparent: true, side: THREE.DoubleSide});
+    this.triangleMaterial1 = new THREE.MeshBasicMaterial({color: 0x222222, opacity: 0, transparent: true, side: THREE.DoubleSide});
+    this.triangleMaterial2 = new THREE.MeshBasicMaterial({color: 0x111111, opacity: 0, transparent: true, side: THREE.DoubleSide});
     this.triangleMaterial3 = new THREE.MeshBasicMaterial({color: 0x000000, opacity: 0, transparent: true, side: THREE.DoubleSide});
-    this.triangleMaterial4 = new THREE.MeshBasicMaterial({color: 0xfefefe, opacity: 0, transparent: true,  side: THREE.DoubleSide});
+    this.triangleMaterial4 = new THREE.MeshBasicMaterial({color: 0x666666, opacity: 0, transparent: true,  side: THREE.DoubleSide});
 
     this.basicMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF, opacity: 1, transparent: true, vertexColors: THREE.FaceColors, side: THREE.FrontSide});
     this.lineMaterial  = new THREE.MeshBasicMaterial ({color: 'white',  opacity: 1, transparent: true, side:THREE.DoubleSide, wireframe : true});
@@ -48,6 +30,7 @@ SequenceEN.prototype.init = function() {
     // Triangles
     this.triangleGeometry = new THREE.Geometry();
     this.triangleGeometry.frustumCulled = false;
+
     this.triangleGeometry.vertices.push(new THREE.Vector3( 0, 0, 0));
     this.triangleGeometry.vertices.push(new THREE.Vector3(-0.95, -0.95, 0.0));
     this.triangleGeometry.vertices.push(new THREE.Vector3( 0.95, -0.95, 0.0));
@@ -80,8 +63,6 @@ SequenceEN.prototype.init = function() {
     this.triangleGroup.rotation.x = Util.toRadians(90);
     this.triangleGroup.rotation.z = Util.toRadians(45);
 
-    this.triangleGroup.visible = false;
-
     this.scene.add(this.triangleGroup);
 
     // Pyramid
@@ -94,12 +75,15 @@ SequenceEN.prototype.init = function() {
 
     this.pyramid = new THREE.Mesh(this.pyramidGeometry, this.basicMaterial);
     this.pyramid.scale.set(0.4, 0.4, 0.4);
-    this.pyramid.rotation.y = Util.toRadians(45);
+    //this.pyramid.rotation.y = Util.toRadians(45);
     this.pyramid.position.set(0, -1, 0);
 
-    //this.camera.position.y = 10;
-
     this.pyramid.visible = false;
+    this.triangleGroup.visible = false;
+
+    this.pyramid.rotation.x = Util.toRadians(-90);
+    this.pyramid.rotation.y = Util.toRadians(-90);
+
     this.scene.add(this.pyramid);
 };
 
@@ -125,24 +109,35 @@ var sequenceEN = new SequenceEN();
 /******************************
 * Add Sequences
 ******************************/
-// var speaker = new Glitch ('SPEAKER NAME', 0, 0);
-// sequenceEN.addEvent('00:02:00', function() {speaker.animateIn()});
-// sequenceEN.addEvent('00:2:00', function() {speaker.animateOut()})
+//Rotate Pyramid
+sequenceEN.addEvent('01:49:00', sequenceEN.rotate, [sequenceEN.pyramid, Util.toRadians(0), Util.toRadians(0), 0, 4500, TWEEN.Easing.Exponential.InOut]);
 
-
-sequenceEN.addEvent('00:21:00', function () {
+sequenceEN.addEvent('01:50:00', function () {
     sequenceGP.pyramidGroup.visible = false;
     sequenceEN.pyramid.visible = true;
-    sequenceEN.triangleGroup.visible = true;
+});
+
+sequenceEN.addEvent('01:48:00', function () {
+    sequenceEN.cameraMovement(sequenceEN.camera, false, 0, -6, -3, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 
-//Rotate Pyramid
-//sequenceEN.addEvent('00:24:00', sequenceEN.rotate, [sequenceEN.pyramid, Util.toRadians(90), Util.toRadians(90), 0, 1500, TWEEN.Easing.Exponential.InOut]);
+sequenceEN.addEvent('01:48:15', function () {
+    sequenceEN.rotate(sequenceEN.camera, Util.toRadians(-90), 0, 0, 4000, TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceGP.addEvent('01:48:25', function() {
+    sequenceGP.pullFocus(renderator, 1, 0.5, 4500, TWEEN.Easing.Quadratic.InOut);
+});
+
+
+var glitchEN = new Glitch ('EMILY NAKASHIMA', -400, 0);
+sequenceEN.addEvent('01:50:00', function() {glitchEN.animateIn()});
+sequenceEN.addEvent('01:55:00', function() {glitchEN.animateOut()})
 
 
 // Slice Pyramid
-sequenceEN.addEvent('00:24:00', function () {
+sequenceEN.addEvent('01:55:00', function () {
     $('.vertical-dashed-top').addClass('slice');
     $('.vertical-dashed-bottom').addClass('slice');
 
@@ -150,7 +145,7 @@ sequenceEN.addEvent('00:24:00', function () {
     $('.horizontal-dashed-right').addClass('slice');
 });
 
-sequenceEN.addEvent('00:24:15', function () {
+sequenceEN.addEvent('01:55:15', function () {
     $('.vertical-dashed-top').addClass('hide');
     $('.vertical-dashed-bottom').addClass('hide');
 
@@ -158,8 +153,14 @@ sequenceEN.addEvent('00:24:15', function () {
     $('.horizontal-dashed-right').addClass('hide');
 });
 
-// Randomly disintegrate
-sequenceEN.addEvent('00:24:15', function () {
+sequenceEN.addEvent('01:55:15', function () {
+    sequenceEN.position(sequenceEN.triangle1, 2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
+    sequenceEN.position(sequenceEN.triangle2, 2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
+    sequenceEN.position(sequenceEN.triangle3, -2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
+    sequenceEN.position(sequenceEN.triangle4, -2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
+});
+
+sequenceEN.addEvent('01:55:15', function () {
     sequenceEN.fade(sequenceEN.pyramid, 0, 1000, TWEEN.Easing.Exponential.InOut);
 
     sequenceEN.fade(sequenceEN.triangle1, 1, 500, TWEEN.Easing.Exponential.InOut);
@@ -168,20 +169,13 @@ sequenceEN.addEvent('00:24:15', function () {
     sequenceEN.fade(sequenceEN.triangle4, 1, 500, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceEN.addEvent('00:24:15', function () {
-    sequenceEN.position(sequenceEN.triangle1, 2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle2, 2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle3, -2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle4, -2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-});
-
-sequenceEN.addEvent('00:29:00', function () {
+/*sequenceEN.addEvent('01:50:00', function () {
     sequenceEN.fade(sequenceEN.triangle1, 0, 1000, TWEEN.Easing.Quadratic.InOut);
     sequenceEN.fade(sequenceEN.triangle2, 0, 1000, TWEEN.Easing.Quadratic.InOut);
     sequenceEN.fade(sequenceEN.triangle3, 0, 1000, TWEEN.Easing.Quadratic.InOut);
     sequenceEN.fade(sequenceEN.triangle4, 0, 1000, TWEEN.Easing.Quadratic.InOut);
 });
-
+*/
 
 /******************************
 * Add Sequences

@@ -87,15 +87,16 @@ SequenceJH.prototype.drawHorizontalLine = function(line, newLength, duration, ea
 ******************************/
 var sequenceJH = new SequenceJH();
 
-sequenceJH.addEvent('01:10:00', function () {
+sequenceJH.addEvent('01:10:15', function () {
     var options = {
-        postProcessEnabled      : false,
+        postProcessEnabled      : true,
 
         blurEnabled             : true,
-        blurAmount              : 1,
-        blurPosition            : 0.5,
+        blurAmount              : 3,
+        blurPosition            : 0.6,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 
@@ -107,16 +108,16 @@ for (var i=0; i<sequenceJH.lines.length; i++) {
     // Vertical lines
     if (i < sequenceJH.numberOfLines) {
         if (i === 3) {
-            sequenceJH.addEvent('01:10:00', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength * 5, 2600, TWEEN.Easing.Exponential.InOut]);
+            sequenceJH.addEvent('01:11:15', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength * 5, 2600, TWEEN.Easing.Exponential.InOut]);
         }
 
         else {
-            sequenceJH.addEvent('01:10:00', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength, 2275, TWEEN.Easing.Exponential.InOut]);
+            sequenceJH.addEvent('01:11:15', sequenceJH.drawHorizontalLine, [sequenceJH.lines[i].children[0], sequenceJH.lineLength, 2275, TWEEN.Easing.Exponential.InOut]);
         }
     }
 }
 
-sequenceJH.addEvent('01:11:20', function () {
+sequenceJH.addEvent('01:13:05', function () {
     var duration = 1450;
     var distance = sequenceJH.screenHeight/2 + sequenceSM.circleRadius/2 + sequenceJH.screenHeight/2 + 900;
     $('#sarah-mei').css('-webkit-transform', 'rotate(35deg) translateX(-' + distance + 'px) translateY(-' + distance +  'px)', 'important');
@@ -125,6 +126,11 @@ sequenceJH.addEvent('01:11:20', function () {
     sequenceJH.cameraMovement(sequenceJH.camera, false, 22, 22, 0, duration - 150, TWEEN.Easing.Exponential.InOut);
     sequenceJH.rotate(sequenceJH.camera, 0, 0, Util.toRadians(-45 + 80), duration - 150, TWEEN.Easing.Exponential.InOut);
 });
+
+/*sequenceJH.addEvent('01:14:00', function () {
+    sequenceJH.fade(sequenceJH.particulator, 0, 4000, TWEEN.Easing.Exponential.InOut);
+});
+*/
 
 /******************************
 * Add to Timeline

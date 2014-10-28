@@ -34,8 +34,8 @@ SequenceEM.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 0.5);
-    this.particulator.material.opacity = 0.2;
+    this.particulator = new Particulator(75, 150, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
+    this.particulator.material.opacity = 0.4;
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -82,49 +82,47 @@ SequenceEM.prototype.pewRotate = function(cube, duration, easing) {
     .start();
 };
 
-SequenceEM.prototype.update = function(delta) {
-    this.particulator.update(delta);
-};
-
-
 /******************************
 * Add Events
 ******************************/
 var sequenceEM = new SequenceEM();
 
-sequenceEM.addEvent('01:17:22', function () {
+sequenceEM.addEvent('01:19:18', function () {
     var options = {
         postProcessEnabled      : true,
 
-        blurEnabled             : true,
+        blurEnabled             : false,
         blurAmount              : 5,
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 
     sequenceEM.nextScene(sequenceEM.scene, sequenceEM.camera, options);
 });
 
-sequenceEM.addEvent('01:17:22', function () {
+sequenceEM.addEvent('01:19:18', function () {
     sequenceEM.pew(sequenceEM.cube, 250, 3000, TWEEN.Easing.Quadratic.InOut);
 });
 
-sequenceEM.addEvent('01:17:22', function () {
-    sequenceEM.pewRotate(sequenceEM.cube, 15000, TWEEN.Easing.Exponential.InOut);
+sequenceEM.addEvent('01:19:18', function () {
+    sequenceEM.pewRotate(sequenceEM.cube, 13000, TWEEN.Easing.Exponential.InOut);
 });
 
-sequenceEM.addEvent('01:17:22', function () {
+sequenceEM.addEvent('01:19:18', function () {
     sequenceEM.cameraMovement(sequenceEM.camera, false, -3, 5, 0, 10000, TWEEN.Easing.Exponential.InOut);
 });
 
-var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4), -100);
-sequenceEM.addEvent('01:19:00', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('01:23:25', function () {erinMoore.animateOut()})
+var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4) + 100, -100);
+sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
+sequenceEM.addEvent('01:25:05', function () {erinMoore.animateOut()})
 
-sequenceEM.addEvent('01:23:25', function () {
-    sequenceEM.unPew(sequenceEM.cube, 0, 250, TWEEN.Easing.Exponential.InOut);
+
+sequenceEM.addEvent('01:25:00', function () {
+    sequenceEM.rotate(sequenceEM.camera, Util.toRadians(90), 0, 0, 2500, TWEEN.Easing.Exponential.InOut);
+    sequenceEM.fade(sequenceEM.particulator, 0, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 

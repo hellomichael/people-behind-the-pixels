@@ -9,7 +9,7 @@ var SequenceJCO = function() {
 
 	this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 256);
 	this.camera.position.set(1, 0, -3.5);
-	this.camera.lookAt(new THREE.Vector3(2, 0, 0)); 
+	this.camera.lookAt(new THREE.Vector3(2, 0, 0));
 	this.scene.add(this.camera);
 
 	// this.particulator = new Particulator(16, 200, new THREE.Vector3(0.05, 0.2, 0.08), disc2, new THREE.Color(0x662230), this.camera, 0.2);
@@ -46,7 +46,7 @@ var SequenceJCO = function() {
 	this.addEvent('00:00:01', function() {
 
 		renderator.reset(this.scene, this.camera);
-		
+
 		var tweenA = new TWEEN.Tween(this.cubeA.position)
 			.to({ y: -2 }, 5000)
 			.start();
@@ -54,7 +54,7 @@ var SequenceJCO = function() {
 		var tweenD = new TWEEN.Tween(this.cubeD.position)
 			.to({ y: -10 }, 5000)
 			.start();
-		
+
 	});
 
 	this.addEvent('00:01:00', function() {
@@ -72,12 +72,6 @@ var SequenceJCO = function() {
 
 
 SequenceJCO.prototype = new Sequence();
-
-
-SequenceJCO.prototype.update = function(delta) {
-
-	// this.particulator.update(delta);
-}
 
 
 var sequenceJCO = new SequenceJCO();

@@ -114,6 +114,7 @@ sequenceJM.addEvent('00:22:10', function () {
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 

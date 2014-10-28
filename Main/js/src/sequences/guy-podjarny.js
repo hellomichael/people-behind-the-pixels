@@ -15,28 +15,16 @@ SequenceGP.prototype.init = function() {
     // Camera
     this.camera = new THREE.PerspectiveCamera(90, window.innerWidth/window.innerHeight, 0.01, 1000);
 
-    this.camera.rotation.x = Util.toRadians(-90);
+    //this.camera.rotation.x = Util.toRadians(-45);
     this.camera.position.y = 0;
     this.camera.position.z = 0;
 
-
-    // Renderator
-    renderator.reset(this.scene, this.camera,
-        {
-            postProcessEnabled      : true,
-
-            blurEnabled             : false,
-            blurAmount              : 3,
-            blurPosition            : 0.5,
-
-            bloomEnabled            : false,
-            aaEnabled               : true
-        }
-    );
+    // Audio
+    this.spaceAudio = new Audio('shared/audio/space.mp3');
 
     // Particulator
-    this.particulator = new Particulator(75, 200, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
-    this.particulator.material.opacity = 0.2;
+    this.particulator = new Particulator(75, 150, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
+    this.particulator.material.opacity = 0;
     this.scene.add(this.particulator.pointCloud);
 
     // Lights
@@ -44,28 +32,32 @@ SequenceGP.prototype.init = function() {
     this.directionalLight.position.set(-100, 1000, 600).normalize();
     this.scene.add(this.directionalLight);
 
-    this.directionalLight2 = new THREE.DirectionalLight(0xFFFFFF);
+    /*this.directionalLight2 = new THREE.DirectionalLight(0xFFFFFF);
     this.directionalLight2.position.set(100, -1000, -600).normalize();
-    this.scene.add(this.directionalLight2);
+    this.scene.add(this.directionalLight2);*/
 
-    this.ambientLight = new THREE.AmbientLight(0x999999);
+    this.ambientLight = new THREE.AmbientLight(0x888888);
     this.scene.add(this.ambientLight);
 
     /******************************
     * Add Objects
     ******************************/
-
     // Create pyramid
     this.pyramidHeight = 10;
     this.pyramidGroup = new THREE.Object3D();
 
     for (var i=this.pyramidHeight; i>0; i--) {
+
+        var pyramidPlane = new THREE.Object3D();
+
         for (var j=0; j<i; j++) {
             for (var k=0; k<i; k++) {
-                var cube = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshLambertMaterial({color: 0x444444, opacity: 1, wireframe: false, side: THREE.DoubleSide}));
+                var cube = new CubeMesh(1);
                 cube.position.set(j - i/2 + 0.5, -i + (this.pyramidHeight)/2, k - i/2 + 0.5);
-                this.pyramidGroup.add(cube);
+                pyramidPlane.add(cube);
             }
+
+            this.pyramidGroup.add(pyramidPlane);
         }
     }
 
@@ -75,86 +67,115 @@ SequenceGP.prototype.init = function() {
 
     this.numberOfCubes = this.pyramidGroup.children.length;
 
-
     //var controls = new THREE.OrbitControls(this.camera);
 };
-
-/******************************
-* Add Animations
-******************************/
 
 /******************************
 * Initialize New Scene
 ******************************/
 var sequenceGP = new SequenceGP();
 
-sequenceGP.addEvent('01:24:05', function () {
+sequenceGP.addEvent('01:26:10', function () {
     var options = {
         postProcessEnabled      : true,
 
         blurEnabled             : true,
-        blurAmount              : 0,
+        blurAmount              : 5,
         blurPosition            : 0.5,
 
         bloomEnabled            : false,
+        noiseEnabled            : true,
         aaEnabled               : true
     }
 
     sequenceGP.nextScene(sequenceGP.scene, sequenceGP.camera, options);
+
+    sequenceGP.fade(sequenceGP.particulator, 0.4, 1500, TWEEN.Easing.Bounce.InOut);
 });
 
 
 /******************************
 * Add Events
 ******************************/
-/*var glitchGP = new Glitch ('GUY PODJARNY', 315, 15);
-sequenceGP.addEvent('01:06:15', function() {glitchGP.animateIn()});
-sequenceGP.addEvent('01:12:00', function() {glitchGP.animateOut()});*/
+var glitchGP = new Glitch ('GUY PODJARNY', 400, 0);
+sequenceGP.addEvent('01:28:15', function() {glitchGP.animateIn()});
+sequenceGP.addEvent('01:32:00', function() {glitchGP.animateOut()});
 
-sequenceGP.addEvent('01:22:00', function () {
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -28, 0, 7500, TWEEN.Easing.Exponential.InOut, function () {
+var glitchJC = new Glitch ('JONATHON COLMAN', 400, 0);
+sequenceGP.addEvent('01:32:15', function() {glitchJC.animateIn()});
+sequenceGP.addEvent('01:36:15', function() {glitchJC.animateOut()});
 
-        sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 6500, TWEEN.Easing.Exponential.InOut);
+sequenceGP.addEvent('01:27:00', function () {
+    this.spaceAudio.play();
+});
+
+
+sequenceGP.addEvent('01:23:10', function () {
+    sequenceGP.camera.rotation.x = Util.toRadians(-180);
+
+    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
+
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -26, 0, 9500, TWEEN.Easing.Exponential.InOut, function () {
+        sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 7500, TWEEN.Easing.Exponential.InOut);
         sequenceGP.rotate(sequenceGP.camera, Util.toRadians(5), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
-        sequenceGP.cameraMovement(sequenceGP.camera, false, 0, 28 + 0.1, 1, 7500, TWEEN.Easing.Exponential.InOut);
+        sequenceGP.cameraMovement(sequenceGP.camera, false, 0, 26 + 0.6, 3, 7500, TWEEN.Easing.Exponential.InOut);
     });
 });
 
-for (var i=sequenceGP.numberOfCubes-1; i>=0; i--) {
-    var randomY = _.random(50, 200);
+// Add cubes randomly
+for (var i=sequenceGP.pyramidHeight-1; i>=0; i--) {
+    for (var j=sequenceGP.pyramidGroup.children[i].children.length-1; j>=0; j--) {
+        var randomY = _.random(50, 200);
 
-    // Set random position
-    sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].originalVertices = [
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].position.x,
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].position.y,
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].position.z
-    ];
+        // Set random position
+        sequenceGP.pyramidGroup.children[i].children[j].originalVertices = [
+            sequenceGP.pyramidGroup.children[i].children[j].position.x,
+            sequenceGP.pyramidGroup.children[i].children[j].position.y,
+            sequenceGP.pyramidGroup.children[i].children[j].position.z
+        ];
 
-    // Cache original position
-    sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].position.y += randomY;
+        // Cache original position
+        sequenceGP.pyramidGroup.children[i].children[j].position.y += randomY;
+    }
 }
 
-
-sequenceGP.addEvent('01:33:20', function () {
-    for (var i=sequenceGP.numberOfCubes-1; i>=0; i--) {
-        sequenceGP.position(sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)],
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].originalVertices[0],
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].originalVertices[1],
-        sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].originalVertices[2],
-        5000, TWEEN.Easing.Quadratic.Out);
+sequenceGP.addEvent('01:37:00', function () {
+    for (var i=sequenceGP.pyramidHeight-1; i>=0; i--) {
+        for (var j=sequenceGP.pyramidGroup.children[i].children.length-1; j>=0; j--) {
+            sequenceGP.position(sequenceGP.pyramidGroup.children[i].children[j],
+            sequenceGP.pyramidGroup.children[i].children[j].originalVertices[0],
+            sequenceGP.pyramidGroup.children[i].children[j].originalVertices[1],
+            sequenceGP.pyramidGroup.children[i].children[j].originalVertices[2],
+            5500, TWEEN.Easing.Quadratic.Out);
+        }
     }
 });
 
-sequenceGP.addEvent('01:39:00', function () {
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -8, -1, 4000, TWEEN.Easing.Exponential.InOut);
+// Pull focus
+sequenceGP.addEvent('01:36:25', function() {
+    sequenceGP.pullFocus(renderator, 2, 0.6, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
+var glitchKM = new Glitch ('KATIE MILLER', 0, 325);
+sequenceGP.addEvent('01:35:15', function() {glitchKM.animateIn()});
+sequenceGP.addEvent('01:40:00', function() {glitchKM.animateOut()});
 
-sequenceGP.addEvent('01:39:15', function () {
-    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 4000, TWEEN.Easing.Exponential.InOut);
-});
+
+var glitchJCO = new Glitch ('JULIO CESAR ODY', 0, -125);
+sequenceGP.addEvent('01:40:15', function() {glitchJCO.animateIn()});
+sequenceGP.addEvent('01:46:15', function() {glitchJCO.animateOut()});
 
 
+// Rotate randomly
+for (var i=sequenceGP.pyramidHeight-1; i>=0; i--) {
+    sequenceGP.addEvent(103, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(106, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(109, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(112, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(115, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    //sequenceGP.addEvent(118, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    //sequenceGP.addEvent(121, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+}
 
 /*var glitchKM = new Glitch ('KATIE MILLER', -700, -400);
 sequenceGP.addEvent('01:15:15', function() {glitchKM.animateIn()});
