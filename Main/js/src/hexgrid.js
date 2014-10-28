@@ -39,11 +39,7 @@ function GetHexagon(innerRadius, outerRadius, xOffset, yOffset, geometry) {
 
 		geometry.faces.push(f1);
 		geometry.faces.push(f2);		
-
-		// geometry.no
 	}
-
-	// return new THREE.Mesh(geometry, material);
 };
 
 var Hexgrid = function(innerRadius, outerRadius, width, depth, material) {	
