@@ -1,355 +1,273 @@
-var Photon = function(loc, vel, radius) {
-
-	this.group = new THREE.Object3D();
-	this.location = loc;
-
-	// pointlight
-	this.pl = new THREE.PointLight(0xffffff, 9, 5);
-	this.pl.position.set(loc.x, loc.y, 1);
-	this.group.add(this.pl);
-
-	// pointcloud vert
-	photonPc.geometry.vertices.push(this.location);
-
-	this.vel = vel;
-	this.radius = radius;
-}
-
-
-Photon.prototype.pulse = function() {
-
-	this.tweenFunc(this.location, this.vel, this.radius);
-}
-
-
-Photon.prototype.tweenFunc = function(loc, vel, dist) {
-
-	var velmag = vel.length();
-
-	if (velmag < 0.01) return;
-
-	var u = dist / velmag;
-	var context = this;
-
-	var tween = new TWEEN.Tween( loc )
-	.to({ x: loc.x + vel.x * u, y: loc.y + vel.y * u, z: loc.z }, 80 * u)
-	.onUpdate(function() {
-
-		context.pl.position.set(this.x, this.y, 0.5);
-		photonPc.geometry.verticesNeedUpdate = true;
-
-	})
-	.onComplete(function () {
-
-		var rnd = Math.random();
-
-		vel.applyAxisAngle(new THREE.Vector3(0, 0, 1), Math.PI / 3 * (rnd > 0.5 ? 1 : -1));
-		vel.multiplyScalar(0.8);
-
-		context.tweenFunc(this, vel, dist);
-	})
-	.start();
-}
-
-
-/*----------------------------------------------------------------------------*/
-
-
-function OldGetHexagon(innerRadius, outerRadius, material) {
-
-	var slice = Math.PI / 3;
-	var geometry = new THREE.Geometry();
-	// var material = new THREE.LineBasicMaterial();
-	// var material = new THREE.MeshBasicMaterial({ color: 0x777777, side: THREE.DoubleSide });
-
-	// var innerRadius = 0.9; //0.975;
-	// var outerRadius = 1.00;
-
-	for (var k = 0; k < 6; k++) {
-
-		var theta = slice * k + Math.PI/2;
-
-		geometry.vertices.push(new THREE.Vector3(
-			innerRadius * Math.sin(theta), 0, innerRadius * Math.cos(theta)));
-
-		geometry.vertices.push(new THREE.Vector3(
-			outerRadius * Math.sin(theta), 0, outerRadius * Math.cos(theta)));
-
-		var curinsertindex = k * 2;
-		var fA = k * 2;
-		var fB = k * 2 + 1;
-		var fC = ((k + 1) % 6) * 2;
-		var fD = ((k + 1) % 6) * 2 + 1;
-
-		var f1 = new THREE.Face3(fA, fB, fC, new THREE.Vector3(0, 1, 0));
-		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-		f1.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-
-		var f2 = new THREE.Face3(fB, fD, fC, new THREE.Vector3(0, 1, 0));
-		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-		f2.vertexNormals.push(new THREE.Vector3(0, 1, 0));
-
-		geometry.faces.push(f1);
-		geometry.faces.push(f2);
-
-		// geometry.no
-	}
-
-	return new THREE.Mesh(geometry, material);
+/******************************
+* Extend Scene Prototype
+******************************/
+var SequenceMW = function() {
+    this.sequence = [];
+    this.init();
 };
 
+SequenceMW.prototype = new Sequence();
 
-/*----------------------------------------------------------------------------*/
+SequenceMW.prototype.init = function() {
+    // Previous scene objects being reused
+    this.scene = sequenceTR.scene;
 
-var disc1 = THREE.ImageUtils.loadTexture("shared/img/particle.png");
+    // Camera
+    this.camera = sequenceTR.camera;
 
-var photonPc;
+    // Audio
+    this.spaceAudio = new Audio('shared/audio/space.mp3');
+    this.rocksAudio = new Audio('shared/audio/rocks.mp3');
 
+    // Materials
+    this.basicMaterial = new THREE.MeshBasicMaterial({color: 0x999999, opacity: 1, transparent: true, side: THREE.DoubleSide});
+    this.lightMaterial = new THREE.MeshLambertMaterial({color: 0xFFFFFF, opacity: 0, transparent: true, side: THREE.DoubleSide});
 
-var SequencePT = function() {
+    /******************************
+    * Add Objects
+    ******************************/
+    // Cube Group
+    this.cubeGroup = new THREE.Object3D();
 
-	this.scene = new THREE.Scene();
-	this.scene.fog = null;
-
-	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 256);
-	this.camera.position.set(1.5, 1.2, 15);
-	this.camera.lookAt(new THREE.Vector3(1.5, 1.2, 0));
-	this.scene.add(this.camera);
-
-	// var controls = new THREE.OrbitControls(this.camera);
-
-
-	var vShader = [
-		"uniform float theta;",
-		"uniform float amp;",
-		"uniform float falloff;",
-		"uniform vec3 focus;",
-		"const float ninety = 3.14159 / 2.0;",
-		"void main() {",
-			"vec3 rel = position - focus;",
-			"float d = sqrt(rel.z * rel.z + rel.x * rel.x) * 2.0;",
-			"float decay = cos((clamp(d, 0.0, falloff) / falloff) * ninety);",
+    // Cube
+    this.cubeDimensions = sequenceTR.cubeDimensions - 0.01;
+    this.cube = new THREE.Mesh(new THREE.BoxGeometry(this.cubeDimensions, this.cubeDimensions, this.cubeDimensions), this.lightMaterial);
+    this.cube.position.z = this.cubeDimensions/2;
+    this.cubeGroup.add(this.cube);
 
 
+    this.screenDimensions = Util.getScreenDimensions(this.camera, this.cubeGroup.position.z, 0);
 
-			"vec4 displaced = vec4(position, 1.0);",
-			"displaced.y += sin(theta + d) * amp * decay;",
-			"gl_Position = projectionMatrix * modelViewMatrix * displaced;",
-		"}"
-	].join("\n");
+    // Sphere
+    this.sphere = new THREE.Mesh(new THREE.SphereGeometry(0.5, 300, 300), this.lightMaterial);
+    this.sphere.position.y = this.screenDimensions[1]/2 + 5;
+    //this.sphere.visible = false;
+    this.cubeGroup.add(this.sphere);
 
-	var fshader = [
-		"const float fogDepth = 50.0;",
-		"void main() {",
-			// "float l = gl_FragCoord.z / 2.0;",
-			"float l = 0.5;",
-			"gl_FragColor = vec4(l, l, l, 1.0);",
-		"}"
-	].join('\n');
+    // Fragments
+    var loader = new THREE.objLoader();
+    var that = this; //cache
 
+    loader.load("shared/js/objs/Fragments.obj", function (obj) {
+        that.fragments = obj;
+        that.fragments.scale.set(0.52, 0.52, 0.52);
 
-	this.theta = 0;
-	this.material = new THREE.ShaderMaterial({
-		uniforms: {
-			theta: { type: 'f', value: this.theta },
-			amp: { type: 'f', value: 0 },
-			falloff: { type: 'f', value: 40 },
-			focus: { type: 'v3', value: new THREE.Vector3(1.5, 1, 0) },
-		},
-	 	vertexShader: vShader,
-	 	fragmentShader: fshader,
-	 	wireframe: false,
+        for (var i=0; i<that.fragments.children.length; i++) {
+            that.fragments.children[i].material = that.lightMaterial;
+            that.fragments.children[i].visible = false;
+        }
 
-		transparent: true,
-		opacity: 0,
+        that.cubeGroup.add(that.fragments);
+    });
 
-	});
+    // Triangles
+    this.triangles = new THREE.Object3D();
 
+    for (var i=0; i<18; i++) {
+        this.triMesh = this.CreatePolyOutline(3, 7, 0.15);
+        this.triMesh.position.z = (i) * 4 + 10;
+        this.triangles.children.push(this.triMesh);
+    }
 
-	// hexgrid
-	// var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-	this.hexgrid = new Hexgrid(0.99, 1, 16, 48, this.material);
-	// this.hexgrid.material.color.setHex(0x222222);
-	this.hexgrid.group.rotation.x = Math.PI / 2;
-	this.hexgrid.group.position.set(0, 1, 0);
-	this.scene.add(this.hexgrid.group);
+    this.scene.add(this.triangles);
 
+    // Grid
+    this.grid = new THREE.Object3D();
+    this.grid.rotation.z = Util.toRadians(45);
+    this.grid.add(this.cubeGroup);
 
-	// center
-	this.centerMtl = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-	this.centerhex = OldGetHexagon(0.85, 1, this.centerMtl);
-	this.centerhex.position.set(1.5, 1, 0.1);
-	this.centerhex.rotation.x = Math.PI / 2;
-	this.centerhex.wobbling = false;
-	this.scene.add(this.centerhex);
+    this.scene.add(this.grid);
+};
 
-	this.ambient = new THREE.AmbientLight(0x666666);
-	this.scene.add(this.ambient);
+/******************************
+* Create Animations
+******************************/
+SequenceMW.prototype.showCube = function(cubeGroup, opacity, duration, easing) {
+    var cube = cubeGroup.children[0];
+    var sphere = cubeGroup.children[1];
 
-	// photons
-	var pcgeo = new THREE.Geometry();
-	var pcmtl = new THREE.PointCloudMaterial({
-		size: 0.3,
-		sizeAttenuation: true,
-		map: disc1,
-		transparent: true,
-		blending: THREE.AdditiveBlending,
-		color: 0xffffff });
-	photonPc = new THREE.PointCloud(pcgeo, pcmtl);
-	this.pointCloud = photonPc;
+    new TWEEN.Tween({opacity: 0})
+        .to({opacity: opacity}, duration)
+        .easing(easing)
+        .onUpdate(function () {
+            cube.material.opacity = this.opacity;
+        }).onComplete(function () {
+            sphere.position.y = 0;
+            //sphere.visible = true;
+        })
+    .start();
+};
 
-	var slice = Math.PI / 3;
-	var photons = [];
+SequenceMW.prototype.rotateCubeGroup = function(cubeGroup, rotation, duration, easing) {
+    var cube = cubeGroup.children[0];
+    var fragments = cubeGroup.children[2];
 
-	for (var i = 0; i < 200; i++) {
+    // Cube
+    new TWEEN.Tween({index: i, rotation: 0})
+            .to({rotation: rotation}, duration)
+            .easing(easing)
+            .onUpdate(function () {
+                cube.rotation.x = this.rotation;
+                cube.rotation.y = this.rotation;
+                cube.rotation.z = this.rotation;
+            })
+        .start();
 
-		var theta = slice * i;
+    // Fragments
+    for (var i=0; i<cubeGroup.children[2].children.length; i++) {
+        new TWEEN.Tween({index: i, rotation: 0})
+            .to({rotation: rotation}, duration)
+            .easing(easing)
+            .onUpdate(function () {
+                fragments.children[this.index].rotation.x = this.rotation;
+                fragments.children[this.index].rotation.y = this.rotation;
+                fragments.children[this.index].rotation.z = this.rotation;
+            })
+        .start();
+    }
+};
 
-		var hexp = new THREE.Vector3(Math.cos(theta), Math.sin(theta), -0.1);
-		var loc = hexp.clone().add(this.centerhex.position);
-		var vel = hexp.multiplyScalar(Math.random() + 1.0);
+SequenceMW.prototype.explodeCubeGroup = function(cubeGroup, duration, easing) {
+    this.rocksAudio.play();
 
-		var photon = new Photon(loc, vel, 1);
-		photons.push(photon);
-	}
+    var cube = cubeGroup.children[0];
+    var sphere = cubeGroup.children[1];
+    var fragments = cubeGroup.children[2];
 
-	var context = this;
-	var theta = 0;
+    // Hide cube
+    cube.visible = false;
 
-	// events
-	this.addEvent('00:00:01', function() {
+    for (var i=0; i<fragments.children.length; i++) {
+        fragments.children[i].visible = true;
 
-		renderator.reset(this.scene, this.camera, {
-            postProcessEnabled      : true,
+        new TWEEN.Tween({
+            index: i,
+            x: fragments.children[i].position.x,
+            y: fragments.children[i].position.y,
+            z: fragments.children[i].position.z})
 
-            blurEnabled             : false,
-            blurAmount              : false,
-            blurPosition            : false,
+            .to({
+                x: fragments.children[i].position.x + -60 + Math.random()*120,
+                y: fragments.children[i].position.y + -60 + Math.random()*120,
+                z: -600
 
-            bloomEnabled            : true,
-            aaEnabled               : true
-        });
+            }, duration)
+            .easing(easing)
+            .delay(i * Math.random() * 20)
+            .onUpdate(function () {
+                fragments.children[this.index].position.x = this.x;
+                fragments.children[this.index].position.y = this.y;
+                fragments.children[this.index].position.z = this.z;
+            })
+        .start();
+    }
+};
 
-		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 0.8, z: 10}, 7500)
-			.easing(TWEEN.Easing.Quadratic.InOut)
-			.onUpdate(function() {
-				context.camera.position.set(this.x, this.y, this.z);
-			}).start();
-	});
+SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
+    if (sides === undefined || sides < 2) sides = 2;
+    if (radius === undefined) radius = 1;
+    if (linewidth === undefined) linewidth = radius * 0.1;
 
-	var glitchMD = new Glitch ('MARK DALGESH', 0, 175);
-	this.addEvent('00:03:00', function() {glitchMD.animateIn()});
-	this.addEvent('00:07:15', function() {glitchMD.animateOut()})
+    var offset = linewidth / 2;
+    var interiorRadius = radius - offset;
+    var exteriorRadius = radius + offset;
+    var nPoints = sides * 2;
 
-	var glitchHD = new Glitch ('HADI MICHAEL', 0, 100);
-	this.addEvent('00:08:00', function() {glitchHD.animateIn()});
-	this.addEvent('00:12:00', function() {glitchHD.animateOut()})
+    var ninetyDeg = Math.PI /  2;
+    var angle = 2 * Math.PI / sides;
+    var geo = new THREE.Geometry();
 
+    for (var i = 0; i < sides; i++) {
 
-	this.addEvent('00:07:15', function() {
-		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 0.8, z: 20}, 1500)
-			.easing(TWEEN.Easing.Exponential.InOut)
-			.onUpdate(function() {
-				context.camera.position.set(this.x, this.y, this.z);
-			}).start();
-	});
+        var calcAngle = i * angle + ninetyDeg;
 
-	this.addEvent('00:09:00', function() {
-		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 0.8, z: 30}, 3000)
-			.onUpdate(function() {
-				context.camera.position.set(this.x, this.y, this.z);
-			}).start();
-	});
+        geo.vertices.push(
+            new THREE.Vector3(Math.cos(calcAngle) * interiorRadius, Math.sin(calcAngle) * interiorRadius, 0));
 
+        geo.vertices.push(
+            new THREE.Vector3(Math.cos(calcAngle) * exteriorRadius, Math.sin(calcAngle) * exteriorRadius, 0));
 
-	this.addEvent('00:08:00', function() {
+        var iA = i*2;
+        var iB = iA + 1;
+        var iC = (iA + 2) % nPoints;
+        var iD = (iA + 3) % nPoints;
 
-		this.centerhex.wobbling = true;
+        geo.faces.push(new THREE.Face3(iA, iB, iC));
+        geo.faces.push(new THREE.Face3(iB, iC, iD));
+    }
 
-		new TWEEN.Tween(this.material.uniforms["amp"])
-			.to({ value: 2 }, 200)
-			.start();
+    var mtl = new THREE.MeshBasicMaterial({ color: 0xffffff, opacity: 1, transparent: true, side: THREE.DoubleSide});
+    var mesh = new THREE.Mesh(geo, mtl);
+    mesh.doubleSided = true;
 
-		new TWEEN.Tween(this.material.uniforms["falloff"])
-			.to({ value: 40 }, 500)
-			.start();
-
-
-		context.scene.add(photonPc);
-
-		photons.forEach(function(photon) {
-			photon.pulse();
-			context.scene.add(photon.group);
-		});
-
-		var startValue = renderator.bloomPass.copyUniforms["opacity"].value;
-
-		var bloomTween = new TWEEN.Tween({ opacity: startValue, scale: 1 })
-			.to({ opacity: 40, scale: 1.6 }, 50)
-			.onUpdate(function() {
-
-				renderator.bloomPass.copyUniforms["opacity"].value = this.opacity;
-				context.centerhex.scale.set(this.scale, 1, this.scale);
-
-			})
-			.onComplete(function() {
-
-				var glowTween = new TWEEN.Tween({ opacity: renderator.bloomPass.copyUniforms["opacity"].value, scale: this.scale })
-					.to({ opacity: startValue, scale: 1 }, 300)
-					.onUpdate(function() {
-						renderator.bloomPass.copyUniforms["opacity"].value = this.opacity;
-					})
-					.start();
-
-				var scaleTween = new TWEEN.Tween({ scale: this.scale })
-					.to({ scale: 1 }, 100)
-					.onUpdate(function() {
-						context.centerhex.scale.set(this.scale, 1, this.scale);
-					})
-					.start();
-
-			}).start();
-
-		// var photonPush = new TWEEN.Tween(photonPc.position)
-		// 	.to({ z: 6 }, 2000)
-		// 	.start();
-
-		var photonFade = new TWEEN.Tween(photonPc.material.color)
-			.to({ r: 0.1, g: 0.1, b: 0.1 }, 4000)
-			.onUpdate(function () {
-				photonPc.material.color.set(this.x, this.y, this.z);
-			})
-			.onComplete(function () {
-				photonPc.visible = false;
-			})
-			.start();
-	});
+    return mesh;
 }
 
 
-SequencePT.prototype = new Sequence();
+/******************************
+* Add Events
+******************************/
+var sequenceMW = new SequenceMW();
 
+var glitchMW = new Glitch ('MATT WEBB', -375, -5);
+sequenceMW.addEvent('00:13:20', function() {glitchMW.animateIn()});
+sequenceMW.addEvent('00:17:25', function() {glitchMW.animateOut()})
 
-SequencePT.prototype.update = function(delta) {
+// Show
+sequenceMW.addEvent('00:05:25', function () {
+    sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1000, TWEEN.Easing.Exponential.InOut);
+});
 
-	if (!isNaN(delta)) {
+// Fly
+sequenceMW.addEvent('00:07:00', function () {
+    sequenceMW.position(sequenceMW.cubeGroup, 0, 0, 76, 7100 - 10, TWEEN.Easing.Exponential.InOut);
+});
 
-		this.theta += -4 * Math.PI * delta;
-		this.material.uniforms["theta"].value = this.theta;
+// Zoom
+sequenceMW.addEvent('00:07:01', function () {
+    sequenceMW.cameraMovement(sequenceMW.camera, false, -2, 0, 78, 7100, TWEEN.Easing.Exponential.InOut);
+});
 
-		if (this.centerhex.wobbling)
-			this.centerhex.position.setZ(Math.cos(this.theta - 0.1) * 2 );
-	}
+sequenceMW.addEvent('00:07:25', function () {
+    sequenceMW.spaceAudio.play();
+    sequenceMW.rotateCubeGroup(sequenceMW.cubeGroup, Util.toRadians(450), 7100, TWEEN.Easing.Exponential.InOut);
+});
+
+// Pull focus
+sequenceMW.addEvent('00:10:15', sequenceMW.pullFocus, [renderator, 5, 0.5, 20, TWEEN.Easing.Quadratic.InOut]);
+
+sequenceMW.addEvent('00:10:00', function () {
+    sequenceMW.explodeCubeGroup(sequenceMW.cubeGroup, 7100 - 3750, TWEEN.Easing.Quadratic.InOut);
+});
+
+// Camera Pan
+sequenceMW.addEvent('00:13:05', function () {
+   sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut, function () {
+    sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera, sequenceMW.cubeGroup.position.z, 0);
+    var cssScale = Math.round(1/sequenceMW.screenDimensions[1] *  window.innerHeight);
+    $('.shape').css('-webkit-transform', 'scale(' + cssScale/2/21 + ')', 'important');
+   });
+});
+
+sequenceMW.addEvent('00:13:25', sequenceMW.pullFocus, [renderator, 0, 0.5, 1500, TWEEN.Easing.Quadratic.InOut]);
+
+// Hide triangles
+for (var i=0; i<18; i++) {
+    sequenceMW.addEvent(15.25 + i * (0.30), sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
 }
 
+// CSS Shape
+sequenceMW.addEvent('00:18:15', function () {
+   sequenceMW.fade(sequenceMW.sphere, 0, 2000, TWEEN.Easing.Exponential.InOut);
+   $('.shape').addClass('visible');
+});
 
-var sequencePT = new SequencePT();
+sequenceMW.addEvent('00:21:25', function () {
+    //sequenceMW.cubeGroup.visible = false;
+    $('.shape').addClass('morph');
+});
 
-
-
-timeline.push(sequencePT);
+/******************************
+* Add to Timeline
+******************************/
+timeline.push(sequenceMW);

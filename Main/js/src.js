@@ -64,8 +64,8 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/guy-podjarny.js
             //= src/sequences/emily-nakashima.js
 
-            // = src/sequences/mark-dalgesh.js
-            // = src/sequences/paul-theriault.js
+            // src/sequences/mark-dalgesh.js
+            // src/sequences/paul-theriault.js
 
 
             // = src/sequences/logo.js
