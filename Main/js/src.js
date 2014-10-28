@@ -35,9 +35,10 @@ var peopleBehindthePixels = (function () {
 
         // Load audio
         //pbtp.audio.init('shared/audio/interstellar.mp3');
-        noise = false;
-
+        noise = true;
+        pbtp.audio.init('shared/audio/music.mp3');
         //pbtp.audio.seek('00:00:00');
+        pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Import sequences
@@ -59,15 +60,19 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/jessica-hische2.js
             //= src/sequences/erin-moore.js
 
-            // src/sequences/guy-podjarny.js
-            // src/sequences/emily-nakashima.js
+            //= src/sequences/guy-podjarny.js
+            // = src/sequences/emily-nakashami.js
+
+
+
 
             // = src/sequences/hadi-michael.js
+            // = src/sequences/julio-cesar-ody.js
             // = src/sequences/mark-dalgesh.js
             // = src/sequences/paul-theriault.js
 
 
-            // = src/sequences/web-directions.js
+            // src/sequences/web-directions.js
 
 
         // Speakers
@@ -93,14 +98,9 @@ var peopleBehindthePixels = (function () {
             'x JULIO CESAR ODY',
 
 
-            '- EMILY NAKASHIMA',
-            '- PAUL THERIAULT',
-            '- MARK DALGLEISH',
-
 
             'GENEVIEVE BELL',
             'HADI MICHAEL',
-
             'DINOSAUR'
         ];
 

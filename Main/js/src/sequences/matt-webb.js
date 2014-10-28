@@ -209,7 +209,7 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-var glitchMW = new Glitch ('MATT WEBB', -320, -5);
+var glitchMW = new Glitch ('MATT WEBB', -330, -5);
 sequenceMW.addEvent('00:13:20', function() {glitchMW.animateIn()});
 sequenceMW.addEvent('00:17:25', function() {glitchMW.animateOut()})
 
