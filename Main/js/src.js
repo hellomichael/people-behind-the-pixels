@@ -54,8 +54,8 @@ var peopleBehindthePixels = (function () {
             // = src/sequences/sarah-mei.js
 
             
-            //= src/sequences/julio-cesar-ody.js
-            //= src/sequences/guy-podjarny.js
+            // src/sequences/julio-cesar-ody.js
+            // src/sequences/guy-podjarny.js
 
 
             // src/sequences/jessica-hische.js
@@ -63,9 +63,11 @@ var peopleBehindthePixels = (function () {
             // src/sequences/emily-nakashami.js
             // src/sequences/hadi-michael.js
 
-            // = src/sequences/mark-dalgesh.js
+            
             // = src/sequences/paul-theriault.js
+            //= src/sequences/mark-dalgesh.js
 
+            // = src/sequences/logo.js
 
         // Speakers
         speakers = [

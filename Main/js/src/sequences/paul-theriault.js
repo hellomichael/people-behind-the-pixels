@@ -103,6 +103,7 @@ function OldGetHexagon(innerRadius, outerRadius, material) {
 
 /*----------------------------------------------------------------------------*/
 
+var disc1 = THREE.ImageUtils.loadTexture("shared/img/particle.png");
 
 var photonPc;
 
@@ -113,25 +114,70 @@ var SequencePT = function() {
 	this.scene.fog = null;
 
 	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 256);
-	this.camera.position.set(1.5, 0.7, 8);
-	this.camera.lookAt(new THREE.Vector3(1.5, 0.7, 0));
+	this.camera.position.set(1.5, 1.2, 12);
+	this.camera.lookAt(new THREE.Vector3(1.5, 1.2, 0));
 	this.scene.add(this.camera);
 
-	var controls = new THREE.OrbitControls(this.camera);
+	// var controls = new THREE.OrbitControls(this.camera);
+
+
+	var vShader = [
+		"uniform float theta;",
+		"uniform float amp;",
+		"uniform float falloff;",
+		"uniform vec3 focus;",
+		"const float ninety = 3.14159 / 2.0;",
+		"void main() {",			
+			"vec3 rel = position - focus;",
+			"float d = sqrt(rel.z * rel.z + rel.x * rel.x) * 2.0;",
+			"float decay = cos((clamp(d, 0.0, falloff) / falloff) * ninety);",
+
+
+
+			"vec4 displaced = vec4(position, 1.0);",
+			"displaced.y += sin(theta + d) * amp * decay;",
+			"gl_Position = projectionMatrix * modelViewMatrix * displaced;",			
+		"}"
+	].join("\n");
+
+	var fshader = [
+		"const float fogDepth = 50.0;",
+		"void main() {",
+			// "float l = gl_FragCoord.z / 2.0;",
+			"float l = 0.5;",
+			"gl_FragColor = vec4(l, l, l, 1.0);",
+		"}"
+	].join('\n');
+
+
+	this.theta = 0;
+	this.material = new THREE.ShaderMaterial({
+		uniforms: { 
+			theta: { type: 'f', value: this.theta },
+			amp: { type: 'f', value: 0 },
+			falloff: { type: 'f', value: 40 },
+			focus: { type: 'v3', value: new THREE.Vector3(1.5, 1, 0) }
+		},
+	 	vertexShader: vShader, 
+	 	fragmentShader: fshader, 
+	 	wireframe: false });
+
 
 	// hexgrid
-	var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });	
-	this.hexgrid = new Hexgrid(0.98, 1, 12, 24, mtl);
+	// var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });	
+	this.hexgrid = new Hexgrid(0.98, 1, 12, 24, this.material);
 	// this.hexgrid.material.color.setHex(0x222222);
 	this.hexgrid.group.rotation.x = Math.PI / 2;
 	this.hexgrid.group.position.set(0, 1, 0);
 	this.scene.add(this.hexgrid.group);
 
+
 	// center
 	this.centerMtl = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-	this.centerhex = OldGetHexagon(0.94, 1, this.centerMtl);
+	this.centerhex = OldGetHexagon(0.9, 1.1, this.centerMtl);
 	this.centerhex.position.set(1.5, 1, 0.1);
 	this.centerhex.rotation.x = Math.PI / 2;
+	this.centerhex.wobbling = false;
 	this.scene.add(this.centerhex);
 
 	this.ambient = new THREE.AmbientLight(0x666666);
@@ -167,14 +213,8 @@ var SequencePT = function() {
 	var context = this;
 	var theta = 0;
 
-	// var tween = new TWEEN.Tween({ x: 1, y: 0, z: 0 })
-	// 	.to({ x: 2, y: 0, z: 0 }, 1000)
-	// 	.onUpdate(function() { context.pl1.position.setX(this.x); })
-	// 	.onComplete
-	// 	.start();
-
 	// events
-	this.addEvent('00:04:00', function() {
+	this.addEvent('00:00:01', function() {
 		
 		renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
@@ -187,16 +227,26 @@ var SequencePT = function() {
             aaEnabled               : true
         });
 
-		var context = this;
 		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 0.7, z: 12 }, 6000)
+			.to({ x: 1.5, y: 0.7, z: 16 }, 6000)
 			.easing(TWEEN.Easing.Quadratic.Out)
 			.onUpdate(function() {
 				context.camera.position.set(this.x, this.y, this.z);
 			}).start();
 	});
 
-	this.addEvent('00:05:00', function() {
+	this.addEvent('00:01:00', function() {
+
+		this.centerhex.wobbling = true;
+
+		new TWEEN.Tween(this.material.uniforms["amp"])
+			.to({ value: 2 }, 200)
+			.start();
+
+		new TWEEN.Tween(this.material.uniforms["falloff"])
+			.to({ value: 40 }, 500)
+			.start();
+
 
 		context.scene.add(photonPc);
 
@@ -208,7 +258,7 @@ var SequencePT = function() {
 		var startValue = renderator.bloomPass.copyUniforms["opacity"].value;
 
 		var bloomTween = new TWEEN.Tween({ opacity: startValue, scale: 1 })
-			.to({ opacity: 6, scale: 1.6 }, 50)
+			.to({ opacity: 40, scale: 1.6 }, 50)
 			.onUpdate(function() {
 
 				renderator.bloomPass.copyUniforms["opacity"].value = this.opacity;
@@ -233,10 +283,17 @@ var SequencePT = function() {
 
 			}).start();
 
+		// var photonPush = new TWEEN.Tween(photonPc.position)
+		// 	.to({ z: 6 }, 2000)
+		// 	.start();
+
 		var photonFade = new TWEEN.Tween(photonPc.material.color)			
 			.to({ r: 0.1, g: 0.1, b: 0.1 }, 4000)
 			.onUpdate(function () {
 				photonPc.material.color.set(this.x, this.y, this.z);
+			})
+			.onComplete(function () {
+				photonPc.visible = false;
 			})
 			.start();
 	});
@@ -248,7 +305,14 @@ SequencePT.prototype = new Sequence();
 
 SequencePT.prototype.update = function(delta) {
 
-	
+	if (!isNaN(delta)) {
+
+		this.theta += -4 * Math.PI * delta;
+		this.material.uniforms["theta"].value = this.theta;
+
+		if (this.centerhex.wobbling)
+			this.centerhex.position.setZ(Math.cos(this.theta - 0.1) * 2 );
+	}
 }
 
 
