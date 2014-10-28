@@ -165,7 +165,7 @@ sequenceEN.addEvent('01:53:15', function () {
 });
 
 // Position
-sequenceEN.addEvent('01:53:20', function () {
+sequenceEN.addEvent('01:53:25', function () {
     this.triangleGroup.visible = true;
 
     sequenceEN.position(sequenceEN.triangle1, 2  , -2  ,5, 2000,  TWEEN.Easing.Exponential.Out);

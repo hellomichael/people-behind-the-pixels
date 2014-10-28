@@ -37,34 +37,35 @@ var peopleBehindthePixels = (function () {
         //pbtp.audio.init('shared/audio/interstellar.mp3');
         noise = true;
         pbtp.audio.init('shared/audio/music.mp3');
+
         //pbtp.audio.seek('00:00:00');
-        pbtp.audio.seek('00:00:00');
+        //pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Import sequences
             //= src/sequence.js
 
-            // = src/sequences/tobias-revell.js
-            // = src/sequences/matt-webb.js
+            //= src/sequences/tobias-revell.js
+            //= src/sequences/matt-webb.js
 
-            // = src/sequences/jonny-mack.js
-            // = src/sequences/younghee-jung.js
+            //= src/sequences/jonny-mack.js
+            //= src/sequences/younghee-jung.js
 
-            // = src/sequences/jake-archibald.js
-            // = src/sequences/tom-armitage.js
-            // = src/sequences/douglas-bowman.js
-            // = src/sequences/jeriamiah-lee.js
-            // = src/sequences/sarah-mei.js
+            //= src/sequences/jake-archibald.js
+            //= src/sequences/tom-armitage.js
+            //= src/sequences/douglas-bowman.js
+            //= src/sequences/jeriamiah-lee.js
+            //= src/sequences/sarah-mei.js
 
-            // = src/sequences/jessica-hische.js
-            // = src/sequences/jessica-hische2.js
-            // = src/sequences/erin-moore.js
+            //= src/sequences/jessica-hische.js
+            //= src/sequences/jessica-hische2.js
+            //= src/sequences/erin-moore.js
 
-            // = src/sequences/guy-podjarny.js
-            // = src/sequences/emily-nakashima.js
-            //= src/sequences/paul-theriault.js
-            //= src/sequences/mark-dalgesh.js
+            //= src/sequences/guy-podjarny.js
+            //= src/sequences/emily-nakashima.js
 
+            // = src/sequences/mark-dalgesh.js
+            // = src/sequences/paul-theriault.js
 
 
             // = src/sequences/logo.js
@@ -94,10 +95,11 @@ var peopleBehindthePixels = (function () {
             'x JONATHON COLMAN',
             'x KATIE MILLER',
             'x JULIO CESAR ODY',
+
             'x GENEVIEVE BELL',
             'x HADI MICHAEL',
-            'x PAUL THERIAULT',
             'x MARK DALGLEISH',
+            'x PAUL THERIAULT',
 
             'DINOSAUR'
         ];

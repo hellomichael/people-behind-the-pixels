@@ -62,7 +62,7 @@ var SequenceMD = function() {
 
 
             theta: { type: 'f', value: this.theta },
-            amp: { type: 'f', value: 8 },
+            amp: { type: 'f', value: 5 },
             falloff: { type: 'f', value: 50 },
             focus: { type: 'v3', value: new THREE.Vector3(0, 0, -80) }
         },
@@ -82,14 +82,14 @@ var SequenceMD = function() {
     this.scene.add(this.ambient);
 
     // Particulator
-    this.particulator = new Particulator(75, 150, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
-    this.particulator.material.opacity = 0.4;
+    this.particulator = new Particulator(75, 200, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
+    this.particulator.material.opacity = 0.3;
     this.scene.add(this.particulator.pointCloud);
 
     var context = this;
 
 
-    this.addEvent('00:14:00', function() {
+    this.addEvent('00:12:00', function() {
 
         renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
@@ -103,10 +103,20 @@ var SequenceMD = function() {
         });
 
         var context = this;
-        // var camtween = new TWEEN.Tween(context.camera.position)
-        //  .to({ x: -5, y: 12, z: 0 }, 7000)
-        //  .start();
+
+        var camtween = new TWEEN.Tween(this.camera.position)
+            .to({ x: 41, y: 15, z: -50}, 7000)
+            .easing(TWEEN.Easing.Quadratic.InOut)
+            .onUpdate(function() {
+                context.camera.position.set(this.x, this.y, this.z);
+            }).start();
     });
+
+
+    var glitchPT = new Glitch ('PAUL THERIAULT', -300, -500);
+    this.addEvent('00:14:20', function() {glitchPT.animateIn()});
+    this.addEvent('00:16:15', function() {glitchPT.animateOut()});
+
 
 
     // this.addEvent('00:02:15', function() {
