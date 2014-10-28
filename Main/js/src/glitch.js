@@ -78,6 +78,9 @@ var Glitch = function(speaker, x, y) {
     this.glitchAudioIn = new Audio('shared/audio/glitch' + Math.round(Math.random() * 4 + 1) + '.mp3');
     this.glitchAudioOut = new Audio('shared/audio/glitch' + Math.round(Math.random() * 4 + 1) + '.mp3');
 
+    this.glitchAudioIn.volume = 0.5;
+    this.glitchAudioOut.volume = 0.5;
+
     // Type dimensions
     this.metrics = this.context.measureText(this.speaker);
     this.width = Math.round(this.metrics.width);
@@ -186,6 +189,10 @@ Glitch.prototype = {
                 that.previousFrame = that.currentFrame;
             })
         .start();
+    },
+
+    clear: function () {
+        this.canvas.width = this.canvas.width;
     },
 
     goToFrame: function(currentFrame) {

@@ -38,32 +38,31 @@ var peopleBehindthePixels = (function () {
         noise = false;
         pbtp.audio.init('shared/audio/music.mp3');
         //pbtp.audio.seek('01:05:00');
-        pbtp.audio.seek('00:00:00');
+        pbtp.audio.seek('00:20:00');
         //pbtp.audio.mute();
 
         // Import sequences
             //= src/sequence.js
 
-            // = src/sequences/tobias-rebell.js
-            // = src/sequences/matt-webb.js
+            //= src/sequences/tobias-revell.js
+            //= src/sequences/matt-webb.js
 
-            // = src/sequences/jonny-mack.js
-            // = src/sequences/younghee-jung.js
+            //= src/sequences/jonny-mack.js
+            //= src/sequences/younghee-jung.js
 
-            // = src/sequences/jake-archibald.js
-            // = src/sequences/tom-armitage.js
-            // = src/sequences/douglas-bowman.js
-            // = src/sequences/jeriamiah-lee.js
+            //= src/sequences/jake-archibald.js
+            //= src/sequences/tom-armitage.js
+            //= src/sequences/douglas-bowman.js
+            //= src/sequences/jeriamiah-lee.js
             // = src/sequences/sarah-mei.js
+
             // = src/sequences/jessica-hische.js
             // = src/sequences/jessica-hische2.js
             // = src/sequences/erin-moore.js
 
 
-
-
-            //= src/sequences/guy-podjarny.js
-            //= src/sequences/emily-nakashami.js
+            // = src/sequences/guy-podjarny.js
+            // = src/sequences/emily-nakashami.js
 
 
 
@@ -79,30 +78,34 @@ var peopleBehindthePixels = (function () {
 
         // Speakers
         speakers = [
-            'TOBIAS REVELL',
-            'MATT WEBB',
+            'x TOBIAS REVELL',
+            'x MATT WEBB',
+            'x JONNY MACK',
+            'x YOUNGHEE JUNG',
+            'x DOUGLAS BOWMAN',
+            'x SCOTT THOMAS',
+            'x TOM ARMITAGE',
+            'x JESSICA HISCHE',
+            'x ERIN MOORE',
+            'x JAKE ARCHIBALD',
+            'x JEREMIAH LEE',
+            'x SARAH MEI',
+            'x GUY PODJARNY',
+            'x KATIE MILLER',
+            'x SARAH MADDOX',
+            'x DAN HON',
+
+
+            '- PAUL THERIAULT',
+            '- MARK DALGLEISH',
+            '- EMILY NAKASHIMA',
+
+
             'GENEVIEVE BELL',
-            'DAN HON',
             'JONATHON COLMAN',
-            'JONNY MACK',
-            'YOUNGHEE JUNG',
-            'SCOTT THOMAS',
-            'DOUGLAS BOWMAN',
-            'TOM ARMITAGE',
-            'JESSICA HISCHE',
-            'ERIN MOORE',
-            'JAKE ARCHIBALD',
-            'JEREMIAH LEE',
-            'SARAH MEI',
-            'JULIO CESAR ODY',
-            'GUY PODJARNY',
-            'KATIE MILLER',
             'BILL SCOTT',
-            'EMILY NAKASHIMA',
-            'SARAH MADDOX',
-            'MARK DALGLEISH',
+            'JULIO CESAR ODY',
             'HADI MICHAEL',
-            'PAUL THERIAULT'
         ];
 
         // Display Stats

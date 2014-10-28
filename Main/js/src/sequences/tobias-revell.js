@@ -124,6 +124,11 @@ var glitchTR = new Glitch ('TOBIAS REBELL', 300, 0);
 sequenceTR.addEvent('00:03:15', function() {glitchTR.animateIn()});
 sequenceTR.addEvent('00:08:15', function() {glitchTR.animateOut()});
 
+var glitchDH = new Glitch ('DAN HON', 300, 0);
+sequenceTR.addEvent('00:08:25', function() {glitchDH.animateIn()});
+sequenceTR.addEvent('00:13:15', function() {glitchDH.animateOut()});
+
+
 // Show Lines
 for (var i=0; i<sequenceTR.lines.length; i++) {
     // Vertical lines

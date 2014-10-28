@@ -60,6 +60,18 @@ SequenceEM.prototype.pew = function(cube, length, duration, easing) {
     .start();
 };
 
+SequenceEM.prototype.unPew = function(cube, length, duration, easing) {
+    new TWEEN.Tween({length: cube.scale.z, width: cube.scale.y})
+        .to({length: length, width: length}, duration)
+        .onUpdate(function () {
+            cube.scale.z = this.length;
+
+            cube.scale.x = this.width;
+            //cube.scale.y = this.width;
+        })
+    .start();
+};
+
 SequenceEM.prototype.pewRotate = function(cube, duration, easing) {
     new TWEEN.Tween({rotateX: 0, rotateY: 0})
         .to({rotateX: 15, rotateY: 45}, duration)
@@ -108,8 +120,13 @@ sequenceEM.addEvent('01:17:22', function () {
 });
 
 var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4), -100);
-sequenceEM.addEvent('01:19:20', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
+sequenceEM.addEvent('01:19:00', function() {erinMoore.animateIn()});
+sequenceEM.addEvent('01:23:25', function () {erinMoore.animateOut()})
+
+sequenceEM.addEvent('01:23:25', function () {
+    sequenceEM.unPew(sequenceEM.cube, 0, 250, TWEEN.Easing.Exponential.InOut);
+});
+
 
 /******************************
 * Add to Timeline

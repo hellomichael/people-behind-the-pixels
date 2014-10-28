@@ -130,16 +130,7 @@ var sequenceYJ = new sequenceYJ();
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, false, false, false, false);
 });*/
 
-/*var glitchYJ = new Glitch ('YOUNGHEE JUNG', 0, -150);
-sequenceYJ.addEvent('00:05:00', function() {glitchYJ.animateIn()});
-sequenceYJ.addEvent('00:10:00', function() {glitchYJ.animateOut()});*/
-
-var glitchJM = new Glitch ('JOHNNY MACK', 0, 145);
-sequenceJM.addEvent('00:23:15', function() {glitchJM.animateIn()});
-sequenceJM.addEvent('00:27:20', function() {glitchJM.animateOut()});
-
-
-var glitchYJ = new Glitch ('YOUNGHEE JUNG', 300, -175);
+var glitchYJ = new Glitch ('YOUNGHEE JUNG', 0, -30);
 sequenceYJ.addEvent('00:32:00', function() {glitchYJ.animateIn()});
 sequenceYJ.addEvent('00:37:15', function() {glitchYJ.animateOut()});
 

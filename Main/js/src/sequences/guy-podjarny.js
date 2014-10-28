@@ -88,16 +88,31 @@ SequenceGP.prototype.init = function() {
 ******************************/
 var sequenceGP = new SequenceGP();
 
+sequenceGP.addEvent('01:24:05', function () {
+    var options = {
+        postProcessEnabled      : true,
+
+        blurEnabled             : true,
+        blurAmount              : 0,
+        blurPosition            : 0.5,
+
+        bloomEnabled            : false,
+        aaEnabled               : true
+    }
+
+    sequenceGP.nextScene(sequenceGP.scene, sequenceGP.camera, options);
+});
+
 
 /******************************
 * Add Events
 ******************************/
-var glitchGP = new Glitch ('GUY PODJARNY', 315, 15);
-sequenceGP.addEvent('00:06:15', function() {glitchGP.animateIn()});
-sequenceGP.addEvent('00:12:00', function() {glitchGP.animateOut()});
+/*var glitchGP = new Glitch ('GUY PODJARNY', 315, 15);
+sequenceGP.addEvent('01:06:15', function() {glitchGP.animateIn()});
+sequenceGP.addEvent('01:12:00', function() {glitchGP.animateOut()});*/
 
-sequenceGP.addEvent('00:01:00', function () {
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -28, 0, 7500, TWEEN.Easing.Quadratic.InOut, function () {
+sequenceGP.addEvent('01:22:00', function () {
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -28, 0, 7500, TWEEN.Easing.Exponential.InOut, function () {
 
         sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 6500, TWEEN.Easing.Exponential.InOut);
         sequenceGP.rotate(sequenceGP.camera, Util.toRadians(5), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
@@ -120,7 +135,7 @@ for (var i=sequenceGP.numberOfCubes-1; i>=0; i--) {
 }
 
 
-sequenceGP.addEvent('00:12:00', function () {
+sequenceGP.addEvent('01:33:20', function () {
     for (var i=sequenceGP.numberOfCubes-1; i>=0; i--) {
         sequenceGP.position(sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)],
         sequenceGP.pyramidGroup.children[sequenceGP.numberOfCubes - (i + 1)].originalVertices[0],
@@ -130,20 +145,20 @@ sequenceGP.addEvent('00:12:00', function () {
     }
 });
 
-sequenceGP.addEvent('00:19:00', function () {
+sequenceGP.addEvent('01:39:00', function () {
     sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -8, -1, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 
-sequenceGP.addEvent('00:19:15', function () {
+sequenceGP.addEvent('01:39:15', function () {
     sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 
 
-var glitchKM = new Glitch ('KATIE MILLER', -700, -400);
-sequenceGP.addEvent('00:15:15', function() {glitchKM.animateIn()});
-sequenceGP.addEvent('00:20:15', function() {glitchKM.animateOut()});
+/*var glitchKM = new Glitch ('KATIE MILLER', -700, -400);
+sequenceGP.addEvent('01:15:15', function() {glitchKM.animateIn()});
+sequenceGP.addEvent('01:20:15', function() {glitchKM.animateOut()});*/
 
 
 /******************************

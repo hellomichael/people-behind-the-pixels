@@ -120,6 +120,15 @@ sequenceJM.addEvent('00:22:10', function () {
     sequenceJM.nextScene(sequenceJM.scene, sequenceJM.camera, options);
 });
 
+
+var glitchJM = new Glitch ('JOHNNY MACK', 0, 175);
+sequenceJM.addEvent('00:22:10', function() {glitchJM.animateIn()});
+sequenceJM.addEvent('00:26:20', function() {glitchJM.animateOut()});
+
+var glitchSMX = new Glitch ('SARAH MADDOX', -250, -50);
+sequenceJM.addEvent('00:27:10', function() {glitchSMX.animateIn()});
+sequenceJM.addEvent('00:31:25', function() {glitchSMX.animateOut()});
+
 // Break lines
 /*sequenceJM.addEvent('00:23:20', function () {
     for (var i=0; i<sequenceJM.lines.length; i++) {

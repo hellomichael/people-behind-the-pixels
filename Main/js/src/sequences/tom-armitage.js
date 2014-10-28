@@ -154,7 +154,7 @@ sequenceTA.addEvent('00:45:02', function () {
 })
 
 var glitchTA = new Glitch ('TOM ARMITAGE', 0, -window.innerHeight/4 - 50);
-sequenceTA.addEvent('00:45:05', function() {glitchTA.animateIn()});
+sequenceTA.addEvent('00:45:10', function() {glitchTA.animateIn()});
 sequenceTA.addEvent('00:49:20', function() {glitchTA.animateOut()})
 
 sequenceTA.addEvent('00:46:00', function() {

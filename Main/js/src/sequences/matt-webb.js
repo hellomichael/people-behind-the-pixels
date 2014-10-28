@@ -205,11 +205,11 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 var sequenceMW = new SequenceMW();
 
 var glitchMW = new Glitch ('MATT WEBB', -320, -5);
-sequenceMW.addEvent('00:12:15', function() {glitchMW.animateIn()});
-sequenceMW.addEvent('00:17:15', function() {glitchMW.animateOut()})
+sequenceMW.addEvent('00:13:20', function() {glitchMW.animateIn()});
+sequenceMW.addEvent('00:17:25', function() {glitchMW.animateOut()})
 
 // Show
-sequenceMW.addEvent('00:05:20', function () {
+sequenceMW.addEvent('00:05:25', function () {
     sequenceMW.showCube(sequenceMW.cubeGroup, 1, 1000, TWEEN.Easing.Exponential.InOut);
 });
 
