@@ -61,7 +61,7 @@ SequenceEN.prototype.init = function() {
 
 
     this.triangleGroup.rotation.x = Util.toRadians(90);
-    this.triangleGroup.rotation.z = Util.toRadians(45);
+    this.triangleGroup.rotation.z = Util.toRadians(90);
 
     this.scene.add(this.triangleGroup);
 
@@ -74,7 +74,7 @@ SequenceEN.prototype.init = function() {
     this.pyramidGeometry.faces[1].color = new THREE.Color(this.pyramidColors[3]);
 
     this.pyramid = new THREE.Mesh(this.pyramidGeometry, this.basicMaterial);
-    this.pyramid.scale.set(0.4, 0.4, 0.4);
+    this.pyramid.scale.set(0.3, 0.3, 0.3);
     //this.pyramid.rotation.y = Util.toRadians(45);
     this.pyramid.position.set(0, -1, 0);
 
@@ -110,7 +110,7 @@ var sequenceEN = new SequenceEN();
 * Add Sequences
 ******************************/
 //Rotate Pyramid
-sequenceEN.addEvent('01:49:00', sequenceEN.rotate, [sequenceEN.pyramid, Util.toRadians(0), Util.toRadians(0), 0, 4500, TWEEN.Easing.Exponential.InOut]);
+sequenceEN.addEvent('01:46:25', sequenceEN.rotate, [sequenceEN.pyramid, Util.toRadians(0), Util.toRadians(0), 0, 6000, TWEEN.Easing.Exponential.InOut]);
 
 sequenceEN.addEvent('01:50:00', function () {
     sequenceGP.pyramidGroup.visible = false;
@@ -118,7 +118,7 @@ sequenceEN.addEvent('01:50:00', function () {
 });
 
 sequenceEN.addEvent('01:48:00', function () {
-    sequenceEN.cameraMovement(sequenceEN.camera, false, 0, -6, -3, 4000, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.cameraMovement(sequenceEN.camera, false, 0, -5, -3, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
 
@@ -133,11 +133,11 @@ sequenceGP.addEvent('01:48:25', function() {
 
 var glitchEN = new Glitch ('EMILY NAKASHIMA', -400, 0);
 sequenceEN.addEvent('01:50:00', function() {glitchEN.animateIn()});
-sequenceEN.addEvent('01:55:00', function() {glitchEN.animateOut()})
+sequenceEN.addEvent('01:54:15', function() {glitchEN.animateOut()})
 
 
 // Slice Pyramid
-sequenceEN.addEvent('01:55:00', function () {
+sequenceEN.addEvent('01:53:00', function () {
     $('.vertical-dashed-top').addClass('slice');
     $('.vertical-dashed-bottom').addClass('slice');
 
@@ -145,7 +145,7 @@ sequenceEN.addEvent('01:55:00', function () {
     $('.horizontal-dashed-right').addClass('slice');
 });
 
-sequenceEN.addEvent('01:55:15', function () {
+sequenceEN.addEvent('01:53:15', function () {
     $('.vertical-dashed-top').addClass('hide');
     $('.vertical-dashed-bottom').addClass('hide');
 
@@ -153,29 +153,36 @@ sequenceEN.addEvent('01:55:15', function () {
     $('.horizontal-dashed-right').addClass('hide');
 });
 
-sequenceEN.addEvent('01:55:15', function () {
-    sequenceEN.position(sequenceEN.triangle1, 2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle2, 2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle3, -2  , 2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-    sequenceEN.position(sequenceEN.triangle4, -2  , -2  , 5, 1200,  TWEEN.Easing.Exponential.InOut);
-});
-
-sequenceEN.addEvent('01:55:15', function () {
+// Fade
+sequenceEN.addEvent('01:53:15', function () {
     sequenceEN.fade(sequenceEN.pyramid, 0, 1000, TWEEN.Easing.Exponential.InOut);
 
-    sequenceEN.fade(sequenceEN.triangle1, 1, 500, TWEEN.Easing.Exponential.InOut);
-    sequenceEN.fade(sequenceEN.triangle2, 1, 500, TWEEN.Easing.Exponential.InOut);
-    sequenceEN.fade(sequenceEN.triangle3, 1, 500, TWEEN.Easing.Exponential.InOut);
-    sequenceEN.fade(sequenceEN.triangle4, 1, 500, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.fade(sequenceEN.triangle1, 1, 250, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.fade(sequenceEN.triangle2, 1, 250, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.fade(sequenceEN.triangle3, 1, 250, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.fade(sequenceEN.triangle4, 1, 250, TWEEN.Easing.Exponential.InOut);
+
 });
 
-/*sequenceEN.addEvent('01:50:00', function () {
-    sequenceEN.fade(sequenceEN.triangle1, 0, 1000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle2, 0, 1000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle3, 0, 1000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle4, 0, 1000, TWEEN.Easing.Quadratic.InOut);
+// Position
+sequenceEN.addEvent('01:53:20', function () {
+    this.triangleGroup.visible = true;
+
+    sequenceEN.position(sequenceEN.triangle1, 2  , -2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle2, 2  , 2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle3, -2  , 2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle4, -2  , -2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
 });
-*/
+
+
+// Fade
+sequenceEN.addEvent('01:53:25', function () {
+    sequenceEN.fade(sequenceEN.triangle1, 0, 2000, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle2, 0, 2000, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle3, 0, 2000, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle4, 0, 2000, TWEEN.Easing.Quadratic.InOut);
+});
+
 
 /******************************
 * Add Sequences

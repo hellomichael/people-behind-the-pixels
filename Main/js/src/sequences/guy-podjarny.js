@@ -97,14 +97,6 @@ sequenceGP.addEvent('01:26:10', function () {
 /******************************
 * Add Events
 ******************************/
-var glitchGP = new Glitch ('GUY PODJARNY', 400, 0);
-sequenceGP.addEvent('01:28:15', function() {glitchGP.animateIn()});
-sequenceGP.addEvent('01:32:00', function() {glitchGP.animateOut()});
-
-var glitchJC = new Glitch ('JONATHON COLMAN', 400, 0);
-sequenceGP.addEvent('01:32:15', function() {glitchJC.animateIn()});
-sequenceGP.addEvent('01:36:15', function() {glitchJC.animateOut()});
-
 sequenceGP.addEvent('01:27:00', function () {
     this.spaceAudio.play();
 });
@@ -115,7 +107,7 @@ sequenceGP.addEvent('01:23:10', function () {
 
     sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
 
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -26, 0, 9500, TWEEN.Easing.Exponential.InOut, function () {
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -26, 0, 10000, TWEEN.Easing.Exponential.InOut, function () {
         sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 7500, TWEEN.Easing.Exponential.InOut);
         sequenceGP.rotate(sequenceGP.camera, Util.toRadians(5), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
         sequenceGP.cameraMovement(sequenceGP.camera, false, 0, 26 + 0.6, 3, 7500, TWEEN.Easing.Exponential.InOut);
@@ -146,7 +138,7 @@ sequenceGP.addEvent('01:37:00', function () {
             sequenceGP.pyramidGroup.children[i].children[j].originalVertices[0],
             sequenceGP.pyramidGroup.children[i].children[j].originalVertices[1],
             sequenceGP.pyramidGroup.children[i].children[j].originalVertices[2],
-            5500, TWEEN.Easing.Quadratic.Out);
+            6000, TWEEN.Easing.Quadratic.Out);
         }
     }
 });
@@ -156,23 +148,32 @@ sequenceGP.addEvent('01:36:25', function() {
     sequenceGP.pullFocus(renderator, 2, 0.6, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
+
+var glitchGP = new Glitch ('GUY PODJARNY', 400, 0);
+sequenceGP.addEvent('01:28:00', function() {glitchGP.animateIn()});
+sequenceGP.addEvent('01:32:10', function() {glitchGP.animateOut()});
+
+var glitchJC = new Glitch ('JONATHON COLMAN', 400, 0);
+sequenceGP.addEvent('01:32:10', function() {glitchJC.animateIn()});
+sequenceGP.addEvent('01:36:10', function() {glitchJC.animateOut()});
+
 var glitchKM = new Glitch ('KATIE MILLER', 0, 325);
-sequenceGP.addEvent('01:35:15', function() {glitchKM.animateIn()});
-sequenceGP.addEvent('01:40:00', function() {glitchKM.animateOut()});
+sequenceGP.addEvent('01:36:10', function() {glitchKM.animateIn()});
+sequenceGP.addEvent('01:40:20', function() {glitchKM.animateOut()});
 
 
 var glitchJCO = new Glitch ('JULIO CESAR ODY', 0, -125);
-sequenceGP.addEvent('01:40:15', function() {glitchJCO.animateIn()});
-sequenceGP.addEvent('01:46:15', function() {glitchJCO.animateOut()});
+sequenceGP.addEvent('01:41:05', function() {glitchJCO.animateIn()});
+sequenceGP.addEvent('01:46:20', function() {glitchJCO.animateOut()});
 
 
 // Rotate randomly
 for (var i=sequenceGP.pyramidHeight-1; i>=0; i--) {
     sequenceGP.addEvent(103, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
-    sequenceGP.addEvent(106, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(105, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    sequenceGP.addEvent(107, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
     sequenceGP.addEvent(109, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
-    sequenceGP.addEvent(112, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
-    sequenceGP.addEvent(115, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
+    //sequenceGP.addEvent(115, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
     //sequenceGP.addEvent(118, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
     //sequenceGP.addEvent(121, sequenceGP.rotate, [sequenceGP.pyramidGroup.children[i], 0, Util.toRadians(_.random(-2, 2) * 90 || 90), 0, 2000, TWEEN.Easing.Exponential.InOut]);
 }

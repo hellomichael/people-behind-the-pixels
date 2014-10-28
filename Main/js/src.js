@@ -38,7 +38,7 @@ var peopleBehindthePixels = (function () {
         noise = true;
         pbtp.audio.init('shared/audio/music.mp3');
         //pbtp.audio.seek('00:00:00');
-        pbtp.audio.seek('00:00:00');
+        pbtp.audio.seek('01:55:00');
         //pbtp.audio.mute();
 
         // Import sequences
@@ -61,15 +61,19 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/erin-moore.js
 
             //= src/sequences/guy-podjarny.js
-            // = src/sequences/emily-nakashami.js
+            //= src/sequences/emily-nakashima.js
 
+
+            //= src/sequences/mark-dalgesh.js
+
+
+
+
+            // = src/sequences/paul-theriault.js
 
 
 
             // = src/sequences/hadi-michael.js
-            // = src/sequences/julio-cesar-ody.js
-            // = src/sequences/mark-dalgesh.js
-            // = src/sequences/paul-theriault.js
 
 
             // src/sequences/web-directions.js

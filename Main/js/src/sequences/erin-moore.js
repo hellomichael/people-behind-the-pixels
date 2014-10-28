@@ -117,7 +117,7 @@ sequenceEM.addEvent('01:19:18', function () {
 
 var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4) + 100, -100);
 sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('01:25:05', function () {erinMoore.animateOut()})
+sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
 
 
 sequenceEM.addEvent('01:25:00', function () {

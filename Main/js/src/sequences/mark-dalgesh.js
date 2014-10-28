@@ -31,7 +31,7 @@ var SequenceMD = function() {
 	this.scene.add(this.particulator.pointCloud);
 
 	// assume control of renderator
-	this.addEvent('00:00:01', function() {
+	this.addEvent('01:55:00', function() {
 
 		renderator.reset(this.scene, this.camera);
 

@@ -209,7 +209,7 @@ SequenceMW.prototype.CreatePolyOutline = function(sides, radius, linewidth) {
 ******************************/
 var sequenceMW = new SequenceMW();
 
-var glitchMW = new Glitch ('MATT WEBB', -330, -5);
+var glitchMW = new Glitch ('MATT WEBB', -375, -5);
 sequenceMW.addEvent('00:13:20', function() {glitchMW.animateIn()});
 sequenceMW.addEvent('00:17:25', function() {glitchMW.animateOut()})
 
@@ -256,10 +256,6 @@ for (var i=0; i<18; i++) {
     sequenceMW.addEvent(15.25 + i * (0.30), sequenceMW.fade, [sequenceMW.triangles.children[i], 0, 1000, TWEEN.Easing.Quadratic.InOut]);
 }
 
-/*var glitchDH = new Glitch ('DAN HON', 0, 160);
-sequenceMW.addEvent('00:21:00', function() {glitchDH.animateIn()});
-sequenceMW.addEvent('00:26:00', function() {glitchDH.animateOut()});*/
-
 // CSS Shape
 sequenceMW.addEvent('00:18:15', function () {
    sequenceMW.fade(sequenceMW.sphere, 0, 2000, TWEEN.Easing.Exponential.InOut);
@@ -270,10 +266,6 @@ sequenceMW.addEvent('00:21:25', function () {
     //sequenceMW.cubeGroup.visible = false;
     $('.shape').addClass('morph');
 });
-
-/*var glitchDH = new Glitch ('DAN HON', 0, 100);
-sequenceMW.addEvent('00:13:15', function() {glitchDH.animateIn()});
-sequenceMW.addEvent('00:17:15', function() {glitchDH.animateOut()})*/
 
 /******************************
 * Add to Timeline
