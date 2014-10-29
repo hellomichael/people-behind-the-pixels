@@ -13,7 +13,7 @@ var SequenceLogo = function() {
 	this.camera = new THREE.OrthographicCamera(-hOffset, hOffset, hOffset * iRatio, -hOffset * iRatio, -100, 100);
 
 	var zOffset = (hOffset * iRatio) - 0.5;
-	this.camera.position.set(0, 1, 0);
+	this.camera.position.set(0, 2, 0);
 	this.camera.lookAt(new THREE.Vector3(0, 0, 0));
 	this.camera.rotation.z = 0;
 	this.camera.position.set(4.5, 0, -zOffset);
