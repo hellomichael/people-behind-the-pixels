@@ -34,8 +34,8 @@ SequenceEM.prototype.init = function() {
     this.scene.add(this.ambientLight);
 
     // Particulator
-    this.particulator = new Particulator(75, 150, new THREE.Vector3(-1, 1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
-    this.particulator.material.opacity = 0.4;
+    this.particulator = new Particulator(75, 150, new THREE.Vector3(1, -1, -1), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1.5);
+    this.particulator.material.opacity = 0.3;
     this.scene.add(this.particulator.pointCloud);
 
     /******************************
@@ -117,12 +117,12 @@ sequenceEM.addEvent('01:19:18', function () {
 
 var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4) + 100, -100);
 sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
+sequenceEM.addEvent('01:25:00', function () {erinMoore.animateOut()})
 
 
 var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4) + 100, -100);
 sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
-sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
+sequenceEM.addEvent('01:25:15', function () {erinMoore.animateOut()})
 
 sequenceEM.addEvent('01:25:00', function () {
     sequenceEM.rotate(sequenceEM.camera, Util.toRadians(90), 0, 0, 2500, TWEEN.Easing.Exponential.InOut);

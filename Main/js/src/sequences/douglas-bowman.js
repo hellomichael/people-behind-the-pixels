@@ -160,7 +160,7 @@ sequenceDB.addEvent('00:55:05', function() {
     sequenceDB.pullFocus(renderator, 0, 0.5, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
-var glitchDB = new Glitch ('DOUGLAS BOWMAN', -400, 135);
+var glitchDB = new Glitch ('DOUGLAS BOWMAN', -400, 145);
 sequenceDB.addEvent('00:50:05', function() {glitchDB.animateIn()});
 sequenceDB.addEvent('00:55:15', function() {glitchDB.animateOut()})
 
@@ -204,7 +204,7 @@ sequenceDB.addEvent('00:58:00', function() {
 sequenceDB.addEvent('00:57:25', sequenceDB.rotate, [sequenceDB.camera, Util.toRadians(-90), 0, 0, 3000, TWEEN.Easing.Exponential.InOut]);
 
 
-var glitchST = new Glitch ('SCOTT THOMAS', 315, 0);
+var glitchST = new Glitch ('SCOTT THOMAS', 350, 0);
 sequenceDB.addEvent('00:56:00', function() {glitchST.animateIn()});
 sequenceDB.addEvent('01:00:10', function() {glitchST.animateOut()});
 

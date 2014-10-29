@@ -214,22 +214,22 @@ var SequencePT = function() {
 	var theta = 0;
 
 	// events
-	this.addEvent('01:54:55', function() {
+	this.addEvent('01:56:00', function() {
 		$('#speakers').css('z-index', 10);
 
 		renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
 
             blurEnabled             : true,
-            blurAmount              : 5,
-            blurPosition            : 1,
+            blurAmount              : 10,
+            blurPosition            : 0.5,
 
             bloomEnabled            : true,
             aaEnabled               : true
         });
 
 		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 1.2, z: 16}, 5000)
+			.to({ x: 1.5, y: 1.2, z: 18}, 6000)
 			.easing(TWEEN.Easing.Linear.None)
 			.onUpdate(function() {
 				context.camera.position.set(this.x, this.y, this.z);
@@ -237,20 +237,19 @@ var SequencePT = function() {
 	});
 
 
-	this.addEvent('01:54:55', function() {
-    	this.pullFocus(renderator, 0, 0.5, 2000, TWEEN.Easing.Quadratic.InOut);
+	this.addEvent('01:56:10', function() {
+    	this.pullFocus(renderator, 7, 0.5, 1500, TWEEN.Easing.Exponential.InOut);
 	});
 
-	var glitchMD = new Glitch ('GENEVIEVE BELL', 0, 125);
-    this.addEvent('01:56:00', function() {glitchMD.animateIn()});
-    this.addEvent('02:00:00', function() {glitchMD.animateOut()});
+	var glitchMD = new Glitch ('GENEVIEVE BELL', 0, 175);
+    this.addEvent('01:57:20', function() {glitchMD.animateIn()});
+    this.addEvent('02:01:20', function() {glitchMD.animateOut()});
 
-	var glitchHM = new Glitch ('MARK DALGLEISH', 0, 125);
-    this.addEvent('02:00:00', function() {glitchHM.animateIn()});
-    this.addEvent('02:06:00', function() {glitchHM.animateOut()});
+	var glitchHM = new Glitch ('MARK DALGLEISH', 0, 175);
+    this.addEvent('02:02:05', function() {glitchHM.animateIn()});
+    this.addEvent('02:06:00', function() {glitchHM.clear()});
 
-
-	this.addEvent('02:00:00', function() {
+	this.addEvent('02:02:00', function() {
 		var camtween = new TWEEN.Tween(this.camera.position)
 			.to({ x: 1.5, y: 1.2, z: 24}, 500)
 			.easing(TWEEN.Easing.Quadratic.Out)
@@ -259,7 +258,7 @@ var SequencePT = function() {
 			}).start();
 	});
 
-	this.addEvent('02:00:15', function() {
+ 	this.addEvent('02:02:15', function() {
 		var camtween = new TWEEN.Tween(this.camera.position)
 			.to({ x: 1.5, y: 1.2, z: 30}, 2000)
 			.easing(TWEEN.Easing.Quadratic.Out)
@@ -268,7 +267,7 @@ var SequencePT = function() {
 			}).start();
 	});
 
-	this.addEvent('02:00:00', function() {
+	this.addEvent('02:02:00', function() {
 
 		this.centerhex.wobbling = true;
 
@@ -277,7 +276,7 @@ var SequencePT = function() {
 			.start();
 
 		new TWEEN.Tween(this.material.uniforms["falloff"])
-			.to({ value: 40 }, 500)
+			.to({ value: 60 }, 500)
 			.start();
 
 

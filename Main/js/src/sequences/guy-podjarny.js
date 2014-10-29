@@ -21,7 +21,7 @@ SequenceGP.prototype.init = function() {
 
     // Audio
     this.spaceAudio = new Audio('shared/audio/space.mp3');
-    this.lightWooshAudio = new Audio('shared/audio/light-woosh.mp3')
+    //this.lightWooshAudio = new Audio('shared/audio/light-woosh.mp3')
 
     // Particulator
     this.particulator = new Particulator(75, 150, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
@@ -29,15 +29,15 @@ SequenceGP.prototype.init = function() {
     this.scene.add(this.particulator.pointCloud);
 
     // Lights
-    this.directionalLight = new THREE.DirectionalLight(0xFFFFFF);
-    this.directionalLight.position.set(-100, 1000, 600).normalize();
+    this.directionalLight = new THREE.DirectionalLight(0xAAAAAA);
+    this.directionalLight.position.set(-100, 750, 300).normalize();
     this.scene.add(this.directionalLight);
 
-    /*this.directionalLight2 = new THREE.DirectionalLight(0xFFFFFF);
+    this.directionalLight2 = new THREE.DirectionalLight(0xAAAAAA);
     this.directionalLight2.position.set(100, -1000, -600).normalize();
-    this.scene.add(this.directionalLight2);*/
+    this.scene.add(this.directionalLight2);
 
-    this.ambientLight = new THREE.AmbientLight(0x888888);
+    this.ambientLight = new THREE.AmbientLight(0x333333);
     this.scene.add(this.ambientLight);
 
     /******************************
@@ -100,7 +100,7 @@ sequenceGP.addEvent('01:26:10', function () {
 ******************************/
 sequenceGP.addEvent('01:27:12', function () {
     // this.spaceAudio.play();
-    this.lightWooshAudio.play();
+    //this.lightWooshAudio.play();
 });
 
 sequenceGP.addEvent('01:34:00', function () {
@@ -108,17 +108,20 @@ sequenceGP.addEvent('01:34:00', function () {
     // this.lightWooshAudio.play();
 });
 
+sequenceGP.addEvent('01:23:20', function () {
+    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
+});
 
 sequenceGP.addEvent('01:23:10', function () {
     sequenceGP.camera.rotation.x = Util.toRadians(-180);
 
-    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(-90), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -26, 0, 10000, TWEEN.Easing.Exponential.InOut);
+});
 
-    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, -26, 0, 10000, TWEEN.Easing.Exponential.InOut, function () {
-        sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 7500, TWEEN.Easing.Exponential.InOut);
-        sequenceGP.rotate(sequenceGP.camera, Util.toRadians(5), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
-        sequenceGP.cameraMovement(sequenceGP.camera, false, 0, 26 + 0.6, 3, 7500, TWEEN.Easing.Exponential.InOut);
-    });
+sequenceGP.addEvent('01:33:22', function () {
+    sequenceGP.rotate(sequenceGP.pyramidGroup, 0, Util.toRadians(45), 0, 7500, TWEEN.Easing.Exponential.InOut);
+    sequenceGP.rotate(sequenceGP.camera, Util.toRadians(5), 0, 0, 7500, TWEEN.Easing.Exponential.InOut);
+    sequenceGP.cameraMovement(sequenceGP.camera, false, 0, 26 + 0.6, 3, 7500, TWEEN.Easing.Exponential.InOut);
 });
 
 // Add cubes randomly
@@ -151,7 +154,7 @@ sequenceGP.addEvent('01:37:00', function () {
 });
 
 // Pull focus
-sequenceGP.addEvent('01:36:25', function() {
+sequenceGP.addEvent('01:37:25', function() {
     sequenceGP.pullFocus(renderator, 2, 0.4, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
@@ -168,10 +171,9 @@ var glitchKM = new Glitch ('KATIE MILLER', 0, 325);
 sequenceGP.addEvent('01:36:10', function() {glitchKM.animateIn()});
 sequenceGP.addEvent('01:40:20', function() {glitchKM.animateOut()});
 
-
 var glitchJCO = new Glitch ('JULIO CESAR ODY', 0, -125);
 sequenceGP.addEvent('01:41:05', function() {glitchJCO.animateIn()});
-sequenceGP.addEvent('01:46:20', function() {glitchJCO.animateOut()});
+sequenceGP.addEvent('01:48:25', function() {glitchJCO.animateOut()});
 
 
 // Rotate randomly

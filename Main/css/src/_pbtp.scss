@@ -23,6 +23,21 @@ html, body, canvas {
     color: white;
 }
 
+.gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 5s;
+    background: radial-gradient(at center -350px, #555, #000);
+    opacity: 0;
+
+    &.animate {
+        opacity: 1;
+    }
+}
+
 body {
     background: radial-gradient(at center -350px, #555, #000);
 }
@@ -286,7 +301,7 @@ $angle: 30deg;
     top: 50%;
     left: 50%;
     z-index: 9999;
-    transition: all 1s;
+    transition: all 2.5s;
     opacity: 0;
 
     margin-left: -200px + 250px;

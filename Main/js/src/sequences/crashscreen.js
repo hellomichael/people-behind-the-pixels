@@ -52,7 +52,7 @@ var SequenceCrash = function() {
 	var musicSound = new Audio('shared/audio/logo.mp3');
 	var crashSound = new Audio('shared/audio/crash.mp3');
 
-	this.addEvent('02:16:00', function() {
+	this.addEvent('02:17:00', function() {
 		crashSound.play();
 		pbtp.audio.mute();
 
@@ -95,23 +95,23 @@ var SequenceCrash = function() {
 		blipSound.play();
 	});
 
-	this.addEvent('02:28:00', function() {
+	this.addEvent('02:26:25', function() {
 		var left = 4;
 		var iRatio = window.innerHeight / window.innerWidth;
 
 		new TWEEN.Tween(this.camera)
-			.to({ left: -left, right: left, top: iRatio * left, bottom: iRatio * -left }, 1000)
+			.to({ left: -left, right: left, top: iRatio * left, bottom: iRatio * -left }, 1250)
 			.onUpdate(function() { context.camera.updateProjectionMatrix(); })
-			// .easing(TWEEN.Easing.Exponential.In)
+			.easing(TWEEN.Easing.Quadratic.InOut)
 			.start();
 
 		var yOffset = (left * iRatio) - 1;
 		var pixelLoc = new THREE.Vector3(1, 64, 0);
-		var zoomTarget = pixelLoc.clone().add(new THREE.Vector3(3, yOffset));
+		var zoomTarget = pixelLoc.clone().add(new THREE.Vector3(5, yOffset));
 
 		new TWEEN.Tween(this.camera.position)
-			.to(zoomTarget, 1000)
-			// .easing(TWEEN.Easing.Exponential.InOut)
+			.to(zoomTarget, 1250)
+			 .easing(TWEEN.Easing.Quadratic.InOut)
 			.start();
 	});
 }

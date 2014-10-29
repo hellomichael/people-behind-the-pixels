@@ -96,7 +96,7 @@ var SequenceMD = function() {
             postProcessEnabled      : true,
 
             blurEnabled             : true,
-            blurAmount              : 2,
+            blurAmount              : 3,
             blurPosition            : 0,
 
             bloomEnabled            : true,
@@ -106,7 +106,7 @@ var SequenceMD = function() {
         var context = this;
 
         var camtween = new TWEEN.Tween(this.camera.position)
-            .to({ x: 41, y: 15, z: -36}, 12000)
+            .to({ x: 41, y: 13, z: -30}, 15000)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate(function() {
                 context.camera.position.set(this.x, this.y, this.z);
@@ -115,12 +115,12 @@ var SequenceMD = function() {
 
 
     var glitchHM = new Glitch ('HADI MICHAEL', 200, -150);
-    this.addEvent('02:06:15', function() {glitchHM.animateIn()});
-    this.addEvent('02:11:00', function() {glitchHM.animateOut()});
+    this.addEvent('02:07:10', function() {glitchHM.animateIn()});
+    this.addEvent('02:12:00', function() {glitchHM.animateOut()});
 
     var glitchPT = new Glitch ('PAUL THERIAULT', -300, -250);
-    this.addEvent('02:11:15', function() {glitchPT.animateIn()});
-    this.addEvent('02:16:00', function() {glitchPT.clear()});
+    this.addEvent('02:12:15', function() {glitchPT.animateIn()});
+    this.addEvent('02:17:00', function() {glitchPT.clear()});
 
 
     // this.addEvent('00:02:15', function() {
@@ -166,7 +166,6 @@ SequenceMD.prototype.update = function(delta) {
     this.material.uniforms["theta"].value = this.theta;
 
     this.particulator.update(delta);
-    // console.log(this.camera.position);
 }
 
 

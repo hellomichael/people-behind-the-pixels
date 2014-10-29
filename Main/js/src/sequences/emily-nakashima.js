@@ -17,7 +17,7 @@ SequenceEN.prototype.init = function() {
     this.triangleMaterial1 = new THREE.MeshBasicMaterial({color: 0x222222, opacity: 0, transparent: true, side: THREE.DoubleSide});
     this.triangleMaterial2 = new THREE.MeshBasicMaterial({color: 0x111111, opacity: 0, transparent: true, side: THREE.DoubleSide});
     this.triangleMaterial3 = new THREE.MeshBasicMaterial({color: 0x000000, opacity: 0, transparent: true, side: THREE.DoubleSide});
-    this.triangleMaterial4 = new THREE.MeshBasicMaterial({color: 0x666666, opacity: 0, transparent: true,  side: THREE.DoubleSide});
+    this.triangleMaterial4 = new THREE.MeshBasicMaterial({color: 0x333333, opacity: 0, transparent: true,  side: THREE.DoubleSide});
 
     this.basicMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF, opacity: 1, transparent: true, vertexColors: THREE.FaceColors, side: THREE.FrontSide});
     this.lineMaterial  = new THREE.MeshBasicMaterial ({color: 'white',  opacity: 1, transparent: true, side:THREE.DoubleSide, wireframe : true});
@@ -121,6 +121,10 @@ sequenceEN.addEvent('01:48:00', function () {
     sequenceEN.cameraMovement(sequenceEN.camera, false, 0, -5, -3, 4000, TWEEN.Easing.Exponential.InOut);
 });
 
+sequenceEN.addEvent('01:51:25', function () {
+    sequenceEN.cameraMovement(sequenceEN.camera, false, 0, -3, 0, 5000, TWEEN.Easing.Linear.None);
+});
+
 
 sequenceEN.addEvent('01:48:15', function () {
     sequenceEN.rotate(sequenceEN.camera, Util.toRadians(-90), 0, 0, 4000, TWEEN.Easing.Exponential.InOut);
@@ -137,7 +141,7 @@ sequenceEN.addEvent('01:54:00', function() {glitchEN.animateOut()});
 
 
 // Slice Pyramid
-sequenceEN.addEvent('01:54:00', function () {
+sequenceEN.addEvent('01:52:25', function () {
     $('.vertical-dashed-top').addClass('slice');
     $('.vertical-dashed-bottom').addClass('slice');
 
@@ -145,7 +149,7 @@ sequenceEN.addEvent('01:54:00', function () {
     $('.horizontal-dashed-right').addClass('slice');
 });
 
-sequenceEN.addEvent('01:54:00', function () {
+sequenceEN.addEvent('01:52:25', function () {
     $('.vertical-dashed-top').addClass('hide');
     $('.vertical-dashed-bottom').addClass('hide');
 
@@ -154,33 +158,30 @@ sequenceEN.addEvent('01:54:00', function () {
 });
 
 // Fade
-sequenceEN.addEvent('01:54:10', function () {
+sequenceEN.addEvent('01:53:10', function () {
     this.triangleGroup.visible = true;
 
-    sequenceEN.fade(sequenceEN.pyramid, 0, 500, TWEEN.Easing.Exponential.InOut);
+    sequenceEN.fade(sequenceEN.pyramid, 0, 250, TWEEN.Easing.Exponential.InOut);
 
     sequenceEN.fade(sequenceEN.triangle1, 1, 500, TWEEN.Easing.Exponential.InOut);
     sequenceEN.fade(sequenceEN.triangle2, 1, 500, TWEEN.Easing.Exponential.InOut);
     sequenceEN.fade(sequenceEN.triangle3, 1, 500, TWEEN.Easing.Exponential.InOut);
     sequenceEN.fade(sequenceEN.triangle4, 1, 500, TWEEN.Easing.Exponential.InOut);
 
-});
-
-// Position
-sequenceEN.addEvent('01:54:20', function () {
-    sequenceEN.position(sequenceEN.triangle1, 2  , -2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
-    sequenceEN.position(sequenceEN.triangle2, 2  , 2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
-    sequenceEN.position(sequenceEN.triangle3, -2  , 2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
-    sequenceEN.position(sequenceEN.triangle4, -2  , -2  ,5, 2000,  TWEEN.Easing.Exponential.Out);
+    // Position
+    sequenceEN.position(sequenceEN.triangle1, 2.5, -2.5, 5, 3000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle2, 2.5, 2.5, 5, 3000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle3, -2.5, 2.5, 5, 3000,  TWEEN.Easing.Exponential.Out);
+    sequenceEN.position(sequenceEN.triangle4, -2.5, -2.5, 5, 3000,  TWEEN.Easing.Exponential.Out);
 });
 
 
 // Fade
-sequenceEN.addEvent('01:54:15', function () {
-    sequenceEN.fade(sequenceEN.triangle1, 0, 2000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle2, 0, 2000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle3, 0, 2000, TWEEN.Easing.Quadratic.InOut);
-    sequenceEN.fade(sequenceEN.triangle4, 0, 2000, TWEEN.Easing.Quadratic.InOut);
+sequenceEN.addEvent('01:53:20', function () {
+    sequenceEN.fade(sequenceEN.triangle1, 0, 2500, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle2, 0, 2500, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle3, 0, 2500, TWEEN.Easing.Quadratic.InOut);
+    sequenceEN.fade(sequenceEN.triangle4, 0, 2500, TWEEN.Easing.Quadratic.InOut);
 });
 
 
