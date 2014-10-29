@@ -25,7 +25,6 @@ var peopleBehindthePixels = (function () {
     var renderator = new Renderator();
     var prevTimestamp;
     var delta;
-    var noise;
     var speakers;
     var $stats;
 
@@ -35,10 +34,9 @@ var peopleBehindthePixels = (function () {
 
         // Load audio
         //pbtp.audio.init('shared/audio/interstellar.mp3');
-        noise = true;
         pbtp.audio.init('shared/audio/music.mp3');
 
-        //pbtp.audio.seek('00:00:00');
+        pbtp.audio.seek('02:02:00');
         //pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
@@ -64,14 +62,13 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/guy-podjarny.js
             //= src/sequences/emily-nakashima.js
 
-            // src/sequences/mark-dalgesh.js
-            // src/sequences/paul-theriault.js
+            //= src/sequences/mark-dalgesh.js
+            //= src/sequences/paul-theriault.js
+
+            //= src/sequences/crashscreen.js
+            //= src/sequences/wd-logo.js
 
 
-            // = src/sequences/logo.js
-
-
-            // src/sequences/web-directions.js
 
 
         // Speakers
@@ -106,11 +103,6 @@ var peopleBehindthePixels = (function () {
 
         // Display Stats
         $stats = $('#stats');
-
-        if (noise) {
-           $('#noise').css('background', 'url("../shared/img/noise.gif") center center');
-        }
-
         mainLoop(0);
     };
 

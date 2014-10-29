@@ -114,7 +114,7 @@ var SequencePT = function() {
 	this.scene.fog = null;
 
 	this.camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 256);
-	this.camera.position.set(1.5, 1.2, 18);
+	this.camera.position.set(1.5, 1.2, 20);
 	this.camera.lookAt(new THREE.Vector3(1.5, 1.2, 0));
 	this.scene.add(this.camera);
 
@@ -165,7 +165,7 @@ var SequencePT = function() {
 
 	// hexgrid
 	// var mtl = new THREE.MeshPhongMaterial({ color: 0xffffff, side: THREE.DoubleSide });
-	this.hexgrid = new Hexgrid(0.98, 1, 24, 24, this.material);
+	this.hexgrid = new Hexgrid(0.98, 1, 24, 48, this.material);
 	// this.hexgrid.material.color.setHex(0x222222);
 	this.hexgrid.group.rotation.x = Math.PI / 2;
 	this.hexgrid.group.position.set(0, 1, 0);
@@ -214,22 +214,22 @@ var SequencePT = function() {
 	var theta = 0;
 
 	// events
-	this.addEvent('00:00:01', function() {
+	this.addEvent('01:54:55', function() {
 		$('#speakers').css('z-index', 10);
 
 		renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
 
-            blurEnabled             : false,
-            blurAmount              : false,
-            blurPosition            : false,
+            blurEnabled             : true,
+            blurAmount              : 5,
+            blurPosition            : 1,
 
             bloomEnabled            : true,
             aaEnabled               : true
         });
 
 		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 1.2, z: 16}, 8000)
+			.to({ x: 1.5, y: 1.2, z: 16}, 5000)
 			.easing(TWEEN.Easing.Linear.None)
 			.onUpdate(function() {
 				context.camera.position.set(this.x, this.y, this.z);
@@ -237,43 +237,38 @@ var SequencePT = function() {
 	});
 
 
-	var glitchMD = new Glitch ('HADI MICHAEL', 0, 150);
-    this.addEvent('00:02:00', function() {glitchMD.animateIn()});
-    this.addEvent('00:08:00', function() {glitchMD.animateOut()});
+	this.addEvent('01:54:55', function() {
+    	this.pullFocus(renderator, 0, 0.5, 2000, TWEEN.Easing.Quadratic.InOut);
+	});
 
-	var glitchHM = new Glitch ('MARK DALGLEISH', 0, 150);
-    this.addEvent('00:08:00', function() {glitchHM.animateIn()});
-    this.addEvent('00:12:00', function() {glitchHM.clear()});
+	var glitchMD = new Glitch ('GENEVIEVE BELL', 0, 125);
+    this.addEvent('01:56:00', function() {glitchMD.animateIn()});
+    this.addEvent('02:00:00', function() {glitchMD.animateOut()});
+
+	var glitchHM = new Glitch ('MARK DALGLEISH', 0, 125);
+    this.addEvent('02:00:00', function() {glitchHM.animateIn()});
+    this.addEvent('02:06:00', function() {glitchHM.animateOut()});
 
 
-
-	this.addEvent('00:08:00', function() {
+	this.addEvent('02:00:00', function() {
 		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 1.2, z: 20}, 500)
+			.to({ x: 1.5, y: 1.2, z: 24}, 500)
 			.easing(TWEEN.Easing.Quadratic.Out)
 			.onUpdate(function() {
 				context.camera.position.set(this.x, this.y, this.z);
 			}).start();
 	});
 
-	this.addEvent('00:08:15', function() {
+	this.addEvent('02:00:15', function() {
 		var camtween = new TWEEN.Tween(this.camera.position)
-			.to({ x: 1.5, y: 1.2, z: 22}, 8000)
+			.to({ x: 1.5, y: 1.2, z: 30}, 2000)
 			.easing(TWEEN.Easing.Quadratic.Out)
 			.onUpdate(function() {
 				context.camera.position.set(this.x, this.y, this.z);
 			}).start();
 	});
 
-
-
-
-
-
-
-
-
-	this.addEvent('00:08:00', function() {
+	this.addEvent('02:00:00', function() {
 
 		this.centerhex.wobbling = true;
 

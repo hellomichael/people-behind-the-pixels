@@ -145,7 +145,7 @@ sequenceGP.addEvent('01:37:00', function () {
 
 // Pull focus
 sequenceGP.addEvent('01:36:25', function() {
-    sequenceGP.pullFocus(renderator, 2, 0.6, 4500, TWEEN.Easing.Quadratic.InOut);
+    sequenceGP.pullFocus(renderator, 2, 0.4, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
 

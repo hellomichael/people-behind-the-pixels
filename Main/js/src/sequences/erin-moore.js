@@ -120,6 +120,10 @@ sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
 sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
 
 
+var erinMoore = new Glitch ('ERIN MOORE', -(sequenceSM.screenWidth/4) + 100, -100);
+sequenceEM.addEvent('01:20:15', function() {erinMoore.animateIn()});
+sequenceEM.addEvent('01:25:25', function () {erinMoore.animateOut()})
+
 sequenceEM.addEvent('01:25:00', function () {
     sequenceEM.rotate(sequenceEM.camera, Util.toRadians(90), 0, 0, 2500, TWEEN.Easing.Exponential.InOut);
     sequenceEM.fade(sequenceEM.particulator, 0, 4000, TWEEN.Easing.Exponential.InOut);

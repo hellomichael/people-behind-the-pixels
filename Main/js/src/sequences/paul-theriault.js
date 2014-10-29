@@ -13,7 +13,9 @@ var SequenceMD = function() {
     this.scene.fog = new THREE.Fog(0x222222, 10, 100);
 
     this.camera = new THREE.PerspectiveCamera(60, window.innerWidth/window.innerHeight, 0.1, 256);
-    this.camera.position.set(41, 15, -36);
+
+
+    this.camera.position.set(20, 30, -50);
     // this.camera.lookAt(new THREE.Vector3());
     this.camera.lookAt(new THREE.Vector3(0,5,0));
     this.scene.add(this.camera);
@@ -89,14 +91,13 @@ var SequenceMD = function() {
     var context = this;
 
 
-    this.addEvent('00:12:00', function() {
-
+    this.addEvent('02:06:00', function() {
         renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
 
-            blurEnabled             : false,
-            blurAmount              : false,
-            blurPosition            : false,
+            blurEnabled             : true,
+            blurAmount              : 2,
+            blurPosition            : 0,
 
             bloomEnabled            : true,
             aaEnabled               : true
@@ -105,7 +106,7 @@ var SequenceMD = function() {
         var context = this;
 
         var camtween = new TWEEN.Tween(this.camera.position)
-            .to({ x: 41, y: 15, z: -50}, 7000)
+            .to({ x: 41, y: 15, z: -36}, 12000)
             .easing(TWEEN.Easing.Quadratic.InOut)
             .onUpdate(function() {
                 context.camera.position.set(this.x, this.y, this.z);
@@ -113,10 +114,13 @@ var SequenceMD = function() {
     });
 
 
-    var glitchPT = new Glitch ('PAUL THERIAULT', -300, -500);
-    this.addEvent('00:14:20', function() {glitchPT.animateIn()});
-    this.addEvent('00:16:15', function() {glitchPT.animateOut()});
+    var glitchHM = new Glitch ('HADI MICHAEL', 200, -150);
+    this.addEvent('02:06:15', function() {glitchHM.animateIn()});
+    this.addEvent('02:11:00', function() {glitchHM.animateOut()});
 
+    var glitchPT = new Glitch ('PAUL THERIAULT', -300, -250);
+    this.addEvent('02:11:15', function() {glitchPT.animateIn()});
+    this.addEvent('02:16:00', function() {glitchPT.clear()});
 
 
     // this.addEvent('00:02:15', function() {
