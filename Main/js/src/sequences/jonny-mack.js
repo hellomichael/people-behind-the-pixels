@@ -122,7 +122,7 @@ sequenceJM.addEvent('00:22:10', function () {
 });
 
 
-var glitchJM = new Glitch ('JOHNNY MACK', 0, 175);
+var glitchJM = new Glitch ('JONNY MACK', 0, 175);
 sequenceJM.addEvent('00:22:10', function() {glitchJM.animateIn()});
 sequenceJM.addEvent('00:26:20', function() {glitchJM.animateOut()});
 

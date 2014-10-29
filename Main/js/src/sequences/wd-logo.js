@@ -48,9 +48,10 @@ var SequenceLogo = function() {
     // this.particulator.pointCloud.material.sizeAttenuation = false;
 	this.scene.add(this.particulator.pointCloud);
 
+	var musicSound = new Audio('shared/audio/logo.mp3');
 
 	var loader = new THREE.objLoader();
-	loader.load("shared/js/objs/Logo.obj", function(obj) {
+	loader.load("shared/js/objs/Logo.objx", function(obj) {
 		context.logo = obj;
 
 		context.logo.children.forEach(function(mesh) {
@@ -221,7 +222,8 @@ var SequenceLogo = function() {
 	});
 
 	// this.addEvent('00:00:01', function() {
-	this.addEvent('02:36:00', function() {
+	this.addEvent('02:29:01', function() {
+		musicSound.play();
 
 		renderator.reset(this.scene, this.camera, {
             postProcessEnabled      : true,
@@ -235,7 +237,7 @@ var SequenceLogo = function() {
             noiseEnabled 			: true
         });
 
-		renderator.bloomPass.copyUniforms["opacity"].value = 0;
+		renderator.bloomPass.copyUniforms["opacity"].value = 4;
 		new TWEEN.Tween(renderator.bloomPass.copyUniforms["opacity"])
 			.to({ value: 4 }, 400)
 			.onComplete(function() {
@@ -250,14 +252,21 @@ var SequenceLogo = function() {
 			})
 			.start();
 
+		var innerExtent = 1;
+		new TWEEN.Tween(this.camera)
+			.to({ left: -innerExtent, right: innerExtent, top: innerExtent * iRatio, bottom: -innerExtent * iRatio }, 500)
+			.easing(TWEEN.Easing.Exponential.Out)
+			.onUpdate(function() { context.camera.updateProjectionMatrix(); })
+			.onComplete(function() {
 
-
-		var extent = 15;
-        new TWEEN.Tween(this.camera)
-        	.to({ left: -extent, right: extent, top: extent * iRatio, bottom: -extent * iRatio }, 3000)
-        	.onUpdate(function() { context.camera.updateProjectionMatrix(); })
-        	.easing(TWEEN.Easing.Quadratic.InOut)
-        	.start();
+				var outerExtent = 15;
+		        new TWEEN.Tween(context.camera)
+		        	.to({ left: -outerExtent, right: outerExtent, top: outerExtent * iRatio, bottom: -outerExtent * iRatio }, 2500)
+		        	.onUpdate(function() { context.camera.updateProjectionMatrix(); })
+		        	.easing(TWEEN.Easing.Quadratic.InOut)
+		        	.start();
+	        })
+	        .start();
 
         new TWEEN.Tween(this.camera.rotation)
         	.to({ x: -0.2, y: -0.20 }, 3000)
@@ -278,7 +287,11 @@ var SequenceLogo = function() {
         	.start();
 	});
 
-	this.addEvent('02:39:00', function() {
+	this.addEvent('02:29:18', function() {
+		console.log("!");
+	});
+
+	this.addEvent('02:33:16', function() {
         this.idleFunction();
 
         $('.logo').addClass('visible');
@@ -302,7 +315,7 @@ SequenceLogo.prototype.idleFunction = function() {
 		.onComplete(function() {
 			new TWEEN.Tween(context.camera.position)
 				.to({ x: startPos.x, z: startPos.z }, period)
-				.easing(TWEEN.Easing.Exponential.InOut)
+				.easing(TWEEN.Easing.Quadratic.InOut)
 				.start();
 		})
 		.start();
@@ -314,7 +327,7 @@ SequenceLogo.prototype.idleFunction = function() {
 		.onComplete(function() {
 			new TWEEN.Tween(context.camera.rotation)
 				.to({ y: startRot.y }, period)
-				.easing(TWEEN.Easing.Exponential.InOut)
+				.easing(TWEEN.Easing.Quadratic.InOut)
 				.onComplete(function() {
 					context.idleFunction();
 				})

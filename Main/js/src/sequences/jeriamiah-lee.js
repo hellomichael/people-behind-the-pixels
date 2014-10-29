@@ -76,7 +76,7 @@ SequenceJL.prototype.rotateRing = function(ring, rotation, distance, duration, e
 ******************************/
 var sequenceJL = new SequenceJL();
 
-var glitchJL = new Glitch ('JERIAMIAH LEE', 0, 0);
+var glitchJL = new Glitch ('JEREMIAH LEE', 0, 0);
 sequenceJL.addEvent('01:00:26', function() {glitchJL.animateIn()});
 sequenceJL.addEvent('01:05:10', function() {glitchJL.animateOut()});
 

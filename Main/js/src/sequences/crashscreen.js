@@ -49,7 +49,7 @@ var SequenceCrash = function() {
 
 	var activateSound = new Audio('shared/audio/glasses.mp3');
 	var blipSound = new Audio('shared/audio/blip018.mp3');
-	var musicSound = new Audio('shared/audio/outro.mp3');
+	var musicSound = new Audio('shared/audio/logo.mp3');
 	var crashSound = new Audio('shared/audio/crash.mp3');
 
 	this.addEvent('02:16:00', function() {
@@ -69,40 +69,40 @@ var SequenceCrash = function() {
         });
 	});
 
-	this.addEvent('02:26:00', function() {
+	this.addEvent('02:22:00', function() {
 		this.glasses.visible = true;
 		this.glasses.position.copy(positions[4]);
 		blipSound.play();
 	});
 
-	this.addEvent('02:27:00', function() {
+	this.addEvent('02:23:00', function() {
 		this.glasses.position.copy(positions[3]);
 		blipSound.play();
 	});
 
-	this.addEvent('02:28:00', function() {
+	this.addEvent('02:24:00', function() {
 		this.glasses.position.copy(positions[2]);
 		blipSound.play();
 	});
 
-	this.addEvent('02:29:00', function() {
+	this.addEvent('02:25:00', function() {
 		this.glasses.position.copy(positions[1]);
 		blipSound.play();
 	});
 
-	this.addEvent('02:30:00', function() {
+	this.addEvent('02:26:00', function() {
 		this.glasses.position.copy(positions[0]);
 		blipSound.play();
 	});
 
-	this.addEvent('02:32:00', function() {
+	this.addEvent('02:28:00', function() {
 		var left = 4;
 		var iRatio = window.innerHeight / window.innerWidth;
 
 		new TWEEN.Tween(this.camera)
-			.to({ left: -left, right: left, top: iRatio * left, bottom: iRatio * -left }, 1500)
+			.to({ left: -left, right: left, top: iRatio * left, bottom: iRatio * -left }, 1000)
 			.onUpdate(function() { context.camera.updateProjectionMatrix(); })
-			.easing(TWEEN.Easing.Exponential.InOut)
+			// .easing(TWEEN.Easing.Exponential.In)
 			.start();
 
 		var yOffset = (left * iRatio) - 1;
@@ -110,8 +110,8 @@ var SequenceCrash = function() {
 		var zoomTarget = pixelLoc.clone().add(new THREE.Vector3(3, yOffset));
 
 		new TWEEN.Tween(this.camera.position)
-			.to(zoomTarget, 1500)
-			.easing(TWEEN.Easing.Exponential.InOut)
+			.to(zoomTarget, 1000)
+			// .easing(TWEEN.Easing.Exponential.InOut)
 			.start();
 	});
 }

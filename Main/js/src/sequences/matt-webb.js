@@ -48,7 +48,7 @@ SequenceMW.prototype.init = function() {
     var loader = new THREE.objLoader();
     var that = this; //cache
 
-    loader.load("shared/js/objs/Fragments.obj", function (obj) {
+    loader.load("shared/js/objs/Fragments.objx", function (obj) {
         that.fragments = obj;
         that.fragments.scale.set(0.52, 0.52, 0.52);
 
