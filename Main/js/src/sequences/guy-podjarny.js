@@ -21,6 +21,7 @@ SequenceGP.prototype.init = function() {
 
     // Audio
     this.spaceAudio = new Audio('shared/audio/space.mp3');
+    this.lightWooshAudio = new Audio('shared/audio/light-woosh.mp3')
 
     // Particulator
     this.particulator = new Particulator(75, 150, new THREE.Vector3(-0.5, 0.5, -0.5), THREE.ImageUtils.loadTexture('shared/img/particle.png'), this.camera, 1);
@@ -97,8 +98,14 @@ sequenceGP.addEvent('01:26:10', function () {
 /******************************
 * Add Events
 ******************************/
-sequenceGP.addEvent('01:27:00', function () {
+sequenceGP.addEvent('01:27:12', function () {
+    // this.spaceAudio.play();
+    this.lightWooshAudio.play();
+});
+
+sequenceGP.addEvent('01:34:00', function () {
     this.spaceAudio.play();
+    // this.lightWooshAudio.play();
 });
 
 

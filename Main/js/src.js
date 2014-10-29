@@ -32,36 +32,40 @@ var peopleBehindthePixels = (function () {
     var init = function (playtime) {
         if (playtime === undefined) playtime = 0.0;
 
-        // Load audio
-        //pbtp.audio.init('shared/audio/interstellar.mp3');
-        pbtp.audio.init('shared/audio/music.mp3');
+        var initFunc = function() {
 
-        //pbtp.audio.seek('02:02:00');
-        //pbtp.audio.seek('00:00:00');
-        //pbtp.audio.mute();
+            if (event.keyCode == 32) {
+                // Load audio
+                //pbtp.audio.init('shared/audio/interstellar.mp3');
+                pbtp.audio.init('shared/audio/music.mp3');
+
+                // pbtp.audio.seek('02:22:00');
+                //pbtp.audio.seek('00:00:00');
+                //pbtp.audio.mute();
+
+                document.removeEventListener('keydown', initFunc);
+            }
+        };
+
+        document.addEventListener('keydown', initFunc);
 
         // Import sequences
             //= src/sequence.js
 
             //= src/sequences/tobias-revell.js
             //= src/sequences/matt-webb.js
-
             //= src/sequences/jonny-mack.js
             //= src/sequences/younghee-jung.js
-
             //= src/sequences/jake-archibald.js
             //= src/sequences/tom-armitage.js
             //= src/sequences/douglas-bowman.js
             //= src/sequences/jeriamiah-lee.js
             //= src/sequences/sarah-mei.js
-
             //= src/sequences/jessica-hische.js
             //= src/sequences/jessica-hische2.js
             //= src/sequences/erin-moore.js
-
             //= src/sequences/guy-podjarny.js
             //= src/sequences/emily-nakashima.js
-
             //= src/sequences/mark-dalgesh.js
             //= src/sequences/paul-theriault.js
 

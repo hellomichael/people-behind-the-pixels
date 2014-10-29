@@ -121,7 +121,7 @@ sequenceTR.addEvent('00:00:01', function () {
     sequenceTR.nextScene(sequenceTR.scene, sequenceTR.camera, options);
 });
 
-var glitchTR = new Glitch ('TOBIAS REBELL', 450, 0);
+var glitchTR = new Glitch ('TOBIAS REVELL', 450, 0);
 sequenceTR.addEvent('00:03:15', function() {glitchTR.animateIn()});
 sequenceTR.addEvent('00:08:15', function() {glitchTR.animateOut()});
 
