@@ -113,7 +113,7 @@ sequenceJH2.addEvent('01:16:12', function () {
     sequenceJH2.cameraMovement(sequenceJH2.camera, false, 110, 0, 0, 5000, TWEEN.Easing.Exponential.InOut);
 });
 
-var jessicaHische = new Glitch ('JESSICA HISCHE', 250, -120);
+var jessicaHische = new Glitch ('JESSICA HISCHE', 250, -100);
 sequenceJH2.addEvent('01:14:15', function() {jessicaHische.animateIn()});
 sequenceJH2.addEvent('01:19:00', function() {jessicaHische.animateOut()})
 

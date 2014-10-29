@@ -36,7 +36,7 @@ var peopleBehindthePixels = (function () {
         //pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.init('shared/audio/music.mp3');
 
-        //pbtp.audio.seek('02:02:00');
+        pbtp.audio.seek('00:30:00');
         //pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 

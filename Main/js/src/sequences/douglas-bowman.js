@@ -160,7 +160,7 @@ sequenceDB.addEvent('00:55:05', function() {
     sequenceDB.pullFocus(renderator, 0, 0.5, 4500, TWEEN.Easing.Quadratic.InOut);
 });
 
-var glitchDB = new Glitch ('DOUGLAS BOWMAN', -400, 125);
+var glitchDB = new Glitch ('DOUGLAS BOWMAN', -400, 135);
 sequenceDB.addEvent('00:50:05', function() {glitchDB.animateIn()});
 sequenceDB.addEvent('00:55:15', function() {glitchDB.animateOut()})
 
