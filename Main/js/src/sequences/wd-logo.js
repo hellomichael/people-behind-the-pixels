@@ -232,15 +232,12 @@ var SequenceLogo = function() {
 		musicSound.play();
 	});
 
-	this.addEvent('02:28:15', function() {
+	this.addEvent('02:29:00', function() {
 		$('.gradient').addClass('animate');
+		$('.social').removeClass('hide');
 	});
 
-
-
 	this.addEvent('02:27:00', function() {
-
-
         new TWEEN.Tween(this.camera.rotation)
         	.to({ x: -0.1, y: -0.20 }, 3000)
         	.easing(TWEEN.Easing.Quadratic.InOut)
@@ -250,11 +247,7 @@ var SequenceLogo = function() {
         	.to({ z: 0.1 }, 3000)
         	.easing(TWEEN.Easing.Quadratic.InOut)
         	.start();
-
 	});
-
-
-
 
 	this.addEvent('02:28:10', function() {
 		$('body').css('background', '#000');

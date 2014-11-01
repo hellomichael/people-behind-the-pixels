@@ -72,7 +72,7 @@ var Glitch = function(speaker, x, y) {
     // Type Settings
     this.context = this.canvas.getContext('2d');
     this.context.fillStyle = 'white';
-    this.context.font = 'bold 25px "Futura"';
+    this.context.font = 'bold 25px "futura-med"';
     this.context.textBaseline = 'middle';
 
     this.glitchAudioIn = new Audio('shared/audio/glitch' + Math.round(Math.random() * 4 + 1) + '.mp3');

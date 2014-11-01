@@ -32,12 +32,10 @@ var peopleBehindthePixels = (function () {
     var init = function (playtime) {
         if (playtime === undefined) playtime = 0.0;
 
-        // Load audio
-        //pbtp.audio.init('shared/audio/interstellar.mp3');
         pbtp.audio.init('shared/audio/music.mp3');
 
+        // Load audio
         //pbtp.audio.seek('02:15:00');
-        //pbtp.audio.seek('00:00:00');
         //pbtp.audio.mute();
 
         // Import sequences
@@ -68,43 +66,17 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/crashscreen.js
             //= src/sequences/wd-logo.js
 
-
-
-
-        // Speakers
-        speakers = [
-            'x TOBIAS REVELL',
-            'x DAN HON',
-            'x MATT WEBB',
-            'x JONNY MACK',
-            'x SARAH MADDOX',
-            'x YOUNGHEE JUNG',
-            'x JAKE ARCHIBALD',
-            'x TOM ARMITAGE',
-            'x DOUGLAS BOWMAN',
-            'x SCOTT THOMAS',
-            'x JEREMIAH LEE',
-            'x BILL SCOTT',
-            'x SARAH MEI',
-            'x JESSICA HISCHE',
-            'x ERIN MOORE',
-            'x GUY PODJARNY',
-            'x JONATHON COLMAN',
-            'x KATIE MILLER',
-            'x JULIO CESAR ODY',
-
-            'x GENEVIEVE BELL',
-            'x HADI MICHAEL',
-            'x MARK DALGLEISH',
-            'x PAUL THERIAULT',
-
-            'DINOSAUR'
-        ];
-
         // Display Stats
-        $stats = $('#stats');
-        mainLoop(0);
+        // $stats = $('#stats');
+
     };
+
+    var play = function() {
+        if (pbtp.audio.isLoaded()) {
+            pbtp.audio.play();
+            mainLoop(0);
+        }
+    }
 
     var mainLoop = function(timestamp) {
         // Determine delta
@@ -126,7 +98,6 @@ var peopleBehindthePixels = (function () {
         requestAnimationFrame(mainLoop);
     };
 
-
     var updateSequence = function (currentTimeAudio, delta) {
         // Refactor to only play one scene at a time
         for (var i = 0; i < timeline.length; i++) {
@@ -135,11 +106,11 @@ var peopleBehindthePixels = (function () {
         }
 
         // Add timecode to page
-        //$stats.html(Util.toTimecode(currentTimeAudio));
+        // $stats.html(Util.toTimecode(currentTimeAudio));
     };
 
-
     return {
-        init: init
+        init: init,
+        play: play
     };
 }());

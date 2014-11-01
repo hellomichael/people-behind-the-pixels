@@ -7,3 +7,325 @@
 @import "variables";
 @import "mixins";
 @import "src/pbtp";
+@import "src/magnific-popup.scss";
+
+
+// splash
+
+// .performance {
+// 	font-size: 16px;
+// }
+
+.small {
+	position: relative;
+	top: 60px;
+	display: none;
+	color: white;
+	text-align: center;
+	z-index: 9999999;
+	font-weight: normal;
+	text-transform: initial;
+	font-size: 14px;
+
+	left: 50%;
+	transform: translateX(-50%);
+
+	a {
+		color: #FFF;
+	}
+
+	p {
+		font-family: 'futura', Arial, "Helvetica Neue", Helvetica, sans-serif;
+		font-size: 14px;
+	}
+
+	.video {
+		margin: 30px 0;
+	}
+
+	@media all and (min-width: 900px) {
+		position: absolute;
+		top: 60px;
+	}
+}
+
+@media all and (max-width: 900px) {
+	.small {
+		padding: 0 20px;
+		display: block;
+	}
+	.outer,
+	#canvas {
+		display: none;
+	}
+}
+
+.not-chrome {
+	.small {
+		max-width: 800px;
+		padding: 0 20px;
+		display: block;
+	}
+	.outer,
+	#canvas {
+		display: none;
+	}
+}
+
+.outer {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	text-transform: none;
+	width: 100%;
+	text-align: center;
+	z-index: 99999;
+
+	> div {
+		height: 160px;
+		margin-top: 0px;
+	}
+
+	a, button {
+		transition: all 0.2s ease-in-out;
+		outline: 0;
+	}
+
+	a {
+		color: $white;
+		border: none;
+		text-decoration: none;
+	}
+
+	body {
+		background-color: #000;
+		text-align: center;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		line-height: 22px;
+		font-size: 14px;
+		background: radial-gradient(at center -350px,#555,#000);
+	}
+
+	.container {
+		text-align: center;
+		position: relative;
+		color: white;
+		height: 100%;
+		z-index: 3;
+	}
+	p {
+		font-family: 'futura', Arial, "Helvetica Neue", Helvetica, sans-serif;
+    	font-weight: normal;
+    	font-size: 14px;
+    	line-height: 20px;
+
+		margin: 30px auto 50px auto;
+		max-width: 800px;
+
+		& + p {
+			margin-top: -20px;
+		}
+
+		a {
+			font-weight: bold;
+		}
+	}
+
+	button {
+		background: #555;
+		padding: 0;
+		border: 0;
+		position: relative;
+		color: white;
+		font-size: 15px;
+		cursor: pointer;
+		width: 260px;
+		height: 70px;
+		line-height: 60px;
+
+		&:hover, &:focus {
+			background-color: darken($gray, 10%);
+		}
+		img {
+			border: 0;
+			position: relative;
+			top: 9px;
+			right: -10px;
+			width: 30px;
+			height: 30px;
+		}
+	}
+
+	footer {
+		margin: 30px auto 40px auto;
+		max-width: 640px;
+	}
+
+	.play,
+	.question {
+		width: 30px;
+	}
+
+	.question {
+		position: relative;
+		top: 10px;
+		left: 10px;
+	}
+
+	.mfp-fade {
+	  transition: all 1s;
+	}
+
+	#share {
+		img {
+			max-width: 45px;
+			display: inline-block;
+			margin: 0 10px;
+			&:hover {
+				fill {
+					color: $white;
+				}
+			}
+
+		}
+		p {
+			@include rem(font-size, 16px);
+		}
+	}
+
+	/*************** ANIMATIONS ***************/
+
+
+			/*************** STANDARD CUBE ***************/
+			.cube-wrap {
+				perspective: 1000px;
+				perspective-origin: 50% 0;
+				// transform: rotateZ(45deg);
+			}
+			.cube {
+				position: relative;
+				width: 100px;
+				margin: 0 auto;
+
+				transform-style: preserve-3d;
+				animation: cube-spin 5s infinite linear;
+			}
+
+			$cubeWidth: 100px;
+
+			.cube div {
+				position: absolute;
+				width: $cubeWidth;
+				height: $cubeWidth;
+				background: rgba(225,225,225,1);
+				box-shadow: inset 0 0 1px rgba(110,110,110,1);
+				font-size: 20px;
+				text-align: center;
+				line-height: $cubeWidth;
+				color: rgba(0,0,0,0.5);
+				font-family: sans-serif;
+				text-transform: uppercase;
+			}
+
+			/*************** DEPTH CUBE ***************/
+			.depth div.back-pane {
+				transform: translateZ(-$cubeWidth/2) rotateY(180deg);
+			}
+			.depth div.right-pane {
+				transform:rotateY(-270deg) translateX($cubeWidth/2);
+				transform-origin: top right;
+			}
+			.depth div.left-pane {
+				transform:rotateY(270deg) translateX(-$cubeWidth/2);
+				transform-origin: center left;
+			}
+			.depth div.top-pane {
+				transform:rotateX(-90deg) translateY(-$cubeWidth/2);
+				transform-origin: top center;
+			}
+			.depth div.bottom-pane {
+				transform:rotateX(90deg) translateY($cubeWidth/2);
+				transform-origin: bottom center;
+			}
+			.depth div.front-pane {
+				transform: translateZ($cubeWidth/2);
+			}
+
+			.performance {
+				font-family: arial;
+				font-size: 11px;
+				color: #aaa;
+				font-weight: normal;
+			}
+
+}
+
+.white-popup {
+	position: relative;
+	color: #000;
+	background: #FFF;
+	padding: 45px;
+	width: auto;
+	max-width: 640px;
+	margin: 20px auto;
+	text-align: center;
+	transition: all 1s;
+	font-weight: normal;
+	font-size: 14px;
+
+	 	p {
+			position: relative;
+			top: -20px;
+   			 text-transform: initial;
+		 }
+
+		 hr {
+		 	margin: 30px auto;
+		 }
+
+		 h4 {
+			display: inline-block;
+			text-decoration: underline;
+			font-size: 12px;
+			position: relative;
+			top: -2px;
+		 }
+
+		 span {
+		 	font-weight: normal;
+		 }
+}
+
+@keyframes cube-spin {
+	from { transform: rotateX(0) rotateY(0) translateY(0);}
+	to { transform: rotateX(360deg) rotateY(360deg);}
+}
+
+.fb_iframe_widget {
+	top: -3px;
+	margin-right: 10px;
+}
+
+h1 {
+	text-transform: uppercase;
+	max-width: 460px;
+	background-size: contain;
+	margin: 0 auto 30px;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	height: 35px;
+	letter-spacing: 2px;
+}
+
+hr {
+	max-width: 169px;
+	border-color: $gray;
+}
+
+
+#twitter-widget-0 {
+	a {
+		display: none;
+	}
+}

@@ -104,8 +104,6 @@ Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zo
 };
 
 Sequence.prototype.pullFocus = function(renderator, blur, position, duration, easing) {
-    //this.zoomAudio = new Audio('shared/audio/zoom.mp3');
-    //this.zoomAudio.play();
 
     if (renderator.blurEnabled) {
         if (duration) {

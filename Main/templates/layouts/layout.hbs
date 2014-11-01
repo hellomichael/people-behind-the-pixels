@@ -8,14 +8,9 @@
 <head>
     <meta charset="UTF-8">
     <title>
-        {{#if title}}
-            People Behind the Pixels
-        {{else}}
-            People Behind the Pixels
-        {{/if}}
-
+        People Behind the Pixels | Web Directions 2014 Title Sequence
     </title>
-    <link rel="icon" type="image/png" href="/img/favicon.ico">
+    <link rel="icon" type="image/png" href="/shared/img/favicon.png">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
@@ -25,19 +20,23 @@
         <link rel="stylesheet" href="shared/css/style.css"/>
     {{/if}}
 
-    <!-- <link rel="stylesheet" href="http://necolas.github.com/normalize.css/3.0.1/normalize.css"/> -->
+    <meta property="og:title" content="People Behind the Pixels | Web Directions 2014 Title Sequence"/>
+    <meta property="og:image" content="http://peoplebehindthepixels.com/shared/img/pbtp-fb.png"/>
+    <meta property="og:description" content="This title sequence served as the opener of Web Directions 2014. Its story is about the combined efforts required by many people that result in great products and services. This film renders in real time and was developed for large screen sizes, Google Chrome and high performance computers."/>
 
-    <script src="shared/js/libs/modernizr.min.js"></script>
-    <!--[if lt IE 9]>
-    <script src="/js/libs/respond.min.js"></script>
-    <![endif]-->
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-56270377-1', 'auto');
+      ga('send', 'pageview');
+
+    </script>
 </head>
-<body class="{{bodyClass}}">
-    <!--[if lt IE 8]>
-    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
-        your browser</a> to improve your experience.</p>
-    <![endif]-->
 
+<body class="">
     {{> body}}
 
     <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -50,5 +49,16 @@
         <script src="shared/js/src.js"></script>
         <script src="shared/js/main.js"></script>
     {{/if}}
+
+    <div id="fb-root"></div>
+
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.async=true; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=302377006632494&version=v2.0";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));</script>
+
 </body>
 </html>

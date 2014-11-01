@@ -3,13 +3,14 @@ pbtp.audio = (function () {
 
     // Create audio context
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var context, source, gainNode, startTime, muted, seekTime, effects;
+    var context, source, gainNode, startTime, muted, seekTime, effects, loaded;
 
 	var init = function (audioFile) {
         context = new AudioContext();
         startTime = 0;
         seekTime = 0;
         muted = false;
+        loaded = false;
 
         // Create audio request
         var request = new XMLHttpRequest();
@@ -19,30 +20,44 @@ pbtp.audio = (function () {
         // Decode asynchronously
         request.onload = function() {
             context.decodeAudioData(request.response, function(buffer) { // Play audio on callback
-                startTime = context.currentTime;
+                loaded = true;
 
                 source = context.createBufferSource();      // Creates a sound source
                 source.buffer = buffer;                         // Tell the source which sound to play
                 source.loop = false;
                 source.connect(context.destination);            // Connect the source to the context's destination (the speakers)
 
-                source.start(0, seekTime);
-
                 gainNode = context.createGain();
 
                 if (muted) {
                     mute();
                 }
+
+                $('#play').html('Play film <img src="shared/img/play.svg" alt="">');
             });
         };
 
         request.send();
 	};
 
+    var isLoaded = function () {
+        return loaded;
+    };
+
+    var play = function () {
+        if (loaded) {
+            startTime = context.currentTime;
+            source.start(0, seekTime);
+
+            $('.social').addClass('hide');
+            $('.outer').hide();
+        }
+    };
+
     var seek = function (currentTime) {
         seekTime = Util.toSeconds(currentTime);
 
-        if (startTime) {
+        if (loaded) {
             source.stop();
             source.start(0, seekTime);
         }
@@ -79,6 +94,8 @@ pbtp.audio = (function () {
 		init: init,
         mute: mute,
         seek: seek,
+        play: play,
+        isLoaded: isLoaded,
         getCurrentTime: getCurrentTime
 	};
 }());
