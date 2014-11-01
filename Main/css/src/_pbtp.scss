@@ -14,7 +14,7 @@ html, body, canvas {
     max-width: 100%;
     margin: 0;
     padding: 0;
-    overflow: hidden;
+    overflow-x: hidden;
 
     // Text
     font-family: 'futura-med', Arial, "Helvetica Neue", Helvetica, sans-serif;
@@ -23,6 +23,10 @@ html, body, canvas {
     text-transform: uppercase;
     text-rendering: optimizelegibility;
     color: white;
+
+    @media all and (min-width: 900px) {
+        overflow: hidden;
+    }
 }
 
 .gradient {
@@ -59,13 +63,15 @@ canvas, #stats {
 #noise {
     position: relative;
     width: 100%;
-    height: 100%;
+    padding-bottom: 30px;
+
     /* background-size: cover; */
     opacity: 0.075;
     z-index: 9999;
 
     @media all and (min-width: 900px) {
         background: url('../img/noise.gif') center center;
+        height: 100%;
     }
 }
 
