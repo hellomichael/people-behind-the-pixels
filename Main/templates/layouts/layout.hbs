@@ -12,7 +12,7 @@
     </title>
     <link rel="icon" type="image/png" href="/shared/img/favicon.png">
     <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
     {{#if production}}
         <link rel="stylesheet" href="shared/css/style.min.css"/>
@@ -32,8 +32,15 @@
 
       ga('create', 'UA-56270377-1', 'auto');
       ga('send', 'pageview');
-
     </script>
+
+    <style type="text/css">
+    @-moz-document url-prefix() {
+        .splash-wrap a, .splash-wrap p {
+            font-family: Arial, "Helvetica Neue", Helvetica, sans-serif !important;
+        }
+    }
+    </style>
 </head>
 
 <body class="">
@@ -59,6 +66,5 @@
       js.async=true; js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=302377006632494&version=v2.0";
       fjs.parentNode.insertBefore(js, fjs);
     }(document, 'script', 'facebook-jssdk'));</script>
-
 </body>
 </html>

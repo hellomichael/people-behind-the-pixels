@@ -5,5 +5,4 @@
 //= plugins/tween.js
 //= plugins/objLoader.js
 //= plugins/stackBoxBlur.js
-//= plugins/OrbitControls.js
-//= plugins/jquery.magnific-popup.js
+//= plugins/Detector.js

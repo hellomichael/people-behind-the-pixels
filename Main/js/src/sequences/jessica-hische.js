@@ -120,7 +120,7 @@ for (var i=0; i<sequenceJH.lines.length; i++) {
 sequenceJH.addEvent('01:13:05', function () {
     var duration = 1450;
     var distance = sequenceJH.screenHeight/2 + sequenceSM.circleRadius/2 + sequenceJH.screenHeight/2 + 900;
-    $('#sarah-mei').css('-webkit-transform', 'rotate(35deg) translateX(-' + distance + 'px) translateY(-' + distance +  'px)', 'important');
+    $('#sarah-mei').css('transform', 'rotate(35deg) translateX(-' + distance + 'px) translateY(-' + distance +  'px)', 'important');
     $('#sarah-mei').css('transition', 'all ' + duration + 'ms cubic-bezier(1.000, 0.000, 0.000, 1.000)');
 
     sequenceJH.cameraMovement(sequenceJH.camera, false, 22, 22, 0, duration - 150, TWEEN.Easing.Exponential.InOut);

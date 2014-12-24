@@ -245,7 +245,7 @@ sequenceMW.addEvent('00:13:05', function () {
    sequenceMW.cameraMovement(sequenceMW.camera, false, 2, 0, 0, 3000, TWEEN.Easing.Exponential.InOut, function () {
     sequenceMW.screenDimensions = Util.getScreenDimensions(sequenceMW.camera, sequenceMW.cubeGroup.position.z, 0);
     var cssScale = Math.round(1/sequenceMW.screenDimensions[1] *  window.innerHeight);
-    $('.shape').css('-webkit-transform', 'scale(' + cssScale/2/21 + ')', 'important');
+    $('.shape').css('transform', 'scale(' + cssScale/2/21 + ')', 'important');
    });
 });
 
@@ -265,6 +265,10 @@ sequenceMW.addEvent('00:18:15', function () {
 sequenceMW.addEvent('00:21:25', function () {
     //sequenceMW.cubeGroup.visible = false;
     $('.shape').addClass('morph');
+});
+
+sequenceMW.addEvent('00:25:00', function () {
+    $('.shape').css('display', 'none', 'important');
 });
 
 /******************************

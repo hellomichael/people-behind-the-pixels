@@ -1,6 +1,3 @@
-@include font-face('futura-med', 'futura-condensed-med', normal, normal);
-@include font-face('futura', 'futura', normal, bold);
-
 // Hide browser sync message
 #__bs_notify__ {
     display: none !important;
@@ -18,13 +15,12 @@ html, body, canvas {
 
     // Text
     font-family: 'futura-med', Arial, "Helvetica Neue", Helvetica, sans-serif;
-    font-weight: bold;
     letter-spacing: 1px;
     text-transform: uppercase;
     text-rendering: optimizelegibility;
     color: white;
 
-    @media all and (min-width: 900px) {
+    @media all and (min-width: 1200px) {
         overflow: hidden;
     }
 }
@@ -45,7 +41,11 @@ html, body, canvas {
 }
 
 body {
-    background: radial-gradient(at center -350px, #444, #000);
+    background: #1C1C1C url(/shared/img/noise.png);
+
+    @media all and (min-width: 1200px) {
+        background: radial-gradient(at center -350px, #444, #000);
+    }
 }
 
 canvas, #stats {
@@ -66,19 +66,21 @@ canvas, #stats {
     padding-bottom: 30px;
 
     /* background-size: cover; */
-    opacity: 0.075;
-    z-index: 9999;
+    opacity: 0.04;
+    z-index: 1000;
 
-    @media all and (min-width: 900px) {
+    @media all and (min-width: 1200px) {
         background: url('../img/noise.gif') center center;
         height: 100%;
     }
 }
 
 #stats {
+    top: 10px;
     left: auto;
-    right: 30px;
+    right: 10px;
     z-index: 3;
+    display: none;
 }
 
 .vertical-dashed-top, .vertical-dashed-bottom {
@@ -88,7 +90,7 @@ canvas, #stats {
     position: absolute;
     left: 50%;
     margin-left: -1px;
-    z-index: 9999;
+    z-index: 1000;
     border-right: 1px dashed #FFFFFF;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
@@ -121,7 +123,7 @@ canvas, #stats {
     position: absolute;
     top: 50%;
     margin-top: -1px;
-    z-index: 9999;
+    z-index: 1000;
     border-bottom: 1px dashed #FFFFFF;
 
     transition: all 1500ms cubic-bezier(1.000, 0.000, 0.000, 1.000); /* easeInOutExpo */
@@ -155,7 +157,7 @@ $angle: 30deg;
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: 9999;
+    z-index: 1000;
 
     height: 0;
     width: 0;
@@ -262,43 +264,13 @@ $angle: 30deg;
             transform: translate(-50%, -50%) scale(225);
         }
     }
-
-/*     img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-
-    width: 758px * 225;
-    height: 274px * 225;
-
-    margin-left: -1200px;
-    margin-top: 12700px;
-
-    transition: all 1500ms;
-    transform: translate(-50%, -50%) scale(0.0035) rotateY(0deg);
-    image-rendering: -moz-crisp-edges;
 }
-
-&.animate {
-    img {
-        margin-top: 19400px;
-        margin-left: -2600px;
-        transform: translate(-50%, -50%) scale(1);
-    }
-} */
-}
-
-.twitter a, .twitter a:link, .twitter a:visited
-{
-    color: transparent;
-}
-
 
 .logo {
     position: absolute;
     top: 50%;
     left: 50%;
-    z-index: 9999;
+    z-index: 1000;
     transition: all 2.5s;
     opacity: 0;
 
@@ -307,22 +279,5 @@ $angle: 30deg;
 
     &.visible {
         opacity: 1;
-    }
-}
-
-.social {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    opacity: 1;
-    transition: 1s all;
-    z-index: 99990;
-    &.hide {
-        top: -30px;
-        opacity: 0;
-    }
-
-    a {
-        display: none;
     }
 }

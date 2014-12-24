@@ -47,8 +47,7 @@ var SequenceCrash = function() {
 		positions.push(new THREE.Vector3(target.x, target.y + i * dist, target.z));
 	}
 
-	var activateSound = new Audio('shared/audio/glasses.mp3');
-	var blipSound = new Audio('shared/audio/blip018.mp3');
+	var blipSound = new Audio('shared/audio/blip.mp3');
 	var musicSound = new Audio('shared/audio/logo.mp3');
 	var crashSound = new Audio('shared/audio/crash.mp3');
 

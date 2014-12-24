@@ -67,14 +67,14 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/wd-logo.js
 
         // Display Stats
-        // $stats = $('#stats');
-
+        $stats = $('#stats');
+        mainLoop(0);
     };
 
     var play = function() {
         if (pbtp.audio.isLoaded()) {
-            pbtp.audio.play();
             mainLoop(0);
+            pbtp.audio.play();
         }
     }
 
@@ -106,7 +106,7 @@ var peopleBehindthePixels = (function () {
         }
 
         // Add timecode to page
-        // $stats.html(Util.toTimecode(currentTimeAudio));
+        //$stats.html(Util.toTimecode(currentTimeAudio));
     };
 
     return {
