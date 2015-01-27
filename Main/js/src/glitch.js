@@ -1,3 +1,9 @@
+/*jslint browser: true*/
+/*global TWEEN:false */
+/*global stackBoxBlurCanvasRGBA:false */
+
+'use strict';
+
 var Artifact = function (glitch, blend, width, height, x, y, targetX, targetY) {
     this.glitch = glitch;
 
@@ -9,7 +15,7 @@ var Artifact = function (glitch, blend, width, height, x, y, targetX, targetY) {
 
     this.targetX = targetX;
     this.targetY = targetY;
-}
+};
 
 Artifact.prototype = {
     constructor: Artifact,
@@ -51,7 +57,7 @@ Artifact.prototype = {
            this.glitch.context.putImageData(this.clone, this.glitch.x + this.x + this.targetX, this.glitch.y + this.y + this.targetY);
        }
     }
-}
+};
 
 /**
 * Creates new scene
@@ -160,10 +166,10 @@ Glitch.prototype = {
 
         new TWEEN.Tween({frame: 1})
             .to({frame: 7}, 750)
-            .onUpdate(function (e) {
+            .onUpdate(function () {
                 that.currentFrame = Math.round(this.frame);
 
-                if (that.previousFrame != that.currentFrame) {
+                if (that.previousFrame !== that.currentFrame) {
                     that.goToFrame(that.currentFrame);
                 }
 
@@ -179,10 +185,10 @@ Glitch.prototype = {
 
         new TWEEN.Tween({frame: 7})
             .to({frame: 0}, 750)
-            .onUpdate(function (e) {
+            .onUpdate(function () {
                 that.currentFrame = Math.round(this.frame);
 
-                if (that.previousFrame != that.currentFrame) {
+                if (that.previousFrame !== that.currentFrame) {
                     that.goToFrame(that.currentFrame);
                 }
 

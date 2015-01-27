@@ -1,3 +1,8 @@
+/*jslint browser: true*/
+/*global THREE:false */
+
+'use strict';
+
 var Particulator = function(range, density, acceleration, texture, focusObject, size) {
 
     this.range = range;
@@ -29,7 +34,7 @@ var Particulator = function(range, density, acceleration, texture, focusObject, 
     this.pointCloud = new THREE.PointCloud(this.distribution, this.material);
     this.pointCloud.sortParticles = true;
     this.pointCloud.frustumCulled = false;
-}
+};
 
 
 Particulator.prototype.update = function(delta) {
@@ -53,21 +58,30 @@ Particulator.prototype.update = function(delta) {
         vert.add(frameAccel);
 
         // detect range overlap
-        if (vert.x < xLower)
+        if (vert.x < xLower) {
             vert.x += shift;
-        else if (vert.x > xUpper)
+        }
+
+        else if (vert.x > xUpper) {
             vert.x -= shift;
+        }
 
-        if (vert.y < yLower)
+        if (vert.y < yLower) {
             vert.y += shift;
-        else if (vert.y > yUpper)
-            vert.y -= shift;
+        }
 
-        if (vert.z < zLower)
+        else if (vert.y > yUpper) {
+            vert.y -= shift;
+        }
+
+        if (vert.z < zLower) {
             vert.z += shift;
-        else if (vert.z > zUpper)
+        }
+
+        else if (vert.z > zUpper) {
             vert.z -= shift;
+        }
     }
 
     this.pointCloud.geometry.verticesNeedUpdate = true;
-}
+};

@@ -1,9 +1,14 @@
-pbtp.audio = (function () {
-	'use strict';
+/*jslint browser: true*/
+/*global AudioContext:false */
+/*global Util:false */
+/*global pbtp:false */
 
+'use strict';
+
+pbtp.audio = (function () {
     // Create audio context
     window.AudioContext = window.AudioContext || window.webkitAudioContext;
-    var context, source, gainNode, startTime, muted, seekTime, effects, loaded;
+    var context, source, gainNode, startTime, muted, seekTime, loaded;
 
 	var init = function (audioFile) {
         context = new AudioContext();

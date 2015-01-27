@@ -197,7 +197,6 @@ module.exports = function (grunt) {
                 src: [
                     '<%= settings.dist %>/shared/js/plugins.js',
                     '<%= settings.dist %>/shared/js/src.js',
-                    '<%= settings.dist %>/shared/js/main.js'
                 ],
                 dest: '<%= settings.dist %>/shared/js/scripts.js'
             }
@@ -208,9 +207,9 @@ module.exports = function (grunt) {
                 options: {
                     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
                 },
-                files: {
+                files: [{
                     '<%= settings.dist %>/shared/js/scripts.min.js': '<%= settings.dist %>/shared/js/scripts.js'
-                }
+                }]
             }
         },
         assemble: {
@@ -397,17 +396,14 @@ module.exports = function (grunt) {
 
     // do a production build
     grunt.registerTask('build', [
-        // 'test',
         'devbuild',
-        // minification and concatenation tasks
         'imagemin:dynamic',
         'cssmin',
-        'concat',
-        'uglify'
+        'concat'
     ]);
 
     grunt.registerTask('serve-iis', ['devbuild', 'browserSync:iis', 'watch']);
-    grunt.registerTask('scripts', ['copy:scriptLibs', 'rig']);
+    grunt.registerTask('scripts', ['jshint', 'copy:scriptLibs', 'rig']);
     grunt.registerTask('styles', ['search:noExtend', 'sass', 'autoprefixer']);
     grunt.registerTask('fonts', ['copy:fonts']);
     grunt.registerTask('audio', ['copy:audio']);

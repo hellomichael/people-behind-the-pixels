@@ -26,7 +26,7 @@ var peopleBehindthePixels = (function () {
     var prevTimestamp;
     var delta;
     var speakers;
-    var $stats;
+    //var $stats;
 
     // Initialisation
     var init = function (playtime) {
@@ -67,7 +67,7 @@ var peopleBehindthePixels = (function () {
             //= src/sequences/wd-logo.js
 
         // Display Stats
-        $stats = $('#stats');
+        //$stats = $('#stats');
         mainLoop(0);
     };
 

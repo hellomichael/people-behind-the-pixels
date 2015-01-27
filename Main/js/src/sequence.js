@@ -1,3 +1,12 @@
+/*jslint browser: true*/
+/*jslint sub:true*/
+/*global Util:false */
+/*global TWEEN:false */
+/*global _:false */
+/*global renderator:false */
+
+'use strict';
+
 // Sequence base class
 var Sequence = function() {
     this.events = [];
@@ -14,10 +23,9 @@ Sequence.prototype = {
 
     addEvent: function(timeCode, callback, args) {
         // Convert timecode
-        if (typeof timeCode != 'string') {
+        if (typeof timeCode !== 'string') {
             timeCode = Util.toTimecode(timeCode);
         }
-
 
         // Callback can be string for extended prototype function, or a function itself
         if (_.isFunction(callback)) {
@@ -60,7 +68,7 @@ Sequence.prototype = {
 
 Sequence.prototype.nextScene = function(scene, camera, options) {
     renderator.reset(scene, camera, options);
-}
+};
 
 Sequence.prototype.cameraMovement = function(camera, object, pedastal, dolly, zoom, duration, easing, callback) {
     var pedestalTarget = camera.position.x + pedastal;
@@ -128,7 +136,7 @@ Sequence.prototype.pullFocus = function(renderator, blur, position, duration, ea
             renderator.vblur.uniforms['v'].value = renderator.bluriness/window.innerHeight;
         }
     }
-}
+};
 
 Sequence.prototype.fade = function(object, opacity, duration, easing) {
     if (object.material.opacity === 0) {

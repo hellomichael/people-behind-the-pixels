@@ -1,6 +1,6 @@
-$(window).load(function() {
-    'use strict';
+'use strict';
 
+$(window).load(function() {
     /*****************************************************
         People Behind the Pixels
     *****************************************************/

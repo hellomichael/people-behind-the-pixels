@@ -1,5 +1,9 @@
-Util = (function() {
-	'use strict';
+/*jslint browser: true*/
+/*global THREE:false */
+
+'use strict';
+
+var Util = (function() {
 
     /**
     * Converts seconds to Timecode format

@@ -1,3 +1,9 @@
+/*jslint browser: true*/
+/*jslint sub:true*/
+/*global THREE:false */
+
+'use strict';
+
 // Shaders and Passes
     //= shaders/EffectComposer.js
 
@@ -18,7 +24,7 @@
     //= shaders/VerticalTiltShiftShader.js
     //= shaders/ConvolutionShader.js
 
-var Renderator = function(scene, camera, options) {
+var Renderator = function(scene, camera) {
     // Initialise renderer/DOM element
     this.renderer = new THREE.WebGLRenderer({
         canvas: document.getElementById('canvas'),
@@ -57,13 +63,13 @@ var Renderator = function(scene, camera, options) {
     // Resizing the window
     var that = this;
     window.addEventListener('resize', function() { that.onResize(); });
-}
+};
 
 
 Renderator.prototype.reset = function(scene, camera, options) {
     // Update camera/scene (if provided)
-    if (scene !== undefined) this.scene = scene;
-    if (camera !== undefined) this.camera = camera;
+    if (scene !== undefined) {this.scene = scene;}
+    if (camera !== undefined) {this.camera = camera;}
 
     if (options) {
         this.postProcessEnabled = options.postProcessEnabled || false;
@@ -108,7 +114,7 @@ Renderator.prototype.reset = function(scene, camera, options) {
 
         if (this.aaEnabled) {
             this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
-            this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+            this.aaPass.uniforms['resolution'].value.set(1/window.innerWidth, 1/window.innerHeight);
             this.composer.addPass(this.aaPass);
         }
 
@@ -122,15 +128,16 @@ Renderator.prototype.reset = function(scene, camera, options) {
     this.copyShader = new THREE.ShaderPass(THREE.CopyShader);
     this.copyShader.renderToScreen = true;
     this.composer.addPass(this.copyShader);
-}
+};
 
 
 Renderator.prototype.render = function(delta) {
     this.renderer.clear();
 
-    if (this.composer)
+    if (this.composer) {
         this.composer.render(delta);
-}
+    }
+};
 
 
 Renderator.prototype.onResize = function() {
@@ -141,7 +148,7 @@ Renderator.prototype.onResize = function() {
 
     if (this.aaEnabled) {
         this.aaPass = new THREE.ShaderPass(THREE.FXAAShader);
-        this.aaPass.uniforms["resolution"].value.set(1/window.innerWidth, 1/window.innerHeight);
+        this.aaPass.uniforms['resolution'].value.set(1/window.innerWidth, 1/window.innerHeight);
     }
 
     if (this.blurEnabled) {
@@ -151,4 +158,4 @@ Renderator.prototype.onResize = function() {
 
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.composer.setSize(window.innerWidth, window.innerHeight);
-}
+};
