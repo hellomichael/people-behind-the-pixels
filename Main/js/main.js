@@ -8,8 +8,7 @@ $(window).load(function() {
 
     if (Detector.webgl && !detectIE() && window.innerWidth > 1200) {
         peopleBehindthePixels.init();
-
-        $('.social').toggleClass('hide');
+        $('.social').removeClass('hide');
 
         $('#play').on('click', function(event) {
             event.preventDefault()

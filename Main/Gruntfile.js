@@ -208,6 +208,7 @@ module.exports = function (grunt) {
                     banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
                 },
                 files: [{
+                    '<%= settings.dist %>/shared/js/main.min.js': '<%= settings.dist %>/shared/js/main.js',
                     '<%= settings.dist %>/shared/js/scripts.min.js': '<%= settings.dist %>/shared/js/scripts.js'
                 }]
             }
@@ -399,7 +400,8 @@ module.exports = function (grunt) {
         'devbuild',
         'imagemin:dynamic',
         'cssmin',
-        'concat'
+        'concat',
+        'uglify'
     ]);
 
     grunt.registerTask('serve-iis', ['devbuild', 'browserSync:iis', 'watch']);

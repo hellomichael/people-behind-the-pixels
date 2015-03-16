@@ -202,9 +202,8 @@ body {
         background: #939598;
         line-height: 60px;
         letter-spacing: 2px;
-
+        min-width: 220px;
         @include rem(margin, 20px 0 0);
-        @include rem(padding, 0 60px);
 
         &.disabled {
             pointer-events: none;
